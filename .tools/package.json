@@ -1,1 +1,11 @@
-<PLACEHOLDER>
+{
+  "name": ".tools",
+  "private": true,
+  "devDependencies": {
+    "wrangler": "latest"
+  },
+  "scripts": {
+    "build": "wranglerDeploy",
+    "dev": "wrangler dev --port 8787 --ip 127.0.0.1"
+  }
+}
