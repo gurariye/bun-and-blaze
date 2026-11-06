@@ -1,1 +1,11 @@
-<PLACEHOLDER>
+/* Bun & Blaze — minimal stylesheet for the preview shell */
+:root {
+  --ink: #0b0b09;
+  --yellow: #ffc61a;
+  --cream: #f7f0e2;
+}
+
+body { margin: 0; background: var(--ink); color: var(--cream); font-family: system-ui, sans-serif; }
+#app { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+
+a { color: var(--yellow); }

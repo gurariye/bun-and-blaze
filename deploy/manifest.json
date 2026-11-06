@@ -1,1 +1,13 @@
-<PLACEHOLDER>
+{
+  "entrypoint": "index.js",
+  "compatibilityDate": "2026-11-01",
+  "modules": [
+    {
+      "name": "index.js",
+      "type": "esm",
+      "path": "./worker.js"
+    }
+  ],
+  "assetsDirectory": "./public",
+  "spa": true
+}

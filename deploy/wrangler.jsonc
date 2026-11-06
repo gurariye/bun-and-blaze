@@ -1,1 +1,17 @@
-<PLACEHOLDER>
+{
+  "name": "bun-and-blaze",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "bun-and-blaze",
+      "database_id": "00000000-0000-0000-0000-000000000001"
+    }
+  ]
+}
