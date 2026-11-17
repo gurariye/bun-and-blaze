@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0a09">
+<title>הפסאז׳ · הזמנת שולחן</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230b0a09'/%3E%3Cpath d='M8 15a8 6 0 0 1 16 0z' fill='%23ffc73e'/%3E%3Crect x='8' y='17' width='16' height='3' rx='1.5' fill='%23e3342b'/%3E%3Cpath d='M8 22h16a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3z' fill='%23ffc73e'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap">
+<style>
+/* ============================================================
+   PREMIUM VERSION — black, the house yellow, one red hairline.
+   Taken from the Hapassage menu and signage; set with more air.
+   ============================================================ */
+:root{
+  color-scheme:dark;
+  --bg:#0b0a09; --s1:#131210; --s2:#1b1917; --s3:#25221f;
+  --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.2);
+  --ink:#f7f4ec; --ink2:#bdb7ab; --ink3:#8a8478;
+  --gold:#ffc73e; --gold2:#d6a42a; --gold-soft:rgba(255,199,62,.12);
+  --red:#e3342b; --ok:#8fd08a; --bad:#ff8f80; --bad-soft:rgba(255,143,128,.12);
+  --r-sm:12px; --r-md:18px; --r-lg:26px; --r-pill:999px;
+  --f:"Heebo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ease:cubic-bezier(.22,.8,.26,1); --spring:cubic-bezier(.34,1.4,.64,1);
+  --tap:46px; --top-h:68px; --safe-b:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:var(--bg);scroll-padding-top:calc(var(--top-h) + 16px);scrollbar-color:#3a3632 var(--bg)}
+body{margin:0;min-height:100dvh;overflow-x:clip;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+h1,h2,h3,p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit}
+img{max-width:100%}
+.hide{display:none!important}
+::selection{background:var(--gold);color:#111}
+:where(button,[href],input,select,textarea,summary):focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:8px}
+:where(button,input,select,textarea){touch-action:manipulation}
+.skip{position:fixed;top:-60px;inset-inline-start:12px;z-index:100;background:var(--gold);color:#111;padding:10px 16px;border-radius:var(--r-sm);font-weight:700;text-decoration:none;transition:top .2s}
+.skip:focus{top:10px}
+.wrap{width:min(100% - 40px,1200px);margin:0 auto}
+.eyebrow{display:flex;align-items:center;gap:12px;font:700 12px/1 var(--f);letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--red)}
+.h2{font:900 clamp(34px,6.4vw,64px)/1.02 var(--f);letter-spacing:-.035em;margin:16px 0 12px}
+.h2 em{font-style:normal;color:var(--gold)}
+.lead{color:var(--ink2);font-size:clamp(16px,1.5vw,18px);max-width:52ch}
+
+/* ---------- top ---------- */
+.top{position:fixed;inset:0 0 auto;z-index:40;transition:background .35s,border-color .35s,backdrop-filter .35s;border-bottom:1px solid transparent}
+.scrolled .top{background:rgba(11,10,9,.78);-webkit-backdrop-filter:saturate(160%) blur(18px);backdrop-filter:saturate(160%) blur(18px);border-color:var(--line)}
+.top .wrap{display:flex;align-items:center;gap:20px;min-height:var(--top-h)}
+.brand{display:flex;flex-direction:column;text-decoration:none;line-height:1}
+.brand b{font:900 25px/1 var(--f);letter-spacing:-.03em}
+.brand small{margin-top:4px;font:600 9.5px/1 var(--f);letter-spacing:.3em;color:var(--gold);direction:ltr;text-align:right}
+.nav{display:none;gap:28px;margin-inline-start:28px}
+.nav a{font-size:14.5px;font-weight:500;color:var(--ink2);text-decoration:none;transition:color .2s}
+.nav a:hover{color:var(--ink)}
+@media (min-width:900px){.nav{display:flex}}
+.top-act{display:flex;align-items:center;gap:8px;margin-inline-start:auto}
+.status{display:none;align-items:center;gap:8px;padding:8px 14px;border-radius:var(--r-pill);border:1px solid var(--line);font-size:13px;font-weight:500;color:var(--ink2);white-space:nowrap}
+@media (min-width:620px){.status{display:inline-flex}}
+.status i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(143,208,138,.16)}
+.status.closed i{background:var(--bad);box-shadow:0 0 0 4px var(--bad-soft)}
+.ic{display:grid;place-items:center;width:var(--tap);height:var(--tap);border-radius:50%;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--ink2);cursor:pointer;transition:background .2s,transform .12s}
+.ic:hover{background:rgba(255,255,255,.09)}
+.ic:active{transform:scale(.94)}
+
+/* ---------- buttons ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 28px;border:0;border-radius:var(--r-pill);background:var(--gold);color:#12100c;font:800 16.5px/1 var(--f);cursor:pointer;text-decoration:none;overflow:hidden;
+  transition:transform .18s var(--ease),box-shadow .25s,background .2s,opacity .2s}
+.btn::before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.5) 50%,transparent 65%);transform:translateX(120%);transition:transform .8s var(--ease)}
+@media (hover:hover){.btn:hover:not([disabled]){box-shadow:0 10px 34px -8px rgba(255,199,62,.55);transform:translateY(-2px)}.btn:hover::before{transform:translateX(-120%)}}
+.btn:active:not([disabled]){transform:scale(.975)}
+.btn[disabled]{opacity:.45;cursor:default}
+.btn.soft{background:#4a3f22;color:#b3a57c;box-shadow:none}
+.btn.wide{width:100%}
+.btn.sm{min-height:var(--tap);padding:0 18px;font-size:14px;font-weight:700}
+.btn.ghost{background:rgba(255,255,255,.05);color:var(--ink);border:1px solid var(--line2);box-shadow:none}
+.btn.ghost::before{display:none}
+.btn.ghost:hover:not([disabled]){background:rgba(255,255,255,.1);box-shadow:none}
+.btn.bad{background:var(--bad-soft);color:var(--bad);box-shadow:none}
+.btn.bad::before{display:none}
+.btn .lbl{position:relative;transition:opacity .12s}
+.btn .arr{position:relative;font-size:19px;transition:transform .3s var(--ease)}
+.btn:hover .arr{transform:translateX(-5px)}
+.btn[data-busy] .lbl,.btn[data-busy] .arr{opacity:0}
+.btn[data-busy]::after{content:"";position:absolute;width:20px;height:20px;border-radius:50%;border:2.5px solid rgba(0,0,0,.2);border-top-color:#111;animation:spin .7s linear infinite}
+.link{background:none;border:0;padding:8px 2px;color:var(--ink2);font-weight:600;text-decoration:underline;text-underline-offset:5px;text-decoration-color:var(--line2);cursor:pointer}
+.link:hover{color:var(--ink)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;isolation:isolate;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:-2;background:radial-gradient(900px 600px at 30% 40%,#3a1c08,#0b0a09 70%)}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:62% 50%;transform:scale(1.08) translateY(calc(var(--sy,0) * 40px));will-change:transform}
+.noimg img{display:none}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(0deg,var(--bg) 0%,rgba(11,10,9,.82) 26%,rgba(11,10,9,.25) 60%,rgba(11,10,9,.55) 100%),
+  linear-gradient(270deg,rgba(11,10,9,.75),transparent 62%)}
+.hero-in{padding:calc(var(--top-h) + 40px) 0 44px}
+.hero h1{font:900 clamp(46px,10.6vw,128px)/.94 var(--f);letter-spacing:-.045em;margin:22px 0 22px;max-width:11ch}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}
+.hero h1 .ln>span{display:block}
+.hero .lead{font-size:clamp(16px,1.6vw,19px);margin-bottom:30px}
+.strap{margin-top:30px;font:700 11px/1.5 var(--f);letter-spacing:.34em;color:var(--ink3);direction:ltr;text-align:right}
+
+/* quick booking bar */
+.qbar{display:grid;gap:10px;padding:12px;max-width:760px;border-radius:var(--r-lg);border:1px solid var(--line2);background:rgba(20,18,16,.6);-webkit-backdrop-filter:blur(22px) saturate(150%);backdrop-filter:blur(22px) saturate(150%);box-shadow:0 30px 80px -30px #000}
+.qcell{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 14px;border-radius:var(--r-md);background:rgba(255,255,255,.04)}
+.qcell>span{font:600 12px/1 var(--f);letter-spacing:.08em;color:var(--ink3)}
+.qchips{display:flex;gap:6px}
+.qchips button{min-height:40px;padding:0 16px;border-radius:var(--r-pill);border:1px solid var(--line2);background:none;font-size:14.5px;font-weight:600;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.qchips button:hover:not([disabled]){background:var(--gold);border-color:var(--gold);color:#111}
+.qchips button[disabled]{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+.qstep{display:flex;align-items:center;gap:6px}
+.qstep button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:none;font-size:20px;line-height:1;cursor:pointer;transition:background .2s}
+.qstep button:hover:not([disabled]){background:rgba(255,255,255,.1)}
+.qstep button[disabled]{opacity:.3}
+.qstep b{min-width:34px;text-align:center;font:800 22px/1 var(--f);font-variant-numeric:tabular-nums}
+@media (min-width:760px){.qbar{grid-template-columns:1.25fr 1fr auto;align-items:stretch;border-radius:var(--r-pill);padding:10px}.qcell{border-radius:var(--r-pill);padding:6px 10px 6px 20px}.qbar .btn{min-height:56px}}
+.stats{display:flex;flex-wrap:wrap;gap:10px 34px;margin-top:34px;padding:0;list-style:none}
+.stats li{display:flex;align-items:baseline;gap:8px;font-size:14px;color:var(--ink2)}
+.stats b{font:800 22px/1 var(--f);color:var(--ink);letter-spacing:-.02em}
+.stats b i{font-style:normal;color:var(--gold)}
+
+/* ---------- marquee ---------- */
+.mq{overflow:hidden;padding:26px 0;border-block:1px solid var(--line);direction:ltr}
+.mq-in{display:flex;width:max-content;animation:mq 60s linear infinite}
+.mq span{padding:0 26px;font:900 clamp(40px,7vw,86px)/1 var(--f);letter-spacing:-.03em;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.3)}
+.mq span:nth-child(3n+1){color:var(--gold);-webkit-text-stroke:0}
+.mq span::after{content:"/";margin-left:52px;color:var(--red);-webkit-text-stroke:0;font-weight:300}
+@keyframes mq{to{transform:translateX(-33.333%)}}
+
+/* ---------- booking ---------- */
+.booking{padding:clamp(64px,9vw,120px) 0 40px;position:relative}
+.booking::before{content:"";position:absolute;inset:0 0 auto;height:520px;z-index:-1;background:radial-gradient(700px 380px at 75% 0%,rgba(255,199,62,.09),transparent 70%)}
+.book-grid{display:grid;gap:24px;margin-top:36px;align-items:start}
+.book-grid>*{min-width:0}
+@media (min-width:1000px){.book-grid{grid-template-columns:minmax(0,1fr) 360px;gap:32px}}
+
+.wiz{position:relative;border:1px solid var(--line);border-radius:var(--r-lg);background:linear-gradient(180deg,var(--s2),var(--s1));box-shadow:0 40px 100px -50px #000}
+.wiz-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 22px 16px}
+#wLbl{white-space:nowrap;font:600 13px/1 var(--f);letter-spacing:.04em;color:var(--ink2)}
+.dots{display:flex;gap:6px}
+.dots button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line2);background:none;font:700 12px/1 var(--f);color:var(--ink3);cursor:pointer;transition:all .25s var(--ease)}
+.dots button[disabled]{cursor:default;opacity:.45}
+.dots button.was{border-color:var(--gold2);color:var(--gold)}
+.dots button.cur{background:var(--gold);border-color:var(--gold);color:#111;transform:scale(1.1)}
+.prog{height:2px;background:var(--line);overflow:hidden}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold));transform-origin:right;transform:scaleX(.2);transition:transform .6s var(--ease)}
+#form{padding:26px 22px 8px;min-height:340px}
+@media (min-width:700px){.wiz-top{padding:22px 32px 18px}#form{padding:34px 32px 10px;min-height:380px}}
+.acc{display:none}
+.acc.open{display:block;animation:stepIn .45s var(--ease) both}
+.acch{margin:0}
+.ah{display:block;width:100%;padding:0;margin:0 0 20px;background:none;border:0;text-align:start;pointer-events:none}
+.ah .i,.ah .chev,.ah .val{display:none}
+.at{font:900 clamp(28px,4.4vw,40px)/1.08 var(--f);letter-spacing:-.03em}
+.ab-in{padding-bottom:8px}
+#gNext{display:none}
+.wiz-foot{position:sticky;bottom:0;z-index:5;display:flex;gap:10px;padding:16px 22px calc(18px + var(--safe-b));border-radius:0 0 var(--r-lg) var(--r-lg);background:linear-gradient(0deg,var(--s1) 70%,transparent)}
+@media (min-width:700px){.wiz-foot{padding:18px 32px 28px}}
+.wiz-foot .js-go{flex:1}
+#wBack{flex:none;width:56px;padding:0;transition:width .3s var(--ease),opacity .2s,margin .3s}
+#wBack.gone{width:0;opacity:0;margin-inline-end:-10px;border-width:0;pointer-events:none}
+
+.mon{font:600 13px/1 var(--f);letter-spacing:.08em;color:var(--ink3);margin:0 0 12px}
+.days{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;margin-inline:-2px;scroll-snap-type:x proximity;overscroll-behavior-x:contain;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day{flex:0 0 68px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:86px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:var(--r-md);cursor:pointer;transition:background .2s,border-color .2s,transform .16s var(--ease),color .2s}
+.day small{font-size:12px;font-weight:500;color:var(--ink3)}
+.day b{font:800 25px/1 var(--f);letter-spacing:-.02em}
+.day .tg{font-size:10.5px;font-weight:700;color:var(--bad)}
+@media (hover:hover){.day:hover:not([disabled]){border-color:var(--gold);transform:translateY(-3px)}}
+.day:active:not([disabled]){transform:scale(.96)}
+.day[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#111;box-shadow:0 12px 30px -12px rgba(255,199,62,.7)}
+.day[aria-pressed="true"] small{color:rgba(0,0,0,.62)}
+.day[disabled]{opacity:.35;cursor:not-allowed}
+@media (min-width:700px){.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));overflow:visible}.day{flex:none}}
+
+.guests{display:flex;align-items:center;justify-content:center;gap:30px;padding:22px}
+.stepper{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;background:none;border:1px solid var(--line2);font-size:28px;line-height:1;cursor:pointer;transition:background .2s,border-color .2s,transform .12s,opacity .2s}
+.stepper:hover:not([disabled]){border-color:var(--gold);background:var(--gold-soft)}
+.stepper:active:not([disabled]){transform:scale(.92)}
+.stepper[disabled]{opacity:.3;cursor:default}
+.guests output{min-width:120px;text-align:center;display:block;font:900 76px/1 var(--f);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.guests output small{display:block;margin-top:4px;font:500 14px/1.4 var(--f);letter-spacing:0;color:var(--ink3)}
+.gq{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.gq button{min-height:42px;padding:0 16px;border-radius:var(--r-pill);border:1px solid var(--line);background:none;font-size:14px;font-weight:600;color:var(--ink2);cursor:pointer;transition:all .2s}
+.gq button:hover{border-color:var(--line2);color:var(--ink)}
+.gq button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#111}
+.big-note{font-size:13.5px;color:var(--ink3);text-align:center;margin-top:14px}
+.big-note a{color:var(--gold);font-weight:600}
+
+.areas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.area{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:start;padding:22px 18px;min-height:170px;justify-content:flex-end;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:var(--r-md);cursor:pointer;overflow:hidden;transition:border-color .2s,transform .18s var(--ease),background .2s}
+.area svg{position:absolute;top:18px;inset-inline-start:18px;width:34px;height:34px;color:var(--gold)}
+.area b{font:800 24px/1.1 var(--f);letter-spacing:-.02em}
+.area small{font-size:14px;color:var(--ink2);line-height:1.45}
+@media (hover:hover){.area:hover{border-color:var(--gold);transform:translateY(-3px)}}
+.area[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-soft)}
+.mut{color:var(--ink3);font-size:14px}
+.mut a{color:var(--ink2)}
+
+.sg+.sg{margin-top:20px}
+.sg-h{display:flex;align-items:center;gap:10px;font:600 12px/1 var(--f);letter-spacing:.14em;color:var(--ink3);margin:0 0 12px}
+.sg-h::after{content:"";flex:1;height:1px;background:var(--line)}
+.slots-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (min-width:700px){.slots-row{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}}
+.chip{position:relative;min-height:50px;padding:0 8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;font:700 16px/1 var(--f);font-variant-numeric:tabular-nums;cursor:pointer;transition:all .18s var(--ease)}
+.chip:hover:not([disabled]){border-color:var(--gold)}
+.chip:active:not([disabled]){transform:scale(.95)}
+.chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#111}
+.chip em{position:absolute;top:-9px;left:50%;translate:-50% 0;padding:1px 8px;border-radius:99px;background:var(--red);color:#fff;font:700 10px/1.6 var(--f);font-style:normal;white-space:nowrap}
+.msg{color:var(--ink2);font-size:14.5px;margin-top:14px}
+.msg:empty{display:none}
+.msg .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.msg .chip{padding:0 16px;font-size:14px;min-height:44px}
+
+.welcome{padding:12px 16px;margin-bottom:6px;border-radius:14px;background:rgba(143,208,138,.1);color:var(--ok);font-size:14.5px;font-weight:500}
+.row{display:grid;grid-template-columns:1fr;gap:0 14px}
+@media (min-width:560px){.row{grid-template-columns:1fr 1fr}}
+.field{margin-top:16px}
+label{display:block;font:600 12.5px/1 var(--f);letter-spacing:.06em;color:var(--ink3);margin-bottom:8px}
+input,textarea,select{width:100%;min-height:56px;padding:14px 16px;background:rgba(255,255,255,.04);color:var(--ink);border:1px solid var(--line2);border-radius:14px;font:inherit;font-size:16.5px;transition:border-color .2s,box-shadow .2s,background .2s;caret-color:var(--gold)}
+textarea{min-height:84px;resize:vertical}
+input::placeholder,textarea::placeholder{color:#6e685e}
+input:focus,textarea:focus,select:focus{outline:0;border-color:var(--gold);background:rgba(255,255,255,.06);box-shadow:0 0 0 4px rgba(255,199,62,.16)}
+input[aria-invalid="true"]{border-color:var(--bad);box-shadow:0 0 0 4px var(--bad-soft)}
+select,option{color-scheme:dark}
+option{background:#1b1917}
+input:-webkit-autofill{-webkit-text-fill-color:var(--ink);-webkit-box-shadow:0 0 0 1000px #1e1c19 inset;transition:background-color 6000s}
+.qn{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.qn button{min-height:38px;padding:0 14px;border-radius:var(--r-pill);border:1px solid var(--line);background:none;font-size:13.5px;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .2s}
+.qn button[aria-pressed="true"]{background:var(--gold-soft);border-color:var(--gold);color:var(--gold)}
+.err{color:var(--bad);font-size:14.5px;font-weight:600;margin-top:12px}
+.err:empty{display:none}
+
+/* summary pass */
+.ticket{position:sticky;top:calc(var(--top-h) + 20px)}
+@media (max-width:999px){.ticket{position:static}}
+.pass{position:relative;border-radius:var(--r-lg);background:var(--s2);border:1px solid var(--line);overflow:hidden}
+.pass-top{padding:22px 24px 20px;background:var(--gold);color:#111}
+.pass-top small{font:700 10.5px/1 var(--f);letter-spacing:.28em;opacity:.7}
+.pass-top b{display:block;margin-top:8px;font:900 28px/1 var(--f);letter-spacing:-.03em}
+.pass dl{margin:0;padding:8px 24px 6px;display:grid;grid-template-columns:1fr 1fr}
+.pass dl div{padding:14px 0;border-bottom:1px dashed var(--line2)}
+.pass dl div:nth-last-child(-n+2){border-bottom:0}
+.pass dt{font:600 11px/1 var(--f);letter-spacing:.14em;color:var(--ink3);margin-bottom:7px}
+.pass dd{margin:0;font:700 17px/1.25 var(--f)}
+.pass dd.unset{color:#5d584f;font-weight:500}
+.pass dl i{display:none}
+.pass-cut{position:relative;height:1px;margin:0 14px;border-top:2px dashed var(--line2)}
+.pass-cut::before,.pass-cut::after{content:"";position:absolute;top:-12px;width:22px;height:22px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.pass-cut::before{left:-26px}.pass-cut::after{right:-26px}
+.perks{list-style:none;margin:0;padding:18px 24px 22px;display:grid;gap:10px;font-size:14px;color:var(--ink2)}
+.perks li{display:flex;gap:10px;align-items:center}
+.perks li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+
+/* thanks */
+.thanks{max-width:560px;margin:36px auto 0;text-align:center}
+.thanks:focus{outline:none}
+.done-card{border-radius:var(--r-lg);overflow:hidden;background:var(--s2);border:1px solid var(--line2);box-shadow:0 50px 120px -50px rgba(255,199,62,.35);animation:stepIn .7s var(--ease) both}
+.done-head{padding:38px 24px 30px;background:radial-gradient(400px 200px at 50% 0%,rgba(255,199,62,.2),transparent 70%)}
+.done-mark{display:block;margin:0 auto 14px;color:var(--gold)}
+.done-mark circle,.done-mark path{stroke-dasharray:160;stroke-dashoffset:160;animation:draw .6s var(--ease) .25s forwards}
+.done-mark path{stroke-dasharray:44;stroke-dashoffset:44;animation-delay:.55s}
+.thanks h2{font:900 clamp(34px,7vw,48px)/1.05 var(--f);letter-spacing:-.035em;margin-bottom:8px}
+.thanks p.lead2{color:var(--ink2)}
+.done-tick{margin:0;padding:24px;border-block:2px dashed var(--line2);font-size:17px;line-height:1.9}
+.done-tick b{font-weight:800;color:var(--gold)}
+.done-ref{display:inline-block;font:700 11px/1 var(--f);letter-spacing:.2em;color:var(--ink3)}
+.done-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:20px 20px 24px}
+.done-acts .btn{min-height:52px;font-size:15px;padding:0 14px}
+
+/* ---------- menu ---------- */
+.menu-sec{padding:clamp(64px,9vw,120px) 0 30px}
+.mb-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:34px 0 22px}
+.mb-tabs::-webkit-scrollbar{display:none}
+.mb-tabs button{flex:none;min-height:46px;padding:0 20px;border-radius:var(--r-pill);border:1px solid var(--line);background:none;font-size:15px;font-weight:600;color:var(--ink2);cursor:pointer;transition:all .2s}
+.mb-tabs button:hover{color:var(--ink);border-color:var(--line2)}
+.mb-tabs button[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:#111}
+.mb-list{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:m}
+@media (min-width:640px){.mb-list{grid-template-columns:1fr 1fr}}
+@media (min-width:1000px){.mb-list{grid-template-columns:repeat(3,1fr);gap:16px}}
+.mb-item{position:relative;counter-increment:m;display:flex;flex-direction:column;justify-content:space-between;gap:28px;min-height:190px;padding:22px;border-radius:var(--r-md);border:1px solid var(--line);overflow:hidden;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,-40%),rgba(255,199,62,.13),transparent 70%),var(--s1);
+  transition:border-color .25s,transform .25s var(--ease);animation:stepIn .5s var(--ease) calc(var(--i)*50ms) both}
+.mb-item:hover{border-color:rgba(255,199,62,.5);transform:translateY(-4px)}
+.mb-item::before{content:"0" counter(m);font:700 11px/1 var(--f);letter-spacing:.2em;color:var(--ink3)}
+.mb-item div{margin-top:auto}
+.mb-item b{display:block;font:800 22px/1.15 var(--f);letter-spacing:-.02em}
+.mb-item small{display:block;margin-top:6px;font-size:14px;color:var(--ink2)}
+.mb-item i{display:none}
+.mb-item span{position:absolute;top:18px;inset-inline-end:20px;font:800 20px/1 var(--f);color:var(--gold);direction:ltr}
+.mb-item sup{font-size:11px;margin-inline-start:2px;opacity:.7}
+.fine-note{margin-top:18px;font-size:13.5px;color:var(--ink3)}
+.fine-note a{color:var(--gold);font-weight:600}
+
+/* ---------- story ---------- */
+.story{padding:clamp(64px,9vw,120px) 0 30px}
+.story-grid{display:grid;gap:36px;align-items:center}
+@media (min-width:900px){.story-grid{grid-template-columns:.9fr 1.1fr;gap:72px}}
+.shot{position:relative;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/5;background:var(--s2);border:1px solid var(--line)}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:50% 70%;filter:saturate(1.05) contrast(1.04);transition:transform 1.2s var(--ease)}
+.shot:hover img{transform:scale(1.04)}
+.shot::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,10,9,.7),transparent 45%)}
+.shot figcaption{position:absolute;z-index:1;bottom:18px;inset-inline:20px;font:600 12px/1.4 var(--f);letter-spacing:.14em;color:var(--ink2)}
+.seal{position:absolute;z-index:1;top:16px;inset-inline-end:16px;width:96px;height:96px}
+.seal circle{fill:var(--red)}.seal circle.in{fill:var(--bg)}
+.seal .bg{fill:none;stroke:var(--gold);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.story p.txt{color:var(--ink2);font-size:17px;line-height:1.8;max-width:54ch}
+.story p.txt+p.txt{margin-top:14px}
+.nums{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:34px;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--line);background:var(--line)}
+@media (min-width:560px){.nums{grid-template-columns:repeat(4,1fr)}}
+.nums div{padding:20px 18px;background:var(--s1)}
+.nums b{display:block;font:900 34px/1 var(--f);letter-spacing:-.04em;color:var(--gold);font-variant-numeric:tabular-nums}
+.nums span{display:block;margin-top:8px;font-size:13px;color:var(--ink2)}
+.regs-grid{list-style:none;margin:56px 0 0;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}
+@media (min-width:900px){.regs-grid{grid-template-columns:repeat(4,1fr)}}
+.regs-grid li{position:relative;padding:26px 0 26px;border-bottom:1px solid var(--line);counter-increment:r;transition:background .3s}
+@media (min-width:900px){.regs-grid li{padding:28px 24px 30px;border-bottom:0;border-inline-end:1px solid var(--line)}.regs-grid li:first-child{padding-inline-start:0}.regs-grid li:last-child{border:0}}
+.regs-grid{counter-reset:r}
+.regs-grid li::before{content:"0" counter(r);display:block;margin-bottom:14px;font:700 11px/1 var(--f);letter-spacing:.2em;color:var(--red)}
+.regs-grid b{display:block;font:800 21px/1.2 var(--f);letter-spacing:-.02em;margin-bottom:6px}
+.regs-grid p{font-size:14.5px;color:var(--ink2);line-height:1.6}
+.press{margin-top:44px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 30px;font-size:13px;color:var(--ink3)}
+.press b{font:800 18px/1 var(--f);letter-spacing:-.01em;color:var(--ink2)}
+
+/* ---------- contact ---------- */
+.contact{margin-top:clamp(64px,9vw,120px);padding:clamp(48px,7vw,90px) 0 calc(110px + var(--safe-b));border-top:1px solid var(--line);background:linear-gradient(180deg,var(--s1),var(--bg))}
+.contact-grid{display:grid;gap:36px}
+@media (min-width:900px){.contact-grid{grid-template-columns:1.1fr .9fr;gap:72px;align-items:end}}
+.tel{display:inline-block;margin-top:10px;font:900 clamp(44px,9vw,104px)/1 var(--f);letter-spacing:-.045em;text-decoration:none;direction:ltr;transition:color .25s}
+.tel:hover{color:var(--gold)}
+.acts{display:grid;gap:10px}
+.acts a{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 22px;border-radius:var(--r-md);border:1px solid var(--line);text-decoration:none;font-weight:700;font-size:17px;transition:all .25s var(--ease)}
+.acts a small{display:block;font-weight:400;font-size:13.5px;color:var(--ink3)}
+.acts a span{font-size:22px;color:var(--gold);transition:transform .3s var(--ease)}
+.acts a:hover{border-color:var(--gold);background:var(--gold-soft)}
+.acts a:hover span{transform:translateX(-6px)}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 28px;margin-top:56px;padding-top:24px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink3)}
+.foot a{color:var(--ink2);text-underline-offset:4px;margin-inline-end:16px}
+.fab{position:fixed;z-index:35;inset-inline:16px;bottom:calc(14px + var(--safe-b));transition:transform .45s var(--ease),opacity .3s}
+.fab.off{transform:translateY(140%);opacity:0;pointer-events:none}
+@media (min-width:900px){.fab{display:none}}
+
+.toast{position:fixed;top:calc(var(--top-h) + 12px);inset-inline:16px;max-width:420px;margin:0 auto;z-index:60;padding:13px 18px;border-radius:var(--r-pill);background:var(--ink);color:#111;font-weight:700;text-align:center;font-size:14.5px;box-shadow:0 20px 50px -10px #000;opacity:0;transform:translateY(-10px);pointer-events:none;transition:opacity .22s,transform .22s}
+.toast.on{opacity:1;transform:none}
+
+/* ---------- back office ---------- */
+#back{padding:calc(var(--top-h) + 30px) 0 90px}
+#back .lt{font:900 44px/1 var(--f);letter-spacing:-.04em;margin:0 0 24px}
+.seg{display:flex;gap:4px;padding:5px;background:var(--s1);border:1px solid var(--line);border-radius:var(--r-pill);overflow-x:auto;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.tab{flex:1 0 auto;min-height:44px;padding:0 16px;border:0;border-radius:var(--r-pill);background:none;font-size:14px;font-weight:600;color:var(--ink2);white-space:nowrap;cursor:pointer;transition:all .2s}
+.tab[aria-selected="true"]{background:var(--gold);color:#111}
+.badge{display:inline-block;min-width:20px;margin-inline-start:6px;padding:1px 6px;border-radius:99px;background:var(--red);color:#fff;font-size:11.5px;font-weight:700}
+#bview{margin-top:22px}
+#bview.fx>*{animation:stepIn .35s var(--ease) both}
+.admin-tools{display:grid;gap:10px}
+@media (min-width:700px){.admin-tools{grid-template-columns:1fr 220px}}
+.admin-search{display:flex;align-items:center;gap:8px;padding:0 16px;background:rgba(255,255,255,.04);border:1px solid var(--line2);border-radius:14px}
+.admin-search span{color:var(--gold);font-size:20px}
+.admin-search input{border:0;box-shadow:none!important;padding-inline:0;background:transparent!important}
+.admin-count{font-size:13px;color:var(--ink3);margin:12px 2px 16px}
+.cards{display:grid;gap:12px}
+@media (min-width:860px){.cards{grid-template-columns:1fr 1fr}}
+.rc{background:var(--s1);border:1px solid var(--line);border-radius:var(--r-md);padding:18px 20px;transition:border-color .2s}
+.rc:hover{border-color:var(--line2)}
+.rt{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.rt b{font-size:18px;font-weight:700}
+.when{font:900 30px/1 var(--f);letter-spacing:-.03em;color:var(--gold);font-variant-numeric:tabular-nums}
+.rq{margin-top:4px;font-style:italic}
+.ra{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.ra select{flex:1 1 160px;min-height:var(--tap);padding:8px 12px;font-size:14px}
+.tag{display:inline-block;margin-inline-end:4px;padding:2px 10px;border-radius:99px;background:rgba(255,255,255,.07);color:var(--ink2);font-size:12.5px;font-weight:600}
+.tag.good{background:var(--gold-soft);color:var(--gold)}
+.tag.bad{background:var(--bad-soft);color:var(--bad)}
+.empty{grid-column:1/-1;padding:38px 16px;text-align:center;color:var(--ink3);border:1px dashed var(--line2);border-radius:var(--r-md)}
+.dh{grid-column:1/-1;font:700 12px/1 var(--f);letter-spacing:.16em;color:var(--gold);margin:20px 2px 2px}
+.gh{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--ink3);font-size:14px;margin:16px 0 8px}
+.gh b{color:var(--ink)}
+#back details{background:var(--s1);border:1px solid var(--line);border-radius:var(--r-md);padding:0 20px;margin-top:12px}
+#back summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;font-weight:700;padding:20px 0}
+#back summary::-webkit-details-marker{display:none}
+#back summary::after{content:"";width:8px;height:8px;margin-top:-4px;border-right:2px solid var(--ink3);border-bottom:2px solid var(--ink3);transform:rotate(45deg);transition:transform .3s}
+#back details[open] summary::after{transform:rotate(225deg);margin-top:4px}
+#back details[open] summary{border-bottom:1px solid var(--line);margin-bottom:8px}
+#back details>div{padding-bottom:18px}
+.tr{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.tr input{flex:1 1 100%;min-height:var(--tap);padding:8px 12px}
+@media (min-width:700px){.tr input{flex:1 1 200px}}
+.tr select{flex:1;width:auto;min-height:var(--tap);padding:8px}
+.st{display:flex;align-items:center;gap:4px}
+.st b{min-width:26px;text-align:center}
+.st button{width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);background:none;cursor:pointer;font-size:17px}
+.wd{display:flex;flex-wrap:wrap;gap:8px}
+.wd .chip{min-height:42px;padding:0 14px}
+.sv{margin-top:18px}
+.dctl{display:flex;gap:8px;align-items:center;max-width:560px}
+.dctl input{flex:1;min-width:0;min-height:var(--tap);padding:8px 10px;color-scheme:dark}
+input[type=date],input[type=time]{color-scheme:dark}
+.tlw{direction:ltr;overflow-x:auto;margin-top:12px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--s1);scrollbar-width:thin}
+.tl-in{width:max-content;min-width:100%}
+.tl-r{display:flex;border-bottom:1px solid var(--line)}
+.tl-r:last-child{border:0}
+.tl-n{position:sticky;left:0;z-index:3;flex:none;width:112px;padding:6px 10px;background:var(--s1);border-right:1px solid var(--line);direction:rtl;text-align:right;display:flex;flex-direction:column;justify-content:center;line-height:1.25}
+.tl-n small{color:var(--ink3);font-size:11.5px}
+.tl-n.off{opacity:.5}
+.tl-n.busy small{color:var(--gold)}
+.tl-c{position:relative;height:52px;flex:none;background:repeating-linear-gradient(90deg,transparent 0 45px,var(--line) 45px 46px)}
+.tl-c.off{background:repeating-linear-gradient(45deg,var(--s1) 0 8px,var(--s2) 8px 16px)}
+.tl-c span{position:absolute}
+.tl-h .tl-c{height:26px;font-size:12px;color:var(--ink3)}
+.tl-h .tl-c span{top:5px}
+.bar2{position:absolute;top:6px;height:40px;border:0;border-radius:10px;background:var(--gold);color:#111;font:700 12px/1 var(--f);padding:0 6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer;direction:rtl}
+.bar2.sel{outline:2px solid var(--ink);outline-offset:1px}
+.nowl{position:absolute;top:0;bottom:0;width:2px;background:var(--red);z-index:2;pointer-events:none}
+.dl{display:flex;gap:10px;width:100%;padding:12px 0;border:0;border-bottom:1px dashed var(--line2);background:none;text-align:start;cursor:pointer;font:inherit;color:inherit}
+.dl b{flex:none;color:var(--gold);font-variant-numeric:tabular-nums}
+.wait-form{padding:4px 20px 20px;background:var(--s1);border:1px solid var(--line);border-radius:var(--r-md)}
+.wait-head{display:flex;justify-content:space-between;align-items:center;margin:24px 2px 10px}
+.wait-head span{font-size:12.5px;color:var(--ink3)}
+.wait-card{background:var(--s1);border:1px solid var(--line);border-radius:var(--r-md);padding:16px 18px;margin-bottom:10px}
+.wait-card .top-row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.wait-card .top-row span{color:var(--gold);font-weight:600;font-size:14px}
+.wait-acts{display:flex;gap:8px;margin-top:12px}
+
+/* ---------- motion ---------- */
+@keyframes stepIn{from{opacity:0;transform:translateY(18px)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shake{20%{transform:translateX(6px)}40%{transform:translateX(-6px)}60%{transform:translateX(3px)}80%{transform:translateX(-2px)}}
+.shake{animation:shake .28s}
+@media (prefers-reduced-motion:no-preference){
+  @keyframes lineUp{from{transform:translateY(105%)}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}}
+  @keyframes zoom{from{transform:scale(1.2)}}
+  .hero-bg{animation:zoom 2.4s var(--ease) both}
+  .hero .eyebrow{animation:fadeUp .9s var(--ease) .1s both}
+  .hero h1 .ln>span{animation:lineUp 1.1s var(--ease) calc(.2s + var(--i)*.12s) both}
+  .hero .lead{animation:fadeUp .9s var(--ease) .6s both}
+  .qbar{animation:fadeUp .9s var(--ease) .72s both}
+  .stats,.strap{animation:fadeUp .9s var(--ease) .86s both}
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .rv.in{opacity:1;transform:none}
+  .seal{animation:spin 26s linear infinite}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .mq-in{animation:none}
+  .done-mark circle,.done-mark path{stroke-dashoffset:0}
+}
+</style>
+</head>
+<body data-flow="wizard">
+<a class="skip" href="#booking">דלגו להזמנת שולחן</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="הפסאז׳, לראש הדף"><b id="rname">הפסאז׳</b><small>LOCAL DINER · EST. 2017</small></a>
+    <nav class="nav" aria-label="ניווט ראשי">
+      <a href="#booking">הזמנת שולחן</a><a href="#menu">תפריט</a><a href="#story">הסיפור</a><a href="#contact">איך מגיעים</a>
+    </nav>
+    <div class="top-act">
+      <span class="status" id="status" role="status"><i aria-hidden="true"></i><span id="statusTxt"></span></span>
+      <button class="ic" id="snd" type="button" aria-label="השתקת צלילים" aria-pressed="true"></button>
+      <button class="btn ghost sm hide" id="staffBtn" type="button">ניהול</button>
+    </div>
+  </div>
+</header>
+
+<main id="cust">
+  <!-- ================= HERO ================= -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="hero-bg" data-imgwrap><img data-soft fetchpriority="high" alt="" src="https://hapassage.com/wp-content/uploads/2024/07/grilled-beef-burger-homemade-bun-outdoors-generated-by-ai-1536x878.jpg" srcset="https://hapassage.com/wp-content/uploads/2024/07/grilled-beef-burger-homemade-bun-outdoors-generated-by-ai-1536x878.jpg 1536w, https://hapassage.com/wp-content/uploads/2024/07/grilled-beef-burger-homemade-bun-outdoors-generated-by-ai-2048x1170.jpg 2048w" sizes="100vw"></div>
+    <div class="wrap hero-in">
+      <p class="eyebrow">ההמבורגר של העוטף</p>
+      <h1 id="heroTitle" aria-label="כל זמן הוא זמן טוב להמבורגר טוב."><span class="ln" aria-hidden="true"><span style="--i:0">כל זמן הוא</span></span><span class="ln" aria-hidden="true"><span style="--i:1">זמן טוב</span></span><span class="ln" aria-hidden="true"><span style="--i:2"><em>להמבורגר טוב.</em></span></span></h1>
+      <p class="lead">בשר ועוף 100% ייצור עצמי, במתכון ביתי מאז 2017. <span id="greet">שלום</span>, השולחן שלכם מחכה בכיכר הנשיא.</p>
+      <div class="qbar" role="group" aria-label="הזמנה מהירה">
+        <div class="qcell"><span>מתי</span><div class="qchips"><button type="button" data-quick="0">היום</button><button type="button" data-quick="1">מחר</button></div></div>
+        <div class="qcell"><span>סועדים</span><div class="qstep"><button type="button" id="qMinus" aria-label="פחות סועדים">−</button><b id="qN" aria-live="polite">2</b><button type="button" id="qPlus" aria-label="יותר סועדים">+</button></div></div>
+        <a class="btn" href="#booking" id="startBooking"><span class="lbl">כל התאריכים</span><span class="arr" aria-hidden="true">←</span></a>
+      </div>
+      <ul class="stats">
+        <li><b>4.6<i>★</i></b>בגוגל</li>
+        <li><b>100%</b>ייצור עצמי</li>
+        <li><b>כשר</b>בשר חלק</li>
+        <li><b>10%</b>הנחה לחיילים</li>
+      </ul>
+      <p class="strap">ANY TIME IS A GOOD TIME FOR A GOOD BURGER</p>
+    </div>
+  </section>
+
+  <div class="mq" aria-hidden="true"><div class="mq-in"><span>אוכל</span><span>בירה</span><span>אווירה</span><span>אנשים</span><span>המבורגר</span><span>GOOD BURGER</span><span>אוכל</span><span>בירה</span><span>אווירה</span><span>אנשים</span><span>המבורגר</span><span>GOOD BURGER</span><span>אוכל</span><span>בירה</span><span>אווירה</span><span>אנשים</span><span>המבורגר</span><span>GOOD BURGER</span></div></div>
+
+  <!-- ================= BOOKING ================= -->
+  <section class="booking" id="booking" aria-labelledby="bookTitle">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <p class="eyebrow">Reservation</p>
+        <h2 class="h2" id="bookTitle">שולחן, בחמישה<br>צעדים <em>קצרים.</em></h2>
+        <p class="lead">בלי הרשמה ובלי תשלום. שולחים בקשה, ואנחנו מתקשרים לאשר.</p>
+      </div>
+
+      <div class="book-grid" id="bookGrid">
+        <div class="wiz rv" id="wiz">
+          <div class="wiz-top">
+            <span id="wLbl" aria-live="polite"></span>
+            <div class="dots" id="wDots" role="group" aria-label="מעבר בין שלבים">
+              <button type="button" data-go="1" aria-label="יום">1</button><button type="button" data-go="2" aria-label="סועדים">2</button><button type="button" data-go="3" aria-label="אזור">3</button><button type="button" data-go="4" aria-label="שעה">4</button><button type="button" data-go="5" aria-label="פרטים">5</button>
+            </div>
+          </div>
+          <div class="prog" aria-hidden="true"><i id="wBar"></i></div>
+
+          <div id="form">
+            <section class="acc open" id="a1" data-n="1">
+              <h3 class="acch"><button class="ah" type="button" data-n="1" tabindex="-1" aria-controls="p1"><i class="i"><span>1</span></i><span class="at">באיזה יום מגיעים?</span><span class="val" id="v1"></span><span class="chev"></span></button></h3>
+              <div class="ab" id="p1"><div class="ab-in">
+                <p class="mon" id="mon" aria-hidden="true"></p>
+                <div class="days" id="days" role="group" aria-label="בחירת תאריך"></div>
+              </div></div>
+            </section>
+            <section class="acc" id="a2" data-n="2">
+              <h3 class="acch"><button class="ah" type="button" data-n="2" tabindex="-1" aria-controls="p2"><i class="i"><span>2</span></i><span class="at">כמה תהיו?</span><span class="val" id="v2"></span><span class="chev"></span></button></h3>
+              <div class="ab" id="p2" inert><div class="ab-in">
+                <div class="guests">
+                  <button class="stepper" id="minus" type="button" aria-label="הפחתת סועד">−</button>
+                  <output id="gn" for="minus plus" aria-live="polite"></output>
+                  <button class="stepper" id="plus" type="button" aria-label="הוספת סועד">+</button>
+                </div>
+                <div class="gq" id="gq" role="group" aria-label="בחירה מהירה"></div>
+                <p class="big-note" id="bigNote"></p>
+                <button class="btn" id="gNext" type="button" tabindex="-1"><span class="lbl">המשך</span></button>
+              </div></div>
+            </section>
+            <section class="acc" id="a3" data-n="3">
+              <h3 class="acch"><button class="ah" type="button" data-n="3" tabindex="-1" aria-controls="p3"><i class="i"><span>3</span></i><span class="at">איפה נוח לכם לשבת?</span><span class="val" id="v3"></span><span class="chev"></span></button></h3>
+              <div class="ab" id="p3" inert><div class="ab-in">
+                <div class="areas" id="areas" role="group" aria-label="בחירת אזור ישיבה"></div>
+              </div></div>
+            </section>
+            <section class="acc" id="a4" data-n="4">
+              <h3 class="acch"><button class="ah" type="button" data-n="4" tabindex="-1" aria-controls="p4"><i class="i"><span>4</span></i><span class="at">באיזו שעה?</span><span class="val" id="v4"></span><span class="chev"></span></button></h3>
+              <div class="ab" id="p4" inert><div class="ab-in">
+                <div id="slots" role="group" aria-label="בחירת שעה"></div>
+                <div class="msg" id="slotMsg" aria-live="polite"></div>
+              </div></div>
+            </section>
+            <section class="acc" id="a5" data-n="5">
+              <h3 class="acch"><button class="ah" type="button" data-n="5" tabindex="-1" aria-controls="p5"><i class="i"><span>5</span></i><span class="at">ואיך נחזור אליכם?</span><span class="val" id="v5"></span><span class="chev"></span></button></h3>
+              <div class="ab" id="p5" inert><div class="ab-in">
+                <p class="welcome hide" id="welcome"></p>
+                <div class="row">
+                  <div class="field"><label for="name">שם</label><input id="name" autocomplete="name" placeholder="שם פרטי מספיק"></div>
+                  <div class="field"><label for="phone">טלפון לאישור</label><input id="phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel" placeholder="050-0000000" style="text-align:right"></div>
+                </div>
+                <div class="field">
+                  <label for="notes">משהו שכדאי שנדע? (לא חובה)</label>
+                  <textarea id="notes" rows="2" placeholder="אלרגיות, הפתעה, שולחן שקט…"></textarea>
+                  <div class="qn" id="qn" role="group" aria-label="הוספה מהירה להערות">
+                    <button type="button" aria-pressed="false" data-note="חוגגים יום הולדת">יום הולדת</button>
+                    <button type="button" aria-pressed="false" data-note="צריך כיסא תינוק">כיסא תינוק</button>
+                    <button type="button" aria-pressed="false" data-note="צריך מקום נגיש">נגישות</button>
+                    <button type="button" aria-pressed="false" data-note="יש בינינו טבעונים">טבעוני</button>
+                  </div>
+                </div>
+                <div class="err" id="err" role="alert"></div>
+              </div></div>
+            </section>
+          </div>
+
+          <div class="wiz-foot">
+            <button class="btn ghost gone" id="wBack" type="button" aria-label="חזרה לשלב הקודם"><span aria-hidden="true">→</span></button>
+            <button class="btn js-go" type="button"><span class="lbl">המשך</span><span class="arr" aria-hidden="true">←</span></button>
+          </div>
+        </div>
+
+        <aside class="ticket rv" aria-label="סיכום ההזמנה">
+          <div class="pass">
+            <div class="pass-top"><small>TABLE REQUEST</small><b>ההזמנה שלכם</b></div>
+            <dl>
+              <div><dt>יום</dt><dd id="kDay" class="unset">טרם נבחר</dd></div>
+              <div><dt>שעה</dt><dd id="kTime" class="unset">טרם נבחרה</dd></div>
+              <div><dt>סועדים</dt><dd id="kParty"></dd></div>
+              <div><dt>איפה</dt><dd id="kArea" class="unset">טרם נבחר</dd></div>
+            </dl>
+            <div class="pass-cut" aria-hidden="true"></div>
+            <ul class="perks">
+              <li>אישור טלפוני תוך זמן קצר</li>
+              <li>ביטול בכל רגע, בלי התחייבות</li>
+              <li>כיכר הנשיא 11, שדרות</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <div class="thanks hide" id="done" tabindex="-1" aria-labelledby="doneH">
+        <div class="done-card">
+          <div class="done-head">
+            <svg class="done-mark" width="68" height="68" viewBox="0 0 52 52" aria-hidden="true">
+              <circle cx="26" cy="26" r="23" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M15 27 22.5 34.5 37.5 19.5" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h2 id="doneH">הבקשה אצלנו.</h2>
+            <p class="lead2">נתקשר בקרוב לאשר, ואז השולחן שלכם.</p>
+          </div>
+          <div class="done-tick" id="tick"></div>
+          <div class="done-acts">
+            <button class="btn ghost" id="cal" type="button">הוספה ליומן</button>
+            <button class="btn ghost" id="share" type="button">שליחה לחברים</button>
+          </div>
+        </div>
+        <button class="link" id="again" type="button" style="margin-top:20px">הזמנה נוספת</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MENU ================= -->
+  <section class="menu-sec" id="menu" aria-labelledby="menuT">
+    <div class="wrap">
+      <div class="rv">
+        <p class="eyebrow">Signature</p>
+        <h2 class="h2" id="menuT">מה שמזמינים<br><em>אצלנו.</em></h2>
+        <p class="lead">מוגש עם חסה, עגבנייה, מלפפון חמוץ ובצל. ייצור מקומי, מתכון שלנו.</p>
+      </div>
+      <div id="menuBoard"></div>
+      <p class="fine-note">טעימה מהתפריט. המחירים בשקלים ועשויים להתעדכן. <a href="https://hapassage.com/menu/" target="_blank" rel="noopener">לתפריט המלא ←</a></p>
+    </div>
+  </section>
+
+  <!-- ================= STORY ================= -->
+  <section class="story" id="story" aria-labelledby="storyT">
+    <div class="wrap">
+      <div class="story-grid">
+        <figure class="shot rv" data-imgwrap style="margin:0">
+          <img data-soft loading="lazy" src="https://hapassage.com/wp-content/uploads/2024/07/WhatsApp-Image-2024-07-30-at-13.44.36-1-1152x1536.jpeg" alt="השולחנות הצהובים, הספסלים השחורים והמנורות התלויות בפסאז׳">
+          <svg class="seal" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="circ" d="M18 60a42 42 0 1 1 84 0a42 42 0 1 1-84 0" fill="none"/></defs><circle cx="60" cy="60" r="56"/><circle cx="60" cy="60" r="30" class="in"/><text style="direction:ltr" text-anchor="start" font-size="10.5" font-weight="800" fill="#fff" letter-spacing="2.2" font-family="Heebo,sans-serif"><textPath href="#circ">HOMEMADE HAMBURGER · ESTD 2017 ·</textPath></text><path class="bg" d="M46 58a14 9 0 0 1 28 0zM46 62h28M46 66h28a5 5 0 0 1-5 5H51a5 5 0 0 1-5-5z"/></svg>
+          <figcaption>כיכר הנשיא 11 · שדרות</figcaption>
+        </figure>
+        <div class="rv">
+          <p class="eyebrow">Since 2017</p>
+          <h2 class="h2" id="storyT">תשאלו את<br><em>הוותיקים.</em></h2>
+          <p class="txt">מוטי כהן הגיע מצפת ללמוד בדרום, התאהב בשדרות והחליט להישאר. ב-2017 הוא פתח את המקום שהיה חסר לו. היו ששאלו מי בכלל יאכל המבורגר בשדרות. היום מגיעים מהעיר, מהקיבוצים ומכל הדרום.</p>
+          <p class="txt">מהבשר הגולמי, דרך הטחינה ועד התיבול הסודי, את ההמבורגר אנחנו עושים בעצמנו.</p>
+          <div class="nums">
+            <div><b data-count="2017">2017</b><span>שנת הפתיחה</span></div>
+            <div><b>100%</b><span>בשר ועוף בייצור עצמי</span></div>
+            <div><b>4.6</b><span>הדירוג בגוגל</span></div>
+            <div><b>10%</b><span>הנחה לחיילים, בכיף</span></div>
+          </div>
+        </div>
+      </div>
+      <ul class="regs-grid">
+        <li class="rv"><b>חתנים ביום החתונה</b><p>כן, באמת. בדרך כלל לארוחת צהריים, ויש שמגיעים גם אחרי.</p></li>
+        <li class="rv"><b>משפחות עם מזוודות</b><p>נוחתים בארץ, ולפני הבית עוצרים אצלנו. התגעגעו להמבורגר.</p></li>
+        <li class="rv"><b>חיילים, בני בית</b><p>משלוחים לבסיסים כמעט כל יום, וקבוצות שמגיעות באופן קבוע.</p></li>
+        <li class="rv"><b>סטודנטים וקיבוצניקים</b><p>ממכללת ספיר, מהעוטף ומכל הדרום. שדרותים, ומי לא.</p></li>
+      </ul>
+      <p class="press rv">כתבו וצילמו אצלנו <b>ynet</b><b>שישי בבוקר · ערוץ 12</b><b>ערוץ 14</b></p>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="contact" id="contact" aria-labelledby="contactT">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div class="rv">
+          <p class="eyebrow" id="contactT">מעדיפים לדבר?</p>
+          <a class="tel" href="tel:086819191">08-6819191</a>
+          <p class="lead" style="margin-top:14px">ישיבה בפנים ובחוץ, מקום נגיש, בירה מבקבוק או מהחבית. משלוחים בשדרות וביישובי העוטף.</p>
+        </div>
+        <div class="acts rv">
+          <a href="https://waze.com/ul?q=%D7%9B%D7%99%D7%9B%D7%A8%20%D7%94%D7%A0%D7%A9%D7%99%D7%90%2011%20%D7%A9%D7%93%D7%A8%D7%95%D7%AA&amp;navigate=yes" target="_blank" rel="noopener"><div>איך מגיעים<small>כיכר הנשיא 11, שדרות · ניווט ב-Waze</small></div><span aria-hidden="true">←</span></a>
+          <a href="https://hapassage.web.delivery/" target="_blank" rel="noopener"><div>משלוח הביתה<small>הזמנה אונליין</small></div><span aria-hidden="true">←</span></a>
+          <a href="https://hapassage.com/menu/" target="_blank" rel="noopener"><div>התפריט המלא<small>עסקיות, ילדים, טבעוני, קינוחים</small></div><span aria-hidden="true">←</span></a>
+        </div>
+      </div>
+      <div class="foot">
+        <span><a href="https://www.instagram.com/hapassage/" target="_blank" rel="noopener">אינסטגרם</a><a href="https://www.facebook.com/Passage.Hamburger/" target="_blank" rel="noopener">פייסבוק</a><a href="https://hapassage.com/" target="_blank" rel="noopener">hapassage.com</a></span>
+        <span id="foot"></span>
+      </div>
+    </div>
+  </section>
+
+  <a class="btn fab off" href="#booking" id="fab"><span class="lbl">הזמנת שולחן</span><span class="arr" aria-hidden="true">←</span></a>
+</main>
+
+<section id="back" class="hide" aria-label="ניהול המסעדה">
+  <div class="wrap">
+    <h2 class="lt">ניהול</h2>
+    <div class="seg" role="tablist" aria-label="מסכי ניהול">
+      <button class="tab" role="tab" type="button" data-t="req" aria-selected="true" aria-controls="bview">בקשות<span class="badge" id="nReq">0</span></button>
+      <button class="tab" role="tab" type="button" data-t="up" aria-selected="false" aria-controls="bview">הזמנות קרובות</button>
+      <button class="tab" role="tab" type="button" data-t="tb" aria-selected="false" aria-controls="bview">לוח שולחנות</button>
+      <button class="tab" role="tab" type="button" data-t="wait" aria-selected="false" aria-controls="bview">רשימת המתנה</button>
+      <button class="tab" role="tab" type="button" data-t="set" aria-selected="false" aria-controls="bview">הגדרות</button>
+    </div>
+    <div id="bview" role="tabpanel"></div>
+  </div>
+</section>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<noscript><p style="padding:20px;text-align:center">כדי להזמין שולחן צריך להפעיל JavaScript, או להתקשר 08-6819191.</p></noscript>
+
+<script>
+/* ============================================================
+   Utilities
+   ============================================================ */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const lget = k => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
+const lset = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
+const reduce = () => mqReduce.matches;
+const desk = matchMedia('(min-width: 980px)');
+let inputMode = 'pointer';
+addEventListener('pointerdown', () => { inputMode = 'pointer'; }, { capture: true, passive: true });
+addEventListener('keydown', () => { inputMode = 'keyboard'; }, { capture: true });
+
+/* ============================================================
+   State
+   ============================================================ */
+const DEF = {
+  name: 'הפסאז׳', open: '12:00', close: '23:00', step: 30, dwell: 90,
+  maxParty: 10, closedWeekdays: [], blocked: [],
+  tables: [
+    { id: 't1', name: 'שולחן 1', seats: 2 },
+    { id: 't2', name: 'שולחן 2', seats: 2 },
+    { id: 't3', name: 'שולחן 3', seats: 4 },
+    { id: 't4', name: 'שולחן 4', seats: 4 },
+    { id: 't5', name: 'שולחן 5', seats: 6, area: 'out' },
+    { id: 't6', name: 'שולחן 6', seats: 8, area: 'out' }
+  ]
+};
+const AL = { in: 'בפנים', out: 'בחוץ' };
+const WD = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳'];
+
+let S = { ...DEF }, B = [], staff = false, tab = 'req';
+let slot = null, cd = '', party = 2, area = '', reach = 1, curStep = 1;
+let store, dbOn = false, mute = lget('mute') ?? true;
+let dd = '', selB = '', AC = null, lastBooking = null;
+let adminQuery = '', adminStatus = 'all';
+let waitlist = lget('passage_waitlist') || [];
+const guest = lget('guest');
+const WIZ = document.body.dataset.flow === 'wizard';   /* premium page: one step on screen at a time */
+
+/* a taste of the real menu (hapassage.com, 2026 menu) */
+const MENU = [
+  ['המבורגרים', [
+    ['קלאסי 220 גר׳', 'תערובת בקר במתכון ביתי', '60'],
+    ['אנטריקוט 220 גר׳', 'במתכון ביתי', '68'],
+    ['טלה 220 גר׳', 'תערובת בקר ושומן טלה', '68'],
+    ['מרגזבורגר 220 גר׳', 'בקר ושומן טלה, פיקנטי', '63'],
+    ['שניצבורגר', 'שניצל פריך וקריספי', '52'],
+    ['ביונד מיט', 'המבורגר טבעוני מחלבון אפונה', '52']]],
+  ['כריכים', [
+    ['כריך הבית', 'נתח אסאדו מפורק בג׳בטה', '63'],
+    ['כריך אנטריקוט', 'פרוס דק, מלח ופלפל', '60'],
+    ['כריך פרגית', 'פרגית ברוטב', '58'],
+    ['סלופי ג׳ו', 'בשר בקר טחון, מוקפץ', '57']]],
+  ['לפתוח ולנשנש', [
+    ['נשנושי אסאדו', 'לצד קונפי שום וצ׳ימיצ׳ורי', '63'],
+    ['כנפיים בצ׳ילי', 'צ׳ילי, סויה ושומשום', '39/75'],
+    ['שניצל של אמא לביאה', 'טרי ופריך, על מצע חסה', '50'],
+    ['טבעות בצל הפסאז׳', 'הקלאסיקה של הבית', '22/42'],
+    ['צ׳יפס בטטה', 'M / L', '24/46']]],
+  ['קינוחים', [
+    ['סופלה', 'עם גלידת שוקו-וניל וקצפת', '35'],
+    ['צ׳ורוס', 'שש יחידות, קצפת, מייפל ושוקולד', '35'],
+    ['רוטומדו', 'קראנץ׳ לואקר ונוגט, קרם פטיסייר ונוטלה', '35'],
+    ['נוצ׳ולטו', 'שוקולד קריספי ומוס שוקולד בלגי', '35']]]
+];
+
+/* ============================================================
+   Date / time helpers
+   ============================================================ */
+const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const tm = t => { const [a, b] = t.split(':').map(Number); return a * 60 + b; };
+const fmt = m => String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0');
+const D = d => new Date(d + 'T12:00');
+const nice = d => D(d).toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'long' });
+const short = d => D(d).toLocaleDateString('he-IL', { weekday: 'short', day: 'numeric', month: 'short' });
+const nowM = () => { const n = new Date(); return n.getHours() * 60 + n.getMinutes(); };
+const ppl = n => n === 1 ? 'סועד אחד' : n + ' סועדים';
+
+/* ============================================================
+   Storage — shared db when the host provides one, local otherwise
+   ============================================================ */
+function localStore() {
+  const subs = [];
+  const ld = () => lget('bk') || [];
+  const push = () => subs.forEach(f => f(ld()));
+  return {
+    onBookings(f) { subs.push(f); f(ld()); },
+    onSettings(f) { const s = lget('set'); if (s) f(s); },
+    async add(b) { const a = ld(); a.push(b); lset('bk', a); push(); },
+    async upd(id, p) { lset('bk', ld().map(x => x.id == id ? { ...x, ...p } : x)); push(); },
+    async saveSettings(s) { lset('set', s); }
+  };
+}
+function dbStore(db) {
+  return {
+    onBookings(f) { db.collection('bookings').onSnapshot(q => f(q.docs.map(d => ({ ...d.data(), id: d.id }))), () => {}); },
+    onSettings(f) { db.collection('settings').doc('main').onSnapshot(d => { if (d.exists) f(d.data()); }, () => {}); },
+    async add(b) { const { id, ...r } = b; await db.collection('bookings').doc(id).set(r); },
+    async upd(id, p) { await db.collection('bookings').doc(id).update(p); },
+    async saveSettings(s) { await db.collection('settings').doc('main').set(s); },
+    async lock(k) { try { const r = await db.doc('locks/' + k).acquire({ ttlMs: 5000 }); return r.acquired !== false; } catch (e) { return true; } }
+  };
+}
+const lockD = async d => { try { return store.lock ? await store.lock(d) : true; } catch (e) { return true; } };
+
+/* ============================================================
+   Availability
+   ============================================================ */
+const tOK = t => (t.status || 'active') === 'active';
+const openDay = d => !(S.closedWeekdays || []).includes(D(d).getDay()) && !(S.blocked || []).includes(d);
+const sortB = (a, c) => (a.date + a.time).localeCompare(c.date + c.time);
+const freeFor = (date, time, p, ar) => {
+  const s = tm(time), e = s + +S.dwell;
+  return S.tables.filter(t => tOK(t) && t.seats >= p && (!ar || (t.area || 'in') === ar) &&
+    !B.some(o => o.date === date && o.status === 'confirmed' && o.table === t.id &&
+      tm(o.time) < e && tm(o.time) + +S.dwell > s));
+};
+const busy = (b, t) => {
+  const s = tm(b.time), e = s + +S.dwell;
+  return B.some(o => o.id != b.id && o.date === b.date && o.status === 'confirmed' && o.table === t.id &&
+    tm(o.time) < e && tm(o.time) + +S.dwell > s);
+};
+const slotOK = (d, x, ar) => {
+  const t = fmt(x);
+  return !((d === iso(new Date()) && x <= nowM() + 30) || (S.blocked || []).includes(d + '_' + t)) &&
+    freeFor(d, t, party, ar).length > 0;
+};
+const dayHas = (d, ar) => {
+  if (!openDay(d)) return false;
+  for (let x = tm(S.open); x <= tm(S.close) - S.dwell; x += +S.step) if (slotOK(d, x, ar)) return true;
+  return false;
+};
+const maxSeats = () => Math.max(1, ...S.tables.filter(tOK).map(t => t.seats));
+
+function openStatus() {
+  const d = iso(new Date()), n = nowM();
+  if (!openDay(d)) return [false, 'היום סגור'];
+  if (n < tm(S.open)) return [false, 'נפתחים היום ב-' + S.open];
+  if (n >= tm(S.close)) return [false, 'סגור עכשיו · מחר מ-' + S.open];
+  return [true, 'פתוח עכשיו · עד ' + S.close];
+}
+
+/* ============================================================
+   Customer — rendering
+   ============================================================ */
+function renderDays() {
+  const box = $('#days'), t = new Date();
+  box.innerHTML = '';
+  for (let i = 0; i < 21; i++) {
+    const x = new Date(t.getFullYear(), t.getMonth(), t.getDate() + i);
+    const k = iso(x), opn = openDay(k), ok = opn && dayHas(k, '');
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'day';
+    b.disabled = !ok;
+    b.dataset.k = k;
+    b.setAttribute('aria-pressed', String(k === cd));
+    b.setAttribute('aria-label', (ok ? '' : opn ? 'מלא, ' : 'סגור, ') + nice(k));
+    const top = i === 0 ? 'היום' : i === 1 ? 'מחר' : WD[x.getDay()];
+    b.innerHTML = `<small>${top}</small><b>${x.getDate()}</b>${ok ? '' : `<span class="tg">${opn ? 'מלא' : 'סגור'}</span>`}`;
+    box.appendChild(b);
+  }
+  if (cd && !openDay(cd)) cd = '';
+  $$('[data-quick]').forEach(q => { const x = new Date(); x.setDate(x.getDate() + +q.dataset.quick); const k = iso(x); q.disabled = !(openDay(k) && dayHas(k, '')); });
+  $('#mon').textContent = D(cd || iso(t)).toLocaleDateString('he-IL', { month: 'long', year: 'numeric' });
+}
+
+function renderGuests() {
+  const quick = [2, 3, 4, 6].filter(n => n <= S.maxParty);
+  $('#gq').innerHTML = quick.map(n => `<button type="button" data-g="${n}" aria-pressed="${party === n}">${n} ${n === 1 ? 'סועד' : 'סועדים'}</button>`).join('');
+  $('#bigNote').innerHTML = `קבוצה של יותר מ-${S.maxParty}? <a href="tel:086819191">התקשרו אלינו</a> ונסדר שולחן ארוך.`;
+}
+
+const AREA_ICON = {
+  in: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>',
+  out: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M12 1.5v1.5M4.5 8H3M21 8h-1.5M6.7 2.7l1 1M17.3 2.7l-1 1"/><path d="M3 21h18M6 21v-5h12v5M12 16v-3"/></svg>'
+};
+function renderAreas() {
+  const has = a => S.tables.some(t => tOK(t) && t.seats >= party && (t.area || 'in') === a);
+  const info = { in: ['בפנים', 'חמים, נעים, מזגן ומוזיקה'], out: ['בחוץ', 'אוויר פתוח ואווירת ערב'] };
+  $('#areas').innerHTML = ['in', 'out'].filter(has).map(a =>
+    `<button class="area" type="button" data-a="${a}" aria-pressed="${area === a}">${AREA_ICON[a]}<b>${info[a][0]}</b><small>${info[a][1]}</small></button>`
+  ).join('') || `<p class="mut">אין שולחן פנוי למספר הסועדים הזה. <a href="tel:086819191">התקשרו</a> ונמצא פתרון.</p>`;
+}
+
+function altSuggestions() {
+  const other = area === 'in' ? 'out' : 'in';
+  const chips = [];
+  if (dayHas(cd, other)) chips.push(`<button class="chip" type="button" data-aa="${other}">${AL[other]} באותו יום</button>`);
+  for (let i = 1; i <= 14 && chips.length < 4; i++) {
+    const x = new Date(); x.setDate(x.getDate() + i);
+    const k = iso(x);
+    if (k !== cd && dayHas(k, area)) chips.push(`<button class="chip" type="button" data-ad="${k}">${short(k)}</button>`);
+  }
+  return chips.length
+    ? `<div>אופס, אין שעה פנויה בבחירה הזו. אולי:</div><div class="chips">${chips.join('')}</div>`
+    : 'אין שעות פנויות בימים הקרובים. התקשרו ונעשה מה שאפשר.';
+}
+
+function renderSlots() {
+  const box = $('#slots'), msg = $('#slotMsg'), keep = slot;
+  box.innerHTML = ''; slot = null; msg.innerHTML = '';
+  if (!cd || !area) return;
+  const groups = [['צהריים', []], ['ערב', []]];
+  for (let x = tm(S.open); x <= tm(S.close) - S.dwell; x += +S.step) {
+    if (!slotOK(cd, x, area)) continue;
+    const t = fmt(x);
+    if (t === keep) slot = t;
+    groups[x < 17 * 60 ? 0 : 1][1].push(t);
+  }
+  box.innerHTML = groups.filter(g => g[1].length).map(([h, list]) =>
+    `<div class="sg"><p class="sg-h">${h}</p><div class="slots-row">${list.map(t =>
+      `<button class="chip" type="button" data-t="${t}" aria-pressed="${t === slot}">${t}${freeFor(cd, t, party, area).length === 1 ? '<em>שולחן אחרון</em>' : ''}</button>`).join('')}</div></div>`).join('');
+  if (keep && !slot && reach >= 5) {
+    reach = 4; sync(); open(4); snd('no');
+    msg.textContent = 'מישהו הקדים אתכם לשעה הזו. בחרו שעה אחרת.';
+    return;
+  }
+  if (!box.children.length) { msg.innerHTML = altSuggestions(); if (reach > 4) reach = 4; }
+}
+
+function initCust() {
+  party = Math.min(party, S.maxParty);
+  $('#rname').textContent = S.name;
+  document.title = S.name + ' · הזמנת שולחן';
+  const [on, txt] = openStatus();
+  $('#statusTxt').textContent = txt;
+  $('#status').classList.toggle('closed', !on);
+  $('#status').title = txt;
+  renderDays(); renderGuests(); renderAreas(); renderSlots(); sync(); updateSummary();
+}
+
+function updateSummary() {
+  $('#gn').innerHTML = `${party}<small>${party === 1 ? 'סועד' : 'סועדים'}</small>`;
+  $('#minus').disabled = party <= 1;
+  $('#plus').disabled = party >= Math.min(S.maxParty, maxSeats());
+  $$('#gq button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.g === party)));
+  if ($('#qN')) { $('#qN').textContent = party; $('#qMinus').disabled = party <= 1; $('#qPlus').disabled = $('#plus').disabled; }
+  if ($('#sum')) $('#sum').innerHTML = cd
+    ? `<b>${party === 1 ? 'שולחן לאחד' : 'שולחן ל-' + party}</b> · ${short(cd)}${area ? ' · ' + AL[area] : ''}${slot ? ' · <b>' + slot + '</b>' : ''}`
+    : 'בחרו יום כדי להתחיל';
+  const set = (id, v, ph) => { const el = $(id); el.textContent = v || ph; el.classList.toggle('unset', !v); };
+  set('#kDay', cd ? nice(cd) : '', 'טרם נבחר');
+  set('#kParty', ppl(party), '');
+  set('#kArea', area ? AL[area] : '', 'טרם נבחר');
+  set('#kTime', slot || '', 'טרם נבחרה');
+  const ready = WIZ ? curStep === 5 : reach >= 5;
+  $$('.js-go').forEach(b => { $('.lbl', b).textContent = ready ? 'שליחת בקשת הזמנה' : 'המשך'; });
+  if (WIZ) paintWizard();
+}
+
+function sync() {
+  $$('#form .acc').forEach(a => {
+    const n = +a.dataset.n;
+    a.classList.toggle('lock', n > reach);
+    a.classList.toggle('done', n < reach);
+    $('.ah', a).setAttribute('aria-disabled', String(n > reach));
+  });
+  $('#v1').textContent = cd ? short(cd) : '';
+  $('#v2').textContent = reach > 2 ? ppl(party) : '';
+  $('#v3').textContent = area ? AL[area] : '';
+  $('#v4').textContent = slot || '';
+  $('#v5').textContent = '';
+  updateSummary();
+  showBar(true);
+}
+
+/* premium wizard chrome: progress line, step dots, back button */
+const STEP_NAMES = ['יום', 'סועדים', 'אזור', 'שעה', 'פרטים'];
+function paintWizard() {
+  const can = curStep === 2 || curStep === 5 || curStep < reach;
+  $$('.js-go').forEach(b => b.classList.toggle('soft', !can));
+  $('#wBar').style.transform = `scaleX(${curStep / 5})`;
+  $('#wLbl').textContent = `שלב ${curStep}/5 · ${STEP_NAMES[curStep - 1]}`;
+  $('#wBack').classList.toggle('gone', curStep === 1);
+  $$('#wDots [data-go]').forEach(d => {
+    const n = +d.dataset.go;
+    d.classList.toggle('cur', n === curStep);
+    d.classList.toggle('was', n < reach && n !== curStep);
+    d.disabled = n > reach;
+    d.setAttribute('aria-current', n === curStep ? 'step' : 'false');
+  });
+}
+
+/* measure where a step header ends up after the open animation (no paint) */
+function finalTop(n) {
+  const root = document.documentElement, accs = $$('#form .acc'), was = accs.map(a => a.classList.contains('open'));
+  root.classList.add('lx-nt');
+  accs.forEach(a => a.classList.toggle('open', +a.dataset.n === n));
+  const top = $('#a' + n).getBoundingClientRect().top + scrollY, doc = root.scrollHeight;
+  accs.forEach((a, i) => a.classList.toggle('open', was[i]));
+  void root.offsetHeight;
+  root.classList.remove('lx-nt');
+  return { top, doc };
+}
+let scrollRaf = 0;
+function calmScroll(y) {
+  cancelAnimationFrame(scrollRaf);
+  const y0 = scrollY, d = y - y0;
+  if (Math.abs(d) < 4) return;
+  if (reduce()) { scrollTo(0, y); return; }
+  const dur = Math.min(700, 420 + Math.abs(d) * .3), t0 = performance.now();
+  const stop = () => cancelAnimationFrame(scrollRaf);
+  addEventListener('wheel', stop, { once: true, passive: true });
+  addEventListener('touchstart', stop, { once: true, passive: true });
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const f = now => { const t = Math.min(1, (now - t0) / dur); scrollTo(0, y0 + d * ease(t)); if (t < 1) scrollRaf = requestAnimationFrame(f); };
+  scrollRaf = requestAnimationFrame(f);
+}
+
+/* open(step) — one open section, focus continuity, gentle scroll */
+function open(n, opts = {}) {
+  const fin = !WIZ && opts.scroll !== false && !$('#form').classList.contains('hide') ? finalTop(n) : null;
+  curStep = n;
+  $$('#form .acc').forEach(a => {
+    const on = +a.dataset.n === n;
+    a.classList.toggle('open', on);
+    $('.ah', a).setAttribute('aria-expanded', String(on));
+    $('.ab', a).inert = !on;
+  });
+  if (!WIZ && opts.focus && inputMode === 'keyboard') { $('#a' + n + ' .ah').focus({ preventScroll: true }); }
+  if (fin) {
+    const maxS = Math.max(0, fin.doc - innerHeight);
+    const rel = fin.top - Math.min(scrollY, maxS);
+    if (rel < 70 || rel > innerHeight * .45) calmScroll(Math.min(maxS, Math.max(0, fin.top - 84)));
+  }
+  if (WIZ) {
+    if (opts.scroll !== false) {
+      const top = $('#wiz').getBoundingClientRect().top;
+      if (top < 60 || top > innerHeight * .5) calmScroll(Math.max(0, top + scrollY - 88));
+    }
+    if (opts.focus && inputMode === 'keyboard') $('#a' + n + ' .ah').focus({ preventScroll: true });
+  }
+  updateSummary();
+  if (n === 5 && inputMode !== 'keyboard' && desk.matches && !$('#name').value) setTimeout(() => $('#name').focus({ preventScroll: true }), 400);
+}
+
+function pick(k) {
+  if (!k || !openDay(k)) return;
+  snd('pick');
+  cd = k; slot = null;
+  if (area && !S.tables.some(t => tOK(t) && t.seats >= party && (t.area || 'in') === area)) area = '';
+  reach = Math.max(2, reach > 2 ? (area ? 4 : 3) : 2);
+  $$('#days .day').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.k === cd)));
+  $('#mon').textContent = D(cd).toLocaleDateString('he-IL', { month: 'long', year: 'numeric' });
+  renderAreas(); renderSlots(); sync();
+  open(reach > 2 ? (area ? 4 : 3) : 2);
+}
+
+/* the single "next" action, shared by the mobile bar and the desktop ticket */
+function goNext() {
+  if (WIZ) {
+    if (curStep === 5) return send();
+    if (curStep === 2) return $('#gNext').click();
+    if (curStep < reach) return open(curStep + 1, { focus: true });
+    toast(['בחרו יום כדי להמשיך', '', 'בחרו איפה תרצו לשבת', 'בחרו שעה כדי להמשיך'][curStep - 1]);
+    const g = $('#a' + curStep + ' .ab-in');
+    if (!reduce()) { g.classList.remove('shake'); void g.offsetWidth; g.classList.add('shake'); }
+    return;
+  }
+  if (reach >= 5) return send();
+  const n = !cd ? 1 : reach <= 2 ? 2 : !area ? 3 : 4;
+  if (n === 2 && curStep === 2) { $('#gNext').click(); return; }
+  open(n, { focus: true });
+  const el = $('#a' + n);
+  if (!reduce()) el.animate([{ boxShadow: '0 0 0 0 rgba(242,194,48,.6)' }, { boxShadow: '0 0 0 10px rgba(242,194,48,0)' }], { duration: 700 });
+}
+
+/* ============================================================
+   Send
+   ============================================================ */
+function failField(sel, msg) {
+  const el = $(sel);
+  el.setAttribute('aria-invalid', 'true');
+  $('#err').textContent = msg;
+  if (curStep !== 5) open(5);
+  el.focus();
+  if (!reduce()) { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+}
+
+async function send() {
+  const errBox = $('#err'), btns = $$('.js-go');
+  errBox.textContent = '';
+  $$('[aria-invalid="true"]').forEach(el => el.removeAttribute('aria-invalid'));
+  const n = $('#name').value.trim(), ph = $('#phone').value.trim();
+  if (!slot) { open(4); return; }
+  if (n.length < 2) return failField('#name', 'איך קוראים לכם? רק כדי שנדע את מי לחפש.');
+  if (ph.replace(/\D/g, '').length < 9) return failField('#phone', 'צריך מספר טלפון תקין, כדי שנוכל לאשר.');
+
+  const b = {
+    id: 'b' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5),
+    date: cd, time: slot, party, area, name: n, phone: ph,
+    notes: $('#notes').value.trim().slice(0, 300),
+    status: 'pending', table: '', created: Date.now()
+  };
+  btns.forEach(x => { x.dataset.busy = ''; x.disabled = true; });
+  try {
+    if (!(await lockD(cd))) { errBox.textContent = 'מישהו מסיים הזמנה ממש עכשיו. נסו שוב בעוד כמה שניות.'; return; }
+    if (!freeFor(cd, slot, party, area).length) {
+      snd('no'); slot = null; reach = 4; sync(); renderSlots(); open(4);
+      $('#slotMsg').insertAdjacentHTML('afterbegin', '<div>השעה נתפסה בינתיים. בחרו שעה אחרת.</div>');
+      return;
+    }
+    await store.add(b);
+    lastBooking = b;
+    lset('guest', { name: n, phone: ph });
+    snd('sent');
+    $('#bookGrid').classList.add('hide');
+    $('.booking .sec-head')?.classList.add('hide');
+    showBar(false);
+    $('#tick').innerHTML = `<span class="done-ref">בקשה מס׳ ${esc(b.id.slice(-6).toUpperCase())}</span><br>${esc(n)}, <b>${nice(b.date)}</b><br>בשעה <b>${b.time}</b> · ${AL[area]} · ${ppl(party)}`;
+    $('#done').classList.remove('hide');
+    $('#done').focus({ preventScroll: true });
+    calmScroll(Math.max(0, $('#booking').getBoundingClientRect().top + scrollY - 70));
+    burst();
+  } catch (x) {
+    errBox.textContent = 'לא הצלחנו לשלוח. נסו שוב או התקשרו אלינו: 08-6819191.';
+  } finally {
+    btns.forEach(x => { delete x.dataset.busy; x.disabled = false; });
+  }
+}
+
+function burst() {
+  if (reduce()) return;
+  const m = $('.done-mark'), r = m.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  const cols = ['#f2c230', '#c4523a', '#7aa850', '#e0993f'];
+  for (let i = 0; i < 22; i++) {
+    const a = Math.random() * Math.PI * 2, d = 70 + Math.random() * 120, z = 5 + Math.random() * 5;
+    const s = document.createElement('i');
+    s.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;width:${z}px;height:${z * (i % 3 ? 1 : 2)}px;border-radius:${i % 2 ? '50%' : '2px'};background:${cols[i % 4]};pointer-events:none;z-index:90`;
+    document.body.appendChild(s);
+    s.animate([
+      { transform: 'translate(-50%,-50%)', opacity: 1 },
+      { transform: `translate(calc(-50% + ${Math.cos(a) * d}px),calc(-50% + ${Math.sin(a) * d + 60}px)) rotate(${Math.random() * 540}deg)`, opacity: 0 }
+    ], { duration: 1200 + Math.random() * 700, easing: 'cubic-bezier(.2,.7,.3,1)', delay: 350, fill: 'both' }).onfinish = () => s.remove();
+  }
+}
+
+function icsFor(b) {
+  const day = b.date.replace(/-/g, ''), st = b.time.replace(':', '') + '00', en = fmt(Math.min(tm(b.time) + +S.dwell, 23 * 60 + 59)).replace(':', '') + '00';
+  const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
+  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//hapassage//booking//HE', 'BEGIN:VEVENT',
+    'UID:' + b.id + '@hapassage', 'DTSTAMP:' + stamp,
+    'DTSTART;TZID=Asia/Jerusalem:' + day + 'T' + st, 'DTEND;TZID=Asia/Jerusalem:' + day + 'T' + en,
+    'SUMMARY:' + S.name + ' · שולחן ל-' + b.party, 'LOCATION:כיכר הנשיא 11\\, שדרות',
+    'DESCRIPTION:בקשת הזמנה. נתקשר לאשר. טלפון: 08-6819191', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+}
+
+/* ============================================================
+   Mobile bar — visible while the booking section is on screen
+   ============================================================ */
+let bookingVisible = false;
+function showBar(on) {
+  const bar = $('#bar');
+  if (!bar) return;
+  const v = on && bookingVisible && !!cd && $('#done').classList.contains('hide') && $('#back').classList.contains('hide');
+  bar.classList.toggle('nb', !v);
+  bar.inert = !v;
+}
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(en => { bookingVisible = en[0].isIntersecting; showBar(true); }, { rootMargin: '-30% 0px -35% 0px' }).observe($('#form'));
+}
+
+/* ============================================================
+   Back office
+   ============================================================ */
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove('on'), 3200);
+}
+
+function tblOpts(b, sel) {
+  const good = [], rest = [];
+  S.tables.slice().sort((a, c) => a.seats - c.seats).forEach(t => {
+    if ((busy(b, t) && t.id !== sel) || !tOK(t) || t.seats < b.party) return;
+    const ar = (t.area || 'in') === (b.area || t.area || 'in');
+    (ar ? good : rest).push(`<option value="${t.id}"${t.id === sel ? ' selected' : ''}>${esc(t.name)} (${t.seats} מקומות${ar ? '' : ', ' + AL[t.area || 'in']})</option>`);
+  });
+  return good.join('') + rest.join('');
+}
+
+function card(b, m) {
+  const tn = id => (S.tables.find(t => t.id === id) || {}).name || '—';
+  const anyFree = S.tables.some(t => tOK(t) && t.seats >= b.party && (!busy(b, t) || t.id === b.table));
+  return `<article class="rc">
+    <div class="rt">
+      <div><b>${esc(b.name)}</b><div style="margin-top:4px"><span class="tag">${ppl(b.party)}</span>${b.area ? `<span class="tag">${AL[b.area]}</span>` : ''}${b.table ? `<span class="tag good">${esc(tn(b.table))}</span>` : ''}</div></div>
+      <div class="when">${b.time}</div>
+    </div>
+    <div class="mut" style="margin-top:6px">${m === 'req' ? nice(b.date) + ' · ' : ''}<a href="tel:${esc(b.phone)}" dir="ltr">${esc(b.phone)}</a></div>
+    ${b.notes ? `<div class="mut rq">״${esc(b.notes)}״</div>` : ''}
+    <div class="ra">
+      ${m === 'req'
+        ? (anyFree
+            ? `<select id="s${b.id}" aria-label="בחירת שולחן">${tblOpts(b)}</select>
+               <button class="btn sm" type="button" data-act="ok" data-id="${b.id}"><span class="lbl">אישור</span></button>`
+            : `<span class="tag bad">אין שולחן פנוי</span>`)
+          + `<button class="btn bad sm" type="button" data-act="no" data-id="${b.id}" data-label="דחייה">דחייה</button>`
+        : `<select data-act="mv" data-id="${b.id}" aria-label="העברת שולחן">${tblOpts(b, b.table)}</select>
+           <button class="btn bad sm" type="button" data-act="no" data-id="${b.id}" data-label="ביטול">ביטול</button>`}
+    </div>
+  </article>`;
+}
+
+function renderBack() {
+  const today = iso(new Date());
+  const pend = B.filter(b => b.status === 'pending').sort(sortB);
+  $('#nReq').textContent = pend.length;
+  $$('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.t === tab)));
+  if (tab === 'set') return renderSet();
+  if (tab === 'tb') return renderTb();
+  if (tab === 'wait') return renderWaitlist();
+  const searchUI = `<div class="admin-tools">
+    <div class="admin-search"><span aria-hidden="true">⌕</span><input id="adminSearch" type="search" placeholder="חיפוש לפי שם, טלפון או הערה" value="${esc(adminQuery)}" aria-label="חיפוש הזמנות"></div>
+    ${tab === 'req' ? '' : `<select id="adminStatus" aria-label="סינון"><option value="all">כל ההזמנות</option><option value="today"${adminStatus === 'today' ? ' selected' : ''}>רק היום</option></select>`}
+  </div>`;
+  const matches = b => {
+    const q = adminQuery.trim().toLowerCase();
+    const hay = [b.name, b.phone, b.notes, b.id, b.time, b.date].join(' ').toLowerCase();
+    return (!q || hay.includes(q)) && (tab === 'req' || adminStatus !== 'today' || b.date === today);
+  };
+  const v = $('#bview');
+  if (tab === 'req') {
+    const rows = pend.filter(matches);
+    v.innerHTML = searchUI + `<div class="admin-count">${rows.length} בקשות מתוך ${pend.length}</div><div class="cards">` +
+      (rows.length ? rows.map(b => card(b, 'req')).join('') : `<div class="empty">${pend.length ? 'לא נמצאו בקשות שמתאימות לחיפוש.' : 'אין בקשות חדשות. זמן לקפה.'}</div>`) + '</div>';
+    return;
+  }
+  const up = B.filter(b => b.status === 'confirmed' && b.date >= today).sort(sortB).filter(matches);
+  let h = '', last = '';
+  up.forEach(b => {
+    if (b.date !== last) { last = b.date; h += `<div class="dh">${b.date === today ? 'היום' : nice(b.date)}</div>`; }
+    h += card(b, 'up');
+  });
+  v.innerHTML = searchUI + `<div class="admin-count">${up.length} הזמנות קרובות</div><div class="cards">` +
+    (h || `<div class="empty">אין הזמנות מאושרות קרובות.</div>`) + '</div>';
+}
+
+function renderWaitlist() {
+  const rows = waitlist.slice().sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+  $('#bview').innerHTML = `
+    <form id="waitForm" class="wait-form">
+      <div class="row">
+        <div class="field"><label for="wName">שם</label><input id="wName" required maxlength="70"></div>
+        <div class="field"><label for="wPhone">טלפון</label><input id="wPhone" required inputmode="tel" maxlength="20" dir="ltr" style="text-align:right"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="wDate">תאריך</label><input id="wDate" type="date" min="${iso(new Date())}" value="${iso(new Date())}" required></div>
+        <div class="field"><label for="wTime">שעה מועדפת</label><input id="wTime" type="time" value="${S.open}" required></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="wParty">סועדים</label><input id="wParty" type="number" min="1" max="${S.maxParty}" value="2" required></div>
+        <div class="field"><label for="wArea">אזור</label><select id="wArea"><option value="">לא משנה</option><option value="in">בפנים</option><option value="out">בחוץ</option></select></div>
+      </div>
+      <div class="field"><label for="wNote">הערה</label><input id="wNote" maxlength="180" placeholder="גמישים בשעה, כיסא תינוק…"></div>
+      <button class="btn wide" type="submit" style="margin-top:16px"><span class="lbl">הוספה לרשימת ההמתנה</span></button>
+    </form>
+    <div class="wait-head"><b>ממתינים (${rows.length})</b><span>נשמר במכשיר הזה</span></div>
+    ${rows.length ? rows.map(w => `<article class="wait-card">
+      <div class="top-row"><b>${esc(w.name)}</b><span>${nice(w.date)} · ${esc(w.time)}</span></div>
+      <div class="mut"><a href="tel:${esc(w.phone)}" dir="ltr">${esc(w.phone)}</a> · ${ppl(w.party)}${w.area ? ' · ' + AL[w.area] : ''}</div>
+      ${w.note ? `<div class="mut rq">${esc(w.note)}</div>` : ''}
+      <div class="wait-acts"><a class="btn ghost sm" href="tel:${esc(w.phone)}">התקשרות</a><button class="btn bad sm" type="button" data-wdel="${w.id}">הסרה</button></div>
+    </article>`).join('') : `<div class="empty">רשימת ההמתנה ריקה.</div>`}`;
+}
+
+function renderSet() {
+  const wasOpen = $$('#bview details').map(x => x.open);
+  const rows = a => S.tables.map((t, i) => ({ t, i })).filter(o => (o.t.area || 'in') === a)
+    .map(({ t, i }) => `<div class="tr">
+      <input value="${esc(t.name)}" data-tn="${i}" aria-label="שם שולחן">
+      <div class="st"><button type="button" data-st="${i}" data-d="-1" aria-label="פחות מקומות">−</button><b>${t.seats}</b><button type="button" data-st="${i}" data-d="1" aria-label="יותר מקומות">+</button></div>
+      <select data-ts="${i}" aria-label="מצב שולחן">
+        <option value="active"${tOK(t) ? ' selected' : ''}>זמין</option>
+        <option value="blocked"${t.status === 'blocked' ? ' selected' : ''}>חסום</option>
+        <option value="off"${t.status === 'off' ? ' selected' : ''}>לא פעיל</option>
+      </select>
+      <button class="btn ghost sm" type="button" data-flip="${i}">${(t.area || 'in') === 'in' ? 'העברה לחוץ' : 'העברה לפנים'}</button>
+      <button class="ic" type="button" data-del="${i}" aria-label="מחיקת ${esc(t.name)}">✕</button>
+    </div>`).join('') || `<div class="mut">אין שולחנות</div>`;
+
+  $('#bview').innerHTML = `
+    <details open><summary>שולחנות</summary><div>
+      <div class="gh"><span>בפנים</span><button class="btn ghost sm" type="button" data-add="in">+ שולחן</button></div>${rows('in')}
+      <div class="gh"><span>בחוץ</span><button class="btn ghost sm" type="button" data-add="out">+ שולחן</button></div>${rows('out')}
+    </div></details>
+    <details><summary>שעות פתיחה</summary><div>
+      <div class="row">
+        <div class="field"><label for="so">פתיחה</label><input id="so" type="time" value="${S.open}"></div>
+        <div class="field"><label for="sc">סגירה</label><input id="sc" type="time" value="${S.close}"></div>
+      </div>
+      <p class="field" style="font-weight:700;color:var(--ink-2);font-size:14px">ימים סגורים</p>
+      <div class="wd">${WD.map((n, i) => `<button class="chip" type="button" data-wd="${i}" aria-pressed="${(S.closedWeekdays || []).includes(i)}">${n}</button>`).join('')}</div>
+    </div></details>
+    <details><summary>חסימת יום או שעה</summary><div>
+      <div class="row">
+        <div class="field"><label for="bd">תאריך</label><input type="date" id="bd" min="${iso(new Date())}"></div>
+        <div class="field"><label for="bt">שעה (ריק = כל היום)</label><input type="time" id="bt"></div>
+      </div>
+      <button class="btn ghost sm" type="button" id="bkAdd" style="margin-top:12px">חסימה</button>
+      <div class="wd" style="margin-top:12px">${(S.blocked || []).slice().sort().map(x => `<button class="chip" type="button" data-unb="${x}">${x.replace('_', ' ')} ✕</button>`).join('')}</div>
+    </div></details>
+    <details><summary>הגדרות נוספות</summary><div>
+      <div class="field"><label for="sn">שם המסעדה</label><input id="sn" value="${esc(S.name)}"></div>
+      <div class="row">
+        <div class="field"><label for="ss">מרווח בין שעות (דק׳)</label><input id="ss" type="number" min="15" step="15" value="${S.step}"></div>
+        <div class="field"><label for="sd">משך ישיבה (דק׳)</label><input id="sd" type="number" min="30" step="15" value="${S.dwell}"></div>
+      </div>
+      <div class="field"><label for="sm">מקסימום סועדים להזמנה</label><input id="sm" type="number" min="1" value="${S.maxParty}"></div>
+    </div></details>
+    <button class="btn wide sv" type="button" id="svS"><span class="lbl">שמירת השינויים</span></button>
+    <p class="mut" id="saved" style="margin-top:8px;text-align:center" role="status"></p>`;
+  $$('#bview details').forEach((x, i) => { if (wasOpen.length) x.open = wasOpen[i]; });
+}
+
+let tbDay = '';
+function renderTb() {
+  const now = new Date();
+  if (!dd) dd = iso(now);
+  const isT = dd === iso(now), o = tm(S.open), c = tm(S.close), step = +S.step || 30, W = 46;
+  const cols = Math.max(1, Math.ceil((c - o) / step)), nm = nowM(), px = m => (m - o) / step * W;
+  const day = B.filter(b => b.status === 'confirmed' && b.date === dd).sort(sortB);
+  const pend = B.filter(b => b.status === 'pending' && b.date === dd).sort(sortB);
+  const tn = id => (S.tables.find(t => t.id === id) || {}).name || '—';
+  const live = b => isT && tm(b.time) <= nm && nm < tm(b.time) + +S.dwell;
+  const hrs = [];
+  for (let m = Math.ceil(o / 60) * 60; m <= c; m += 60) hrs.push(`<span style="left:${px(m)}px;transform:translateX(${m === o ? '2px' : '-50%'})">${fmt(m)}</span>`);
+  const nowL = isT && nm >= o && nm <= c ? `<i class="nowl" style="left:${px(nm)}px"></i>` : '';
+  const act = S.tables.filter(tOK);
+  const occ = act.filter(t => day.some(b => b.table === t.id && live(b))).length;
+  const rows = S.tables.map(t => {
+    const on = tOK(t), mine = day.filter(b => b.table === t.id), busyNow = mine.some(live);
+    return `<div class="tl-r">
+      <div class="tl-n${on ? '' : ' off'}${busyNow ? ' busy' : ''}"><b>${esc(t.name)}</b><small>${t.seats} מק׳, ${AL[t.area || 'in']}${on ? '' : ', ' + (t.status === 'blocked' ? 'חסום' : 'לא פעיל')}${busyNow ? ', תפוס' : ''}</small></div>
+      <div class="tl-c${on ? '' : ' off'}" style="width:${cols * W}px">${nowL}
+        ${mine.map(b => `<button type="button" class="bar2${b.id === selB ? ' sel' : ''}" data-sel="${b.id}" aria-pressed="${b.id === selB}" style="left:${px(tm(b.time))}px;width:${(+S.dwell / step) * W - 3}px">${esc(b.name)} (${b.party})</button>`).join('')}
+      </div></div>`;
+  }).join('');
+  const sb = day.find(b => b.id === selB);
+  const newDay = dd !== tbDay; tbDay = dd;
+  const w0 = $('.tlw'), sl = (w0 && !newDay) ? w0.scrollLeft : null;
+  $('#bview').innerHTML = `
+    <div class="dctl">
+      <button class="btn ghost sm" type="button" data-dd="-1">→ אתמול</button>
+      <input type="date" id="tdd" value="${dd}" aria-label="תאריך">
+      <button class="btn ghost sm" type="button" data-dd="1">מחר ←</button>
+    </div>
+    <div class="gh"><span>${isT ? `עכשיו במסעדה: <b>${occ}</b> תפוסים, <b>${act.length - occ}</b> פנויים` : `${day.length} הזמנות מאושרות`}</span>${isT ? '' : `<button class="btn ghost sm" type="button" id="tToday">היום</button>`}</div>
+    <div class="tlw"><div class="tl-in">
+      <div class="tl-r tl-h"><div class="tl-n"></div><div class="tl-c" style="width:${cols * W}px">${hrs.join('')}</div></div>
+      ${rows}
+    </div></div>
+    <p class="mut" style="margin-top:8px">כל פס צהוב הוא הזמנה מאושרת לכל זמן הישיבה. לחיצה על פס מציגה את הפרטים.${isT ? ' הקו האדום הוא השעה עכשיו.' : ''}</p>
+    ${sb ? `<div style="margin-top:10px">${card(sb, 'up')}</div>` : ''}
+    <div class="dh">לפי שעה</div>
+    ${day.length ? day.map(b => `<button type="button" class="dl" data-sel="${b.id}"><b>${b.time}–${fmt(tm(b.time) + +S.dwell)}</b><span>${esc(tn(b.table))} · ${esc(b.name)} · ${ppl(b.party)}${live(b) ? ' · יושבים עכשיו' : ''}</span></button>`).join('') : `<div class="empty">אין הזמנות מאושרות ליום הזה.</div>`}
+    ${pend.length ? `<div class="dh">ממתינות לאישור (${pend.length})</div>` + pend.map(b => `<div class="dl"><b>${b.time}</b><span>${esc(b.name)} · ${ppl(b.party)}${b.area ? ' · ' + AL[b.area] : ''}</span></div>`).join('') : ''}`;
+  const w = $('.tlw');
+  if (w) w.scrollLeft = sl != null ? sl : (isT ? Math.max(0, px(nm) - 140) : 0);
+}
+
+async function approve(id) {
+  const b = B.find(x => x.id == id), sel = $('#s' + id);
+  const t = sel && S.tables.find(x => x.id === sel.value);
+  if (!b || !t) return;
+  if (!(await lockD(b.date)) || !tOK(t) || busy(b, t)) { snd('no'); toast('השולחן כבר נתפס. בחרו שולחן אחר.'); renderBack(); return; }
+  snd('ok'); toast(`אושר · ${t.name}, ${b.time}`);
+  await store.upd(id, { status: 'confirmed', table: t.id });
+}
+async function moveT(id, tid) {
+  const b = B.find(x => x.id == id), t = S.tables.find(x => x.id === tid);
+  if (!b || !t) return;
+  if (!(await lockD(b.date)) || !tOK(t) || busy(b, t)) { snd('no'); toast('השולחן כבר לא פנוי'); renderBack(); return; }
+  snd('ok'); toast('הועבר ל' + t.name);
+  await store.upd(id, { table: tid });
+}
+function armDanger(btn, run) {
+  if (btn.dataset.armed) { delete btn.dataset.armed; run(); return; }
+  btn.dataset.armed = '1';
+  btn.textContent = 'לחצו שוב לאישור';
+  clearTimeout(btn._t);
+  btn._t = setTimeout(() => { delete btn.dataset.armed; btn.textContent = btn.dataset.label; }, 4000);
+}
+
+/* ============================================================
+   Sound + haptics — quiet, off by default
+   ============================================================ */
+function snd(k) {
+  if ((k === 'ok' || k === 'sent' || k === 'no') && navigator.vibrate) { try { navigator.vibrate(k === 'no' ? [50, 40, 50] : [24, 40, 34]); } catch (e) {} }
+  if (mute) return;
+  try {
+    if (!AC) {
+      AC = new (window.AudioContext || window.webkitAudioContext)();
+      const m = AC.createGain(); m.gain.value = .6;
+      const f = AC.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 1300;
+      m.connect(f); f.connect(AC.destination); snd.m = m;
+    }
+    if (AC.state === 'suspended') AC.resume();
+    const T = { pick: [[330, .08, .02]], next: [[392, .09, .017]], ok: [[392, .12, .03], [494, .16, .026]],
+      sent: [[392, .13, .03], [494, .13, .026], [587, .3, .026]], no: [[262, .18, .02]] }[k];
+    if (!T) return;
+    let t = AC.currentTime;
+    T.forEach(([fr, d, v]) => {
+      const o = AC.createOscillator(), g = AC.createGain();
+      o.type = 'sine'; o.frequency.value = fr;
+      g.gain.setValueAtTime(.0001, t);
+      g.gain.linearRampToValueAtTime(v, t + .014);
+      g.gain.exponentialRampToValueAtTime(.0001, t + d + .5);
+      o.connect(g); g.connect(snd.m); o.start(t); o.stop(t + d + .6);
+      t += d * .75;
+    });
+  } catch (e) {}
+}
+const spk = m => '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/>' +
+  (m ? '<path d="m16 9 5 6m0-6-5 6"/>' : '<path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>') + '</svg>';
+function paintSound() {
+  const b = $('#snd');
+  b.innerHTML = spk(mute);
+  b.setAttribute('aria-pressed', String(!mute));
+  b.setAttribute('aria-label', mute ? 'הפעלת צלילים' : 'השתקת צלילים');
+}
+
+/* ============================================================
+   Wiring — customer
+   ============================================================ */
+$('#days').addEventListener('click', e => { const b = e.target.closest('.day'); if (b && !b.disabled) pick(b.dataset.k); });
+
+function setParty(n) {
+  party = Math.max(1, Math.min(n, S.maxParty, maxSeats()));
+  if (area && !S.tables.some(t => tOK(t) && t.seats >= party && (t.area || 'in') === area)) { area = ''; if (reach > 3) reach = 3; }
+  renderDays(); renderAreas();
+  if (cd && area) renderSlots();
+  sync();
+  if (!reduce()) $('#gn').animate([{ transform: 'scale(1.14)' }, { transform: 'scale(1)' }], { duration: 300, easing: 'cubic-bezier(.34,1.4,.64,1)' });
+}
+$('#minus').addEventListener('click', () => { setParty(party - 1); snd('next'); });
+$('#plus').addEventListener('click', () => { setParty(party + 1); snd('next'); });
+$('#gq').addEventListener('click', e => { const b = e.target.closest('[data-g]'); if (b) { setParty(+b.dataset.g); snd('next'); } });
+
+$('#gNext').addEventListener('click', () => {
+  snd('next');
+  reach = Math.max(reach, 3);
+  sync();
+  open(!area ? 3 : !slot ? 4 : 5, { focus: true });
+});
+
+$('#areas').addEventListener('click', e => {
+  const b = e.target.closest('.area');
+  if (!b) return;
+  snd('pick');
+  area = b.dataset.a; slot = null; reach = 4;
+  $$('#areas .area').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  renderSlots(); sync(); open(4, { focus: true });
+});
+
+$('#slots').addEventListener('click', e => {
+  const b = e.target.closest('.chip[data-t]');
+  if (!b) return;
+  snd('pick');
+  slot = b.dataset.t;
+  $$('#slots .chip').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  reach = 5; sync(); open(5);
+});
+
+$('#slotMsg').addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  if (b.dataset.aa) { area = b.dataset.aa; slot = null; reach = 4; renderAreas(); renderSlots(); sync(); }
+  if (b.dataset.ad) {
+    cd = b.dataset.ad; slot = null; reach = 4;
+    $$('#days .day').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.k === cd)));
+    renderSlots(); sync(); open(4);
+  }
+});
+
+$$('#form .ah').forEach(h => h.addEventListener('click', () => {
+  const n = +h.dataset.n;
+  if (WIZ) return;
+  if (n > reach) {
+    const need = !cd ? 'קודם בחרו יום' : 'קודם סיימו את השלב הקודם';
+    toast(need); return;
+  }
+  open(n);
+}));
+
+$('#qn').addEventListener('click', e => {
+  const b = e.target.closest('[data-note]');
+  if (!b) return;
+  const ta = $('#notes'), note = b.dataset.note;
+  const parts = ta.value.split(/\s*·\s*/).map(s => s.trim()).filter(Boolean);
+  const has = parts.includes(note);
+  ta.value = (has ? parts.filter(p => p !== note) : [...parts, note]).join(' · ');
+  b.setAttribute('aria-pressed', String(!has));
+});
+$('#notes').addEventListener('input', () => {
+  $$('#qn [data-note]').forEach(b => b.setAttribute('aria-pressed', String($('#notes').value.includes(b.dataset.note))));
+});
+
+$$('#name,#phone').forEach(el => el.addEventListener('input', () => { el.removeAttribute('aria-invalid'); $('#err').textContent = ''; }));
+$('#phone').addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+$('#phone').addEventListener('input', e => {
+  if (e.inputType && e.inputType.startsWith('delete')) return;
+  const d = e.target.value.replace(/\D/g, '').slice(0, 10);
+  if (d.startsWith('05')) e.target.value = d.length > 3 ? d.slice(0, 3) + '-' + d.slice(3) : d;
+});
+$('#name').addEventListener('keydown', e => { if (e.key === 'Enter') $('#phone').focus(); });
+
+/* wizard chrome + hero quick picks (only where the page has them) */
+$('#wBack')?.addEventListener('click', () => { if (curStep > 1) open(curStep - 1, { focus: true }); });
+$('#wDots')?.addEventListener('click', e => { const d = e.target.closest('[data-go]'); if (d && !d.disabled) open(+d.dataset.go, { focus: true }); });
+$('#qMinus')?.addEventListener('click', () => { setParty(party - 1); snd('next'); });
+$('#qPlus')?.addEventListener('click', () => { setParty(party + 1); snd('next'); });
+$$('[data-quick]').forEach(q => q.addEventListener('click', () => {
+  const x = new Date(); x.setDate(x.getDate() + +q.dataset.quick);
+  reach = Math.max(reach, 3);
+  pick(iso(x));
+  calmScroll($('#booking').getBoundingClientRect().top + scrollY - 76);
+}));
+
+/* menu board */
+(() => {
+  const box = $('#menuBoard');
+  if (!box) return;
+  let cur = 0;
+  const paint = () => {
+    box.innerHTML = `<div class="mb-tabs" role="tablist" aria-label="קטגוריות בתפריט">${MENU.map((m, i) =>
+      `<button type="button" role="tab" data-m="${i}" aria-selected="${i === cur}">${m[0]}</button>`).join('')}</div>
+      <ul class="mb-list">${MENU[cur][1].map(([n, d, pr], i) =>
+      `<li class="mb-item" style="--i:${i}"><div><b>${n}</b><small>${d}</small></div><i aria-hidden="true"></i><span>${pr}<sup>₪</sup></span></li>`).join('')}</ul>`;
+  };
+  box.addEventListener('click', e => { const t = e.target.closest('[data-m]'); if (t) { cur = +t.dataset.m; paint(); snd('next'); $(`[data-m="${cur}"]`, box).focus(); } });
+  paint();
+})();
+
+/* little signs of life: greeting by hour, a note that changes, header state */
+(() => {
+  const h = new Date().getHours(), g = $('#greet');
+  if (g) g.textContent = h < 5 ? 'לילה טוב' : h < 11 ? 'בוקר טוב' : h < 16 ? 'צהריים טובים' : h < 18 ? 'אחר צהריים טובים' : 'ערב טוב';
+  const nt = $('#noteTxt');
+  if (nt && !reduce()) {
+    const lines = ['השולחן הזה שמור לכם', 'תשאלו את הוותיקים', 'חיילים? 10% הנחה, בכיף', 'אוכל. בירה. אווירה. אנשים.'];
+    let i = 0;
+    setInterval(() => {
+      nt.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, fill: 'forwards' }).onfinish = () => {
+        nt.textContent = lines[i = (i + 1) % lines.length];
+        nt.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, fill: 'forwards' });
+      };
+    }, 5200);
+  }
+  const onS = () => document.documentElement.classList.toggle('scrolled', scrollY > 30);
+  addEventListener('scroll', onS, { passive: true }); onS();
+  $$('img[data-soft]').forEach(im => { const off = () => im.closest('[data-imgwrap]')?.classList.add('noimg'); im.addEventListener('error', off); if (im.complete && !im.naturalWidth) off(); });
+})();
+$$('.js-go').forEach(b => b.addEventListener('click', goNext));
+
+$('#startBooking').addEventListener('click', e => {
+  e.preventDefault();
+  calmScroll($('#booking').getBoundingClientRect().top + scrollY - 76);
+  if (inputMode === 'keyboard') setTimeout(() => $('#a' + curStep + ' .ah').focus({ preventScroll: true }), 500);
+});
+
+$('#cal').addEventListener('click', () => {
+  if (!lastBooking) return;
+  const url = URL.createObjectURL(new Blob([icsFor(lastBooking)], { type: 'text/calendar;charset=utf-8' }));
+  const a = document.createElement('a');
+  a.href = url; a.download = 'hapassage.ics';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+});
+$('#share').addEventListener('click', async () => {
+  if (!lastBooking) return;
+  const b = lastBooking;
+  const text = `שמרנו שולחן ב${S.name} ל${nice(b.date)} בשעה ${b.time}. נתראה שם! כיכר הנשיא 11, שדרות`;
+  try {
+    if (navigator.share) { await navigator.share({ title: S.name, text }); return; }
+    await navigator.clipboard.writeText(text); toast('הפרטים הועתקו, אפשר להדביק בוואטסאפ');
+  } catch (e) {}
+});
+
+$('#again').addEventListener('click', () => {
+  $('#done').classList.add('hide');
+  $('#bookGrid').classList.remove('hide');
+  $('#notes').value = '';
+  $$('#qn [data-note]').forEach(b => b.setAttribute('aria-pressed', 'false'));
+  cd = ''; area = ''; slot = null; reach = 1;
+  renderDays(); renderAreas(); renderSlots(); sync(); open(1, { scroll: false });
+  $('.booking .sec-head')?.classList.remove('hide');
+  calmScroll($('#booking').getBoundingClientRect().top + scrollY - 76);
+  $('#a1 .ah').focus({ preventScroll: true });
+});
+
+$('#snd').addEventListener('click', () => { mute = !mute; lset('mute', mute); paintSound(); if (!mute) snd('pick'); });
+
+/* returning guest */
+if (guest && guest.name) {
+  $('#name').value = guest.name;
+  $('#phone').value = guest.phone || '';
+  const w = $('#welcome');
+  w.textContent = `טוב לראות אתכם שוב, ${guest.name}! מילאנו את הפרטים מהפעם הקודמת.`;
+  w.classList.remove('hide');
+}
+
+/* ============================================================
+   Wiring — back office
+   ============================================================ */
+$$('.tab').forEach(t => t.addEventListener('click', () => {
+  tab = t.dataset.t;
+  const v = $('#bview');
+  v.classList.remove('fx'); void v.offsetWidth; v.classList.add('fx');
+  renderBack();
+}));
+
+$('#bview').addEventListener('click', async e => {
+  const act = e.target.closest('[data-act]');
+  if (act && act.tagName !== 'SELECT') {
+    const id = act.dataset.id;
+    if (act.dataset.act === 'ok') { act.dataset.busy = ''; act.disabled = true; await approve(id); delete act.dataset.busy; act.disabled = false; }
+    if (act.dataset.act === 'no') armDanger(act, () => { store.upd(id, { status: 'declined' }); toast('עודכן'); });
+    return;
+  }
+  if (tab === 'wait') {
+    const del = e.target.closest('[data-wdel]');
+    if (del) armDanger(del, () => { waitlist = waitlist.filter(w => w.id !== del.dataset.wdel); lset('passage_waitlist', waitlist); renderWaitlist(); toast('הוסר מרשימת ההמתנה'); });
+    if (del) del.dataset.label = 'הסרה';
+    return;
+  }
+  if (tab === 'tb') {
+    const x = e.target.closest('[data-dd],[data-sel],#tToday');
+    if (!x) return;
+    if (x.dataset.dd) { const d = D(dd); d.setDate(d.getDate() + +x.dataset.dd); dd = iso(d); }
+    if (x.id === 'tToday') dd = iso(new Date());
+    if (x.dataset.sel) selB = selB === x.dataset.sel ? '' : x.dataset.sel;
+    renderTb();
+    return;
+  }
+  if (tab !== 'set') return;
+  const x = e.target.closest('button') || e.target, d = x.dataset;
+  if (d.st !== undefined) { const t = S.tables[+d.st]; t.seats = Math.max(1, t.seats + +d.d); renderSet(); }
+  if (d.flip !== undefined) { const t = S.tables[+d.flip]; t.area = (t.area || 'in') === 'in' ? 'out' : 'in'; renderSet(); }
+  if (d.del !== undefined) { S.tables.splice(+d.del, 1); renderSet(); }
+  if (d.add) { S.tables.push({ id: 't' + Date.now().toString(36), name: 'שולחן ' + (S.tables.length + 1), seats: 2, area: d.add }); renderSet(); }
+  if (d.wd !== undefined) {
+    const w = +d.wd, c = S.closedWeekdays || [];
+    S.closedWeekdays = c.includes(w) ? c.filter(q => q != w) : [...c, w];
+    x.setAttribute('aria-pressed', String(!c.includes(w)));
+  }
+  if (x.id === 'bkAdd') { const day = $('#bd').value, t = $('#bt').value; if (day) { S.blocked = [...(S.blocked || []), t ? day + '_' + t : day]; renderSet(); } }
+  if (d.unb) { S.blocked = S.blocked.filter(q => q != d.unb); renderSet(); }
+  if (x.id === 'svS') {
+    const n = { name: S.name || DEF.name, open: S.open, close: S.close, step: +S.step || 30, dwell: +S.dwell || 90,
+      maxParty: +S.maxParty || 10, closedWeekdays: S.closedWeekdays || [], blocked: S.blocked || [], tables: S.tables };
+    try {
+      await store.saveSettings(n);
+      S = n; initCust(); snd('ok');
+      $('#saved').textContent = 'השינויים נשמרו';
+      toast('השינויים נשמרו');
+    } catch (er) { $('#saved').textContent = 'השמירה נכשלה. ייתכן שאין הרשאת עריכה.'; }
+  }
+});
+
+$('#bview').addEventListener('change', async e => {
+  const t = e.target;
+  if (t.dataset.act === 'mv') await moveT(t.dataset.id, t.value);
+  if (t.dataset.ts !== undefined) S.tables[+t.dataset.ts].status = t.value;
+  if (t.id === 'tdd' && t.value) { dd = t.value; renderTb(); }
+  if (t.id === 'adminStatus') { adminStatus = t.value; renderBack(); }
+});
+
+$('#bview').addEventListener('input', e => {
+  const t = e.target;
+  const k = { sn: 'name', so: 'open', sc: 'close', ss: 'step', sd: 'dwell', sm: 'maxParty' }[t.id];
+  if (k) S[k] = t.type === 'number' ? +t.value : t.value;
+  if (t.dataset.tn !== undefined) S.tables[+t.dataset.tn].name = t.value;
+  if (t.id === 'adminSearch') {
+    adminQuery = t.value;
+    const pos = t.selectionStart;
+    renderBack();
+    const nx = $('#adminSearch');
+    if (nx) { nx.focus(); nx.setSelectionRange(pos, pos); }
+  }
+});
+
+$('#bview').addEventListener('submit', e => {
+  if (e.target.id !== 'waitForm') return;
+  e.preventDefault();
+  const w = { id: 'w' + Date.now().toString(36), name: $('#wName').value.trim(), phone: $('#wPhone').value.trim(),
+    date: $('#wDate').value, time: $('#wTime').value, party: Math.max(1, Math.min(S.maxParty, +$('#wParty').value || 1)),
+    area: $('#wArea').value, note: $('#wNote').value.trim() };
+  if (!w.name || !w.phone || !w.date || !w.time) return;
+  waitlist.push(w); lset('passage_waitlist', waitlist); snd('ok'); renderWaitlist(); toast('נוסף לרשימת ההמתנה');
+});
+
+$('#staffBtn').addEventListener('click', () => {
+  const toCustomer = !$('#back').classList.contains('hide');
+  $('#back').classList.toggle('hide', toCustomer);
+  $('#cust').classList.toggle('hide', !toCustomer);
+  $('#staffBtn').textContent = toCustomer ? 'ניהול' : '→ לאתר';
+  if (!toCustomer) renderBack();
+  showBar(toCustomer);
+  scrollTo(0, 0);
+});
+
+/* ============================================================
+   Boot — render first, connect after
+   ============================================================ */
+paintSound();
+store = localStore();
+initCust();
+open(1, { scroll: false });
+store.onBookings(l => { B = l; if (staff) renderBack(); if (cd && area && reach < 5) renderSlots(); });
+setInterval(() => { const [on, txt] = openStatus(); $('#statusTxt').textContent = txt; $('#status').classList.toggle('closed', !on); }, 60000);
+
+(async () => {
+  try {
+    const c = window.claude;
+    if (!c) throw 0;
+    const [db, u] = await Promise.race([
+      Promise.all([c.use('db'), c.use('user')]),
+      new Promise(r => setTimeout(() => r([null, null]), 6000))
+    ]);
+    if (db) {
+      store = dbStore(db);
+      dbOn = true;
+      store.onSettings(s => { S = { ...DEF, ...s }; initCust(); });
+      store.onBookings(l => { B = l; if (staff) renderBack(); if (cd && area && reach < 5) renderSlots(); });
+    }
+    staff = dbOn ? !!(u && u.canEdit()) : true;
+  } catch (e) { staff = true; }
+  if (staff) {
+    $('#staffBtn').classList.remove('hide');
+    if (!dbOn) $('#foot').textContent = 'מצב תצוגה: ההזמנות נשמרות במכשיר הזה בלבד.';
+  }
+  sync();
+})();
+
+/* gentle reveal for the about section */
+(() => {
+  const els = $$('.rv');
+  if (reduce() || !('IntersectionObserver' in window)) { els.forEach(el => el.classList.add('in')); return; }
+  const io = new IntersectionObserver(en => en.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  els.forEach(el => io.observe(el));
+})();
+
+/* mouse wheel scrolls the horizontal day strip and tab strip */
+document.addEventListener('wheel', e => {
+  if (e.ctrlKey || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+  const strip = e.target.closest && e.target.closest('.days,.tlw,.seg');
+  if (!strip || strip.scrollWidth <= strip.clientWidth + 1) return;
+  const rtl = getComputedStyle(strip).direction === 'rtl';
+  const max = strip.scrollWidth - strip.clientWidth, pos = rtl ? -strip.scrollLeft : strip.scrollLeft;
+  if (e.deltaY > 0 ? pos >= max - 1 : pos <= 1) return;
+  strip.scrollLeft += (rtl ? -1 : 1) * e.deltaY * (e.deltaMode === 1 ? 16 : 1);
+  e.preventDefault();
+}, { passive: false });
+</script>
+<script>
+/* premium-only touches: spotlight on menu cards, hero drift, floating CTA */
+(() => {
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!calm && matchMedia('(hover:hover)').matches) {
+    document.addEventListener('pointermove', e => {
+      const c = e.target.closest && e.target.closest('.mb-item');
+      if (!c) return;
+      const r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    }, { passive: true });
+  }
+  const hero = document.querySelector('.hero');
+  if (!calm) addEventListener('scroll', () => { if (scrollY < innerHeight) hero.style.setProperty('--sy', (scrollY / innerHeight).toFixed(3)); }, { passive: true });
+  const fab = document.getElementById('fab'), book = document.getElementById('booking');
+  let inBook = true, past = false;
+  const paint = () => fab.classList.toggle('off', inBook || !past || !document.getElementById('back').classList.contains('hide'));
+  if ('IntersectionObserver' in window) new IntersectionObserver(en => { inBook = en[0].isIntersecting; paint(); }).observe(book);
+  addEventListener('scroll', () => { past = scrollY > innerHeight * .6; paint(); }, { passive: true });
+  fab.addEventListener('click', e => { e.preventDefault(); document.getElementById('startBooking').click(); });
+  document.getElementById('staffBtn').addEventListener('click', () => setTimeout(paint, 0));
+  document.querySelectorAll('.nav a').forEach(a => a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href')); if (!t) return;
+    e.preventDefault(); calmScroll(t.getBoundingClientRect().top + scrollY - 60);
+  }));
+})();
+</script>
+</body>
+</html>

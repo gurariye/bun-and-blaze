@@ -147,16 +147,85 @@ button{font:inherit;color:inherit}
 .facts li{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:var(--r-pill);background:var(--card);border:1px solid var(--line);font-size:13.5px;font-weight:600;color:var(--ink-2)}
 .facts svg{color:var(--mustard-deep)}
 
+.scene-wrap{position:relative;margin-bottom:22px}
+.sign{position:absolute;top:0;left:3%;width:25%;height:auto;transform-origin:50% 0;filter:drop-shadow(0 6px 8px rgba(43,33,24,.25))}
+.noimg .sign,.noimg.polaroid{display:none}
 .scene{position:relative;border-radius:var(--r-xl);overflow:hidden;background:#f6e2bd;box-shadow:var(--sh-2);border:1px solid var(--line);aspect-ratio:5/4}
 .scene svg.art{display:block;width:100%;height:100%}
 .note{
-  position:absolute;left:6%;top:8%;padding:10px 14px 12px;
+  position:absolute;right:6%;bottom:-20px;padding:10px 14px 12px;min-width:150px;
   background:#fffbe8;border-radius:3px;box-shadow:0 8px 18px rgba(92,64,24,.18);
-  font:600 15px/1.35 var(--f-hand);color:var(--ink);rotate:-4deg;max-width:46%;
+  font:600 15px/1.35 var(--f-hand);color:var(--ink);rotate:-3deg;max-width:56%;
 }
 .note::before{content:"";position:absolute;top:-9px;inset-inline-start:40%;width:44px;height:16px;background:rgba(242,194,48,.55);rotate:3deg}
 .note small{display:block;font-size:12.5px;font-weight:400;color:var(--ink-3)}
 .steam path{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;opacity:.75}
+
+/* running tape with the house words */
+.tape{overflow:hidden;margin:26px 0 0;padding:11px 0;border-block:2px solid var(--ink);background:var(--mustard);rotate:-1deg;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.tape-in{display:flex;width:max-content;direction:ltr;animation:tape 46s linear infinite}
+.tape span{padding:0 16px;font:400 18px/1 var(--f-disp);white-space:nowrap;color:var(--ink)}
+.tape span.en{font:800 13px/1.4 var(--f-sans);letter-spacing:2px;direction:ltr}
+.tape span::after{content:"★";margin-inline-start:32px;font-size:12px;vertical-align:2px;color:var(--tomato)}
+@keyframes tape{to{transform:translateX(-33.333%)}}
+@media (hover:hover){.tape:hover .tape-in{animation-play-state:paused}}
+
+/* regulars */
+.regs{padding:44px 0 8px}
+.regs-grid{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (min-width:860px){.regs-grid{grid-template-columns:repeat(4,1fr);gap:16px}}
+.regs-grid li{padding:18px 16px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-1);transition:transform .25s var(--spring),box-shadow .25s}
+.regs-grid li:nth-child(odd){rotate:-.8deg}.regs-grid li:nth-child(even){rotate:.7deg}
+@media (hover:hover){.regs-grid li:hover{transform:translateY(-4px) rotate(0deg);box-shadow:var(--sh-2)}}
+.regs-grid svg{width:40px;height:40px;fill:none;stroke:var(--tomato);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;margin-bottom:8px}
+.regs-grid b{display:block;font:700 17px/1.3 var(--f-hand);margin-bottom:4px}
+.regs-grid p{font-size:14.5px;line-height:1.55;color:var(--ink-2)}
+
+/* the chalkboard menu, framed in OSB like on our wall */
+.menu-sec{padding:44px 0 8px}
+.board{margin-top:14px;padding:14px;border-radius:var(--r-lg);box-shadow:var(--sh-2);
+  background:
+    repeating-linear-gradient(24deg,rgba(185,133,60,.55) 0 3px,transparent 3px 19px),
+    repeating-linear-gradient(-58deg,rgba(236,201,141,.7) 0 2px,transparent 2px 23px),
+    #d8a85f}
+.board-in{padding:22px 18px 16px;border-radius:10px;background:#26231f;color:#f4f0e6;box-shadow:inset 0 0 40px rgba(0,0,0,.5)}
+@media (min-width:700px){.board{padding:20px}.board-in{padding:30px 34px 22px}}
+.mb-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:14px;margin-bottom:6px;border-bottom:2px dashed rgba(244,240,230,.25)}
+.mb-tabs::-webkit-scrollbar{display:none}
+.mb-tabs button{flex:none;min-height:42px;padding:0 16px;border-radius:var(--r-pill);border:1.5px solid rgba(244,240,230,.35);background:none;color:#f4f0e6;font:600 15px var(--f-hand);cursor:pointer;transition:background .2s,color .2s}
+.mb-tabs button[aria-selected="true"]{background:var(--mustard);border-color:var(--mustard);color:var(--ink)}
+.mb-list{list-style:none;margin:0;padding:0;display:grid;gap:0 40px}
+@media (min-width:760px){.mb-list{grid-template-columns:1fr 1fr}}
+.mb-item{display:flex;align-items:baseline;gap:10px;padding:12px 0;animation:up .5s var(--ease) calc(var(--i)*45ms) both}
+.mb-item b{display:block;font:600 18px/1.3 var(--f-hand)}
+.mb-item small{display:block;font-size:13.5px;color:rgba(244,240,230,.66)}
+.mb-item i{flex:1;min-width:16px;border-bottom:2px dotted rgba(244,240,230,.3);transform:translateY(-5px)}
+.mb-item span{flex:none;font:700 19px/1 var(--f-hand);color:var(--mustard);direction:ltr}
+.mb-item sup{font-size:11px;margin-inline-start:2px;opacity:.8}
+.board-foot{margin-top:14px;padding-top:14px;border-top:2px dashed rgba(244,240,230,.25);text-align:center;font:800 12px/1.5 var(--f-sans);letter-spacing:3px;color:rgba(244,240,230,.6);direction:ltr}
+.fine-note{margin-top:12px;font-size:13.5px;color:var(--ink-3);text-align:center}
+.fine-note a{font-weight:700;color:var(--ink-2)}
+@keyframes up{from{opacity:0;transform:translateY(14px)}}
+
+/* polaroid + stamp */
+.polaroid{position:relative;margin:26px auto 4px;padding:10px 10px 0;max-width:330px;background:#fff;border-radius:3px;box-shadow:var(--sh-3);rotate:2deg}
+.polaroid::before{content:"";position:absolute;top:-11px;left:50%;translate:-50% 0;width:86px;height:22px;background:rgba(242,194,48,.65);rotate:-3deg}
+.polaroid img{display:block;width:100%;height:auto;aspect-ratio:4/4.4;object-fit:cover;object-position:50% 70%;border-radius:2px;background:var(--sunk)}
+.polaroid figcaption{padding:10px 0 12px;text-align:center;font:600 16px var(--f-hand);color:var(--ink-2)}
+.stamp{position:absolute;inset-inline-start:-26px;bottom:26px;width:104px;height:104px;rotate:-14deg;filter:drop-shadow(0 4px 6px rgba(0,0,0,.2))}
+.stamp circle{fill:var(--tomato);stroke:#fff;stroke-width:3}
+.stamp circle.in{fill:#fff;stroke:none}
+.stamp text{font:800 10.5px var(--f-sans);letter-spacing:2.2px;fill:#fff}
+.stamp .bg{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.rate{margin-top:22px;text-align:center;font:600 16px var(--f-hand);color:var(--ink-2)}
+.rate b{font:400 26px/1 var(--f-disp);color:var(--ink);margin-inline:4px}
+.press{margin-top:22px;text-align:center;font-size:14px;color:var(--ink-3)}
+.press b{color:var(--ink-2)}
+.addr small{font:500 13px var(--f-sans);color:var(--ink-3)}
+.chip em{position:absolute;top:-8px;inset-inline-start:50%;translate:50% 0;padding:1px 7px;border-radius:99px;background:var(--tomato);color:#fff;font:700 10px/1.5 var(--f-sans);font-style:normal;white-space:nowrap}
+[dir=rtl] .chip em{translate:50% 0}
+.chip{position:relative}
 
 @media (min-width:860px){
   .hero{grid-template-columns:1.05fr .95fr;gap:48px;padding:56px 0 24px}
@@ -364,9 +433,6 @@ main{padding-bottom:calc(140px + var(--safe-b))}
 @media (min-width:860px){.about-grid{grid-template-columns:1fr 1fr;gap:56px;align-items:start}}
 .about h2{font:400 34px/1.1 var(--f-disp);margin-bottom:10px}
 .about .lede{color:var(--ink-2);font-size:16.5px;line-height:1.75}
-.quote{margin:22px 0 0;padding:18px 20px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--sh-1)}
-.quote p{font:600 17px/1.5 var(--f-hand);color:var(--ink)}
-.quote footer{margin-top:8px;font-size:13.5px;color:var(--ink-3)}
 .stars{color:var(--mustard-2);letter-spacing:2px}
 .receipt{position:relative;margin-top:24px;rotate:-1deg;filter:drop-shadow(0 12px 14px rgba(92,64,24,.15))}
 .receipt .check{padding-top:26px}
@@ -480,7 +546,6 @@ main{padding-bottom:calc(140px + var(--safe-b))}
 
 /* ---------- motion preferences ---------- */
 @media (prefers-reduced-motion:no-preference){
-  @keyframes up{from{opacity:0;transform:translateY(14px)}}
   @keyframes drawLine{to{stroke-dashoffset:0}}
   @keyframes rise{0%{opacity:0;transform:translateY(6px)}40%{opacity:.8}100%{opacity:0;transform:translateY(-22px)}}
   @keyframes sway{50%{transform:rotate(1.6deg)}}
@@ -491,17 +556,25 @@ main{padding-bottom:calc(140px + var(--safe-b))}
   .hero-copy>*:nth-child(5){animation-delay:.32s}
   .scene{animation:up 1s var(--ease) .1s both}
   .note{animation:up .8s var(--ease) .7s both}
+  .tape{animation:up .8s var(--ease) .4s both}
   .mk path{stroke-dasharray:1;stroke-dashoffset:1;animation:drawLine .9s var(--ease) .7s forwards}
   .steam path{animation:rise 3.2s ease-in-out infinite}
   .steam path:nth-child(2){animation-delay:1s}
   .steam path:nth-child(3){animation-delay:2s}
-  .lamp{transform-origin:200px 0;animation:sway 6s ease-in-out infinite}
+  .lamp{animation:sway 6s ease-in-out infinite}
+  .lamp.l2{animation-duration:7.5s;animation-delay:-2s}
+  .sign{animation:sway 5s ease-in-out infinite}
+  .bub circle{animation:rise 2.6s ease-in infinite}
+  .bub circle:nth-child(2){animation-delay:.9s}.bub circle:nth-child(3){animation-delay:1.7s}
+  .stamp{animation:stampIn .7s var(--spring) .3s both}
+  @keyframes stampIn{from{opacity:0;scale:1.6}}
   .rv{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
   .rv.in{opacity:1;transform:none}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .done-mark circle,.done-mark path{stroke-dashoffset:0}
+  .tape-in{animation:none}
 }
 </style>
 </head>
@@ -527,9 +600,9 @@ main{padding-bottom:calc(140px + var(--safe-b))}
     <!-- ================= HERO ================= -->
     <section class="hero" aria-labelledby="heroTitle">
       <div class="hero-copy">
-        <p class="kicker"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>דיינר שכונתי בלב שדרות</p>
+        <p class="kicker"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg><span><span id="greet">שלום</span>, כאן הפסאז׳ · דיינר מקומי בשדרות</span></p>
         <h1 id="heroTitle">תבואו רעבים.<br>השולחן כבר <span class="mk">ערוך.<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M3 14 C 50 4, 90 18, 150 9 S 255 6, 297 13"/></svg></span></h1>
-        <p class="hero-desc">המבורגר שאנחנו טוחנים בעצמנו, צ׳יפס חם ומפה משובצת. בוחרים יום ושעה, ואנחנו מתקשרים לאשר, כמו שמתקשרים לחברים.</p>
+        <p class="hero-desc">ההמבורגר של העוטף: בשר ועוף 100% ייצור עצמי, במתכון ביתי מאז 2017. בוחרים יום ושעה, ואנחנו מתקשרים לאשר, כמו שמתקשרים לחברים.</p>
         <div class="hero-cta">
           <a class="btn" href="#booking" id="startBooking"><span class="lbl">שומרים לי שולחן</span><span class="arr" aria-hidden="true">←</span></a>
           <a class="link" href="https://hapassage.com/menu/" target="_blank" rel="noopener">מה יש היום בתפריט?</a>
@@ -541,71 +614,104 @@ main{padding-bottom:calc(140px + var(--safe-b))}
         </ul>
       </div>
 
-      <div class="scene">
-        <svg class="art" viewBox="0 0 400 320" role="img" aria-label="שולחן ערוך עם מפה משובצת, המבורגר על צלחת ומנורה חמה מעל">
+      <div class="scene-wrap" data-imgwrap>
+        <div class="scene">
+        <svg class="art" viewBox="0 0 400 320" role="img" aria-label="הפינה שלנו בפסאז׳: שולחן צהוב, ספסל שחור, מנורות תלויות ולוח גיר על הקיר">
           <defs>
-            <pattern id="ging" width="24" height="24" patternUnits="userSpaceOnUse">
-              <rect width="24" height="24" fill="#fbf1e6"/>
-              <rect width="12" height="24" fill="#c4523a" opacity=".32"/>
-              <rect width="24" height="12" fill="#c4523a" opacity=".32"/>
+            <pattern id="osb" width="26" height="22" patternUnits="userSpaceOnUse">
+              <rect width="26" height="22" fill="#d8a85f"/>
+              <path d="M2 4l7 2M14 3l8-2M5 13l9 1M17 12l6 3M9 19l7-2M20 20l5-1" stroke="#b9853c" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M11 8l6 1M1 17l5-1" stroke="#ecc98d" stroke-width="2" stroke-linecap="round"/>
             </pattern>
-            <radialGradient id="glow" cx="50%" cy="0%" r="80%">
+            <pattern id="ging" width="12" height="12" patternUnits="userSpaceOnUse">
+              <rect width="12" height="12" fill="#fff8ee"/>
+              <rect width="6" height="12" fill="#c4523a" opacity=".4"/>
+              <rect width="12" height="6" fill="#c4523a" opacity=".4"/>
+            </pattern>
+            <radialGradient id="glow" cx="50%" cy="0%" r="85%">
               <stop offset="0" stop-color="#ffe7a0" stop-opacity=".95"/>
-              <stop offset=".6" stop-color="#ffe7a0" stop-opacity=".15"/>
+              <stop offset=".6" stop-color="#ffe7a0" stop-opacity=".16"/>
               <stop offset="1" stop-color="#ffe7a0" stop-opacity="0"/>
             </radialGradient>
           </defs>
           <!-- wall -->
-          <rect width="400" height="320" fill="#f3dcb0"/>
-          <rect y="0" width="400" height="10" fill="#e9cc96"/>
-          <!-- frame on the wall -->
-          <g transform="translate(286 46) rotate(3)">
-            <rect width="74" height="58" rx="4" fill="#7a5233"/>
-            <rect x="6" y="6" width="62" height="46" rx="2" fill="#fbf6ec"/>
-            <path d="M37 40c-8-6-13-10-13-15a6 6 0 0 1 13-2 6 6 0 0 1 13 2c0 5-5 9-13 15z" fill="#c4523a"/>
+          <rect width="400" height="320" fill="#ded6c9"/>
+          <rect width="400" height="8" fill="#cfc5b5"/>
+          <!-- OSB panel with the chalkboard -->
+          <rect x="272" y="24" width="112" height="176" fill="url(#osb)"/>
+          <rect x="287" y="40" width="82" height="124" rx="2" fill="#26231f"/>
+          <g font-family="'Playpen Sans Hebrew',cursive" fill="#f4f0e6" text-anchor="middle">
+            <text x="328" y="68" font-size="15">1/3 בירה</text>
+            <text x="328" y="89" font-size="12">מהחבית</text>
+            <text x="328" y="150" font-size="10" opacity=".8">בתיאבון!</text>
           </g>
+          <path d="M328 128c-7-5-11-9-11-13a5 5 0 0 1 11-2 5 5 0 0 1 11 2c0 4-4 8-11 13z" fill="none" stroke="#f4f0e6" stroke-width="2" stroke-linejoin="round"/>
           <!-- lamp light -->
-          <path d="M200 70 L80 240 L320 240 Z" fill="url(#glow)" opacity=".7"/>
-          <g class="lamp">
-            <line x1="200" y1="0" x2="200" y2="44" stroke="#2b2118" stroke-width="2.5"/>
-            <path d="M172 72 L182 44 L218 44 L228 72 Z" fill="#2b2118"/>
-            <ellipse cx="200" cy="73" rx="28" ry="4" fill="#4a3a2b"/>
-            <circle cx="200" cy="76" r="7" fill="#ffe7a0"/>
+          <path d="M148 88 L70 238 L226 238 Z" fill="url(#glow)" opacity=".65"/>
+          <path d="M228 102 L164 238 L292 238 Z" fill="url(#glow)" opacity=".6"/>
+          <g class="lamp" style="transform-origin:148px 0">
+            <line x1="148" y1="0" x2="148" y2="54" stroke="#2b2118" stroke-width="2.2"/>
+            <rect x="143" y="50" width="10" height="9" rx="2" fill="#2b2118"/>
+            <path d="M116 88 Q118 64 148 59 Q178 64 180 88 Z" fill="#1f1c1a"/>
+            <ellipse cx="148" cy="88" rx="32" ry="4" fill="#3a342e"/>
+            <circle cx="148" cy="90" r="5" fill="#ffe7a0"/>
           </g>
-          <!-- table with gingham cloth -->
-          <path d="M0 218 L400 218 L400 320 L0 320 Z" fill="url(#ging)"/>
-          <path d="M0 218 L400 218" stroke="#c4523a" stroke-opacity=".35" stroke-width="2"/>
-          <!-- plate -->
-          <ellipse cx="190" cy="250" rx="92" ry="22" fill="#e9dcc8"/>
-          <ellipse cx="190" cy="246" rx="86" ry="19" fill="#fffdf8"/>
-          <!-- burger -->
-          <g>
+          <g class="lamp l2" style="transform-origin:228px 0">
+            <line x1="228" y1="0" x2="228" y2="68" stroke="#2b2118" stroke-width="2.2"/>
+            <rect x="223" y="64" width="10" height="9" rx="2" fill="#2b2118"/>
+            <path d="M200 102 Q202 79 228 74 Q254 79 256 102 Z" fill="#f2c230"/>
+            <ellipse cx="228" cy="102" rx="28" ry="3.6" fill="#d9a514"/>
+            <circle cx="228" cy="104" r="4.5" fill="#fff3c4"/>
+          </g>
+          <!-- black booth -->
+          <path d="M0 156 h238 a10 10 0 0 1 10 10 v74 H0z" fill="#221f1c"/>
+          <rect x="0" y="150" width="250" height="11" rx="5.5" fill="#302b26"/>
+          <path d="M48 162v76M100 162v76M152 162v76M204 162v76" stroke="#38322c" stroke-width="2"/>
+          <!-- the yellow table -->
+          <path d="M0 238 H400 V320 H0 Z" fill="#f2c230"/>
+          <rect y="238" width="400" height="6" fill="#ffdb63"/>
+          <path d="M0 272H400M0 300H400" stroke="#dfad1b" stroke-width="1.5"/>
+          <!-- black plate, checked paper, burger -->
+          <ellipse cx="196" cy="276" rx="98" ry="22" fill="#1f1c1a"/>
+          <path d="M124 270 l72 -14 l74 12 l-68 20z" fill="url(#ging)"/>
+          <g transform="translate(6 20)">
             <path d="M136 240 h108 a6 6 0 0 1 -6 8 h-96 a6 6 0 0 1 -6 -8z" fill="#d48a3a"/>
             <rect x="134" y="226" width="112" height="15" rx="7" fill="#5a3418"/>
-            <path d="M132 226 l14 -7 l12 9 l14 -9 l12 9 l14 -9 l12 9 l14 -9 l12 9 l12 -7 v4 h-116z" fill="#f2c230"/>
+            <path d="M132 226 l14 -7 l12 9 l14 -9 l12 9 l14 -9 l12 9 l14 -9 l12 9 l12 -7 v4 h-116z" fill="#ffd23f"/>
             <path d="M132 214 q10 9 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 v8 h-120z" fill="#7aa850"/>
             <path d="M136 214 c0 -36 108 -36 108 0 z" fill="#e0993f"/>
             <path d="M150 200 c10 -14 40 -20 62 -12" stroke="#f3c07a" stroke-width="5" stroke-linecap="round" fill="none" opacity=".7"/>
             <g fill="#fbf1d8"><ellipse cx="170" cy="193" rx="3" ry="1.6"/><ellipse cx="190" cy="187" rx="3" ry="1.6"/><ellipse cx="210" cy="192" rx="3" ry="1.6"/><ellipse cx="182" cy="200" rx="3" ry="1.6"/><ellipse cx="222" cy="200" rx="3" ry="1.6"/></g>
+            <g class="steam"><path d="M176 172 q-6 -8 0 -16 t0 -16"/><path d="M192 168 q-6 -8 0 -16 t0 -16"/><path d="M208 172 q-6 -8 0 -16 t0 -16"/></g>
           </g>
-          <g class="steam"><path d="M176 172 q-6 -8 0 -16 t0 -16"/><path d="M192 168 q-6 -8 0 -16 t0 -16"/><path d="M208 172 q-6 -8 0 -16 t0 -16"/></g>
-          <!-- fries cone -->
-          <g transform="translate(300 182)">
-            <g fill="#f2c230" stroke="#d9a20f" stroke-width="1"><rect x="6" y="0" width="7" height="34" rx="2" transform="rotate(-8 9 17)"/><rect x="16" y="-6" width="7" height="38" rx="2"/><rect x="26" y="-2" width="7" height="36" rx="2" transform="rotate(7 29 16)"/><rect x="36" y="4" width="7" height="30" rx="2" transform="rotate(12 39 19)"/></g>
+          <!-- fries -->
+          <g transform="translate(314 204)">
+            <g fill="#ffd23f" stroke="#d9a20f" stroke-width="1"><rect x="6" y="0" width="7" height="34" rx="2" transform="rotate(-8 9 17)"/><rect x="16" y="-6" width="7" height="38" rx="2"/><rect x="26" y="-2" width="7" height="36" rx="2" transform="rotate(7 29 16)"/><rect x="36" y="4" width="7" height="30" rx="2" transform="rotate(12 39 19)"/></g>
             <path d="M0 22 h50 l-8 48 h-34 z" fill="#c4523a"/>
             <path d="M0 22 h50" stroke="#fbf6ec" stroke-width="3"/>
           </g>
-          <!-- lemonade -->
-          <g transform="translate(46 160)">
-            <path d="M44 0 l-14 30" stroke="#2b2118" stroke-width="3" stroke-linecap="round"/>
-            <path d="M2 18 h44 l-5 64 h-34 z" fill="#fff7d6" stroke="#d9c7a6" stroke-width="2"/>
-            <path d="M5 32 h38 l-4 48 h-30 z" fill="#f6dc6e" opacity=".75"/>
-            <circle cx="14" cy="46" r="3" fill="#fff" opacity=".8"/><circle cx="26" cy="58" r="2" fill="#fff" opacity=".8"/>
+          <!-- a cold one -->
+          <g transform="translate(34 186)">
+            <path d="M2 10 h40 l-4 78 h-32 z" fill="#f0a826" stroke="#2b2118" stroke-opacity=".25" stroke-width="2"/>
+            <path d="M0 2 q22 -10 44 0 v14 q-22 8 -44 0z" fill="#fffaf0"/>
+            <path d="M42 30 h8 a8 8 0 0 1 8 8 v18 a8 8 0 0 1 -8 8 h-9" fill="none" stroke="#f6e7c4" stroke-width="5"/>
+            <g class="bub" fill="#fff" opacity=".7"><circle cx="14" cy="70" r="2"/><circle cx="26" cy="56" r="1.6"/><circle cx="20" cy="40" r="1.8"/></g>
+          </g>
+          <!-- squeeze bottles -->
+          <g transform="translate(92 222)">
+            <path d="M5 0 h4 v8 h-4z" fill="#c4523a"/><rect x="0" y="8" width="14" height="38" rx="4" fill="#c4523a"/>
+            <path d="M23 2 h4 v8 h-4z" fill="#e2a914"/><rect x="18" y="10" width="14" height="36" rx="4" fill="#fff4c9" stroke="#e2a914" stroke-width="2"/>
           </g>
         </svg>
-        <div class="note" aria-hidden="true">השולחן הזה שמור לכם<small>— צוות הפסאז׳</small></div>
+        </div>
+        <img class="sign" data-soft src="https://hapassage.com/wp-content/uploads/2024/07/logo.webp" width="150" height="111" alt="">
+        <div class="note" aria-hidden="true"><span id="noteTxt">השולחן הזה שמור לכם</span><small>צוות הפסאז׳</small></div>
       </div>
     </section>
+
+    <div class="tape" aria-hidden="true"><div class="tape-in">
+      <span>אוכל</span><span>בירה</span><span>אווירה</span><span>אנשים</span><span>המבורגר</span><span class="en">ANY TIME IS A GOOD TIME FOR A GOOD BURGER</span><span>דיינר מקומי מאז 2017</span><span>אוכל</span><span>בירה</span><span>אווירה</span><span>אנשים</span><span>המבורגר</span><span class="en">ANY TIME IS A GOOD TIME FOR A GOOD BURGER</span><span>דיינר מקומי מאז 2017</span><span>אוכל</span><span>בירה</span><span>אווירה</span><span>אנשים</span><span>המבורגר</span><span class="en">ANY TIME IS A GOOD TIME FOR A GOOD BURGER</span><span>דיינר מקומי מאז 2017</span>
+    </div></div>
 
     <!-- ================= BOOKING ================= -->
     <section class="booking" id="booking" aria-labelledby="bookTitle">
@@ -737,6 +843,35 @@ main{padding-bottom:calc(140px + var(--safe-b))}
       </div>
     </section>
 
+    <!-- ================= REGULARS ================= -->
+    <section class="regs" aria-labelledby="regsT">
+      <div class="sec-head rv">
+        <p class="kicker">תשאלו את הוותיקים</p>
+        <h2 id="regsT">מי יושב אצלנו?</h2>
+      </div>
+      <ul class="regs-grid">
+        <li class="rv"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="18" cy="28" r="10"/><circle cx="30" cy="28" r="10"/><path d="M14 12l4 6 4-6zM26 12l4 6 4-6z"/></svg><b>חתנים ביום החתונה</b><p>כן, באמת. בדרך כלל לארוחת צהריים, ויש שמגיעים גם אחרי.</p></li>
+        <li class="rv"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="8" y="16" width="32" height="24" rx="4"/><path d="M18 16v-5h12v5M8 26h32M16 40v3M32 40v3"/></svg><b>משפחות עם מזוודות</b><p>נוחתים בארץ, ולפני הבית עוצרים אצלנו. התגעגעו להמבורגר.</p></li>
+        <li class="rv"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 24c2-10 12-14 30-12-2 6-4 9-8 12z"/><path d="M8 24h24v6a12 12 0 0 1-24 0z"/><path d="M38 12l3-3"/></svg><b>חיילים, בני בית</b><p>10% הנחה בכיף, ומשלוחים לבסיסים כמעט כל יום.</p></li>
+        <li class="rv"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M4 18l20-9 20 9-20 9z"/><path d="M12 22v10c6 5 18 5 24 0V22M44 18v12"/></svg><b>סטודנטים וקיבוצניקים</b><p>ממכללת ספיר, מהעוטף ומכל הדרום. שדרותים, ומי לא.</p></li>
+      </ul>
+    </section>
+
+    <!-- ================= MENU BOARD ================= -->
+    <section class="menu-sec" id="menu" aria-labelledby="menuT">
+      <div class="sec-head rv">
+        <p class="kicker">מהלוח שעל הקיר</p>
+        <h2 id="menuT">מה מזמינים?</h2>
+      </div>
+      <div class="board rv">
+        <div class="board-in">
+          <div id="menuBoard"></div>
+          <p class="board-foot">ANY TIME IS A GOOD TIME FOR A GOOD BURGER</p>
+        </div>
+      </div>
+      <p class="fine-note">טעימה מהתפריט. המחירים בשקלים ועשויים להתעדכן. <a href="https://hapassage.com/menu/" target="_blank" rel="noopener">לתפריט המלא</a></p>
+    </section>
+
     <!-- ================= ABOUT ================= -->
     <section class="about" id="about" aria-labelledby="aboutTitle">
       <div class="gstrip rv" aria-hidden="true"></div>
@@ -744,11 +879,14 @@ main{padding-bottom:calc(140px + var(--safe-b))}
         <div class="rv">
           <p class="kicker">ההמבורגר של העוטף</p>
           <h2 id="aboutTitle">הכל אצלנו בבית.</h2>
-          <p class="lede">מהבשר הגולמי, דרך הטחינה ועד התיבול הסודי, את ההמבורגר אנחנו עושים בעצמנו. דיינר אמריקאי בלב שדרות, עם ישיבה בפנים ובחוץ, ושולחן ארוך למשפחות גדולות.</p>
-          <figure class="quote">
-            <p>״מרגישים כמו בבית. ההמבורגר מעולה והצוות פשוט חמוד.״</p>
-            <footer><span class="stars" aria-label="דירוג 4.6 מתוך 5">★★★★★</span> 4.6 בגוגל</footer>
+          <p class="lede">הפסאז׳ נפתח ב-2017. מוטי כהן הגיע מצפת ללמוד בדרום, התאהב בשדרות והחליט להישאר ולפתוח את המקום שהיה חסר לו. היו ששאלו מי בכלל יאכל המבורגר בשדרות. היום מגיעים מהעיר, מהקיבוצים ומכל הדרום.</p>
+          <p class="lede" style="margin-top:10px">מהבשר הגולמי, דרך הטחינה ועד התיבול הסודי, את ההמבורגר אנחנו עושים בעצמנו.</p>
+          <figure class="polaroid" data-imgwrap>
+            <img data-soft loading="lazy" width="768" height="1024" src="https://hapassage.com/wp-content/uploads/2024/07/WhatsApp-Image-2024-07-30-at-13.44.36-1-768x1024.jpeg" alt="השולחנות הצהובים, הספסלים השחורים והמנורות התלויות בפסאז׳">
+            <figcaption>ככה זה נראה אצלנו</figcaption>
+            <svg class="stamp" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="circ" d="M18 60a42 42 0 1 1 84 0a42 42 0 1 1-84 0" fill="none"/></defs><circle cx="60" cy="60" r="56"/><circle cx="60" cy="60" r="30" class="in"/><text style="direction:ltr" text-anchor="start" font-size="10.5" font-weight="800" fill="#fff" letter-spacing="2.2" font-family="Heebo,sans-serif"><textPath href="#circ" startOffset="0">HOMEMADE HAMBURGER · ESTD 2017 ·</textPath></text><path class="bg" d="M46 58a14 9 0 0 1 28 0zM46 62h28M46 66h28a5 5 0 0 1-5 5H51a5 5 0 0 1-5-5z"/></svg>
           </figure>
+          <p class="rate"><span class="stars" aria-hidden="true">★★★★★</span> <b>4.6</b> בגוגל</p>
           <div class="receipt">
             <span class="sticker" aria-hidden="true">כשר</span>
             <div class="check" role="group" aria-label="מה תמצאו אצלנו">
@@ -777,7 +915,8 @@ main{padding-bottom:calc(140px + var(--safe-b))}
             <a href="https://waze.com/ul?q=%D7%9B%D7%99%D7%9B%D7%A8%20%D7%94%D7%A0%D7%A9%D7%99%D7%90%2011%20%D7%A9%D7%93%D7%A8%D7%95%D7%AA&amp;navigate=yes" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>איך מגיעים<small>ניווט ב-Waze</small></a>
             <a href="https://hapassage.web.delivery/" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>משלוח הביתה<small>הזמנה אונליין</small></a>
           </div>
-          <p class="addr">הפסאז׳ · כיכר הנשיא 11, שדרות</p>
+          <p class="press">כתבו וצילמו אצלנו: <b>ynet</b> · <b>שישי בבוקר, ערוץ 12</b> · <b>ערוץ 14</b></p>
+          <p class="addr">הפסאז׳ · כיכר הנשיא 11, שדרות<br><small>משלוחים בשדרות וביישובי העוטף</small></p>
           <p class="soc"><a href="https://www.instagram.com/hapassage/" target="_blank" rel="noopener">אינסטגרם</a><a href="https://www.facebook.com/Passage.Hamburger/" target="_blank" rel="noopener">פייסבוק</a><a href="https://hapassage.com/" target="_blank" rel="noopener">hapassage.com</a></p>
           <p class="demo-note" id="foot"></p>
         </div>
@@ -851,6 +990,34 @@ let dd = '', selB = '', AC = null, lastBooking = null;
 let adminQuery = '', adminStatus = 'all';
 let waitlist = lget('passage_waitlist') || [];
 const guest = lget('guest');
+const WIZ = document.body.dataset.flow === 'wizard';   /* premium page: one step on screen at a time */
+
+/* a taste of the real menu (hapassage.com, 2026 menu) */
+const MENU = [
+  ['המבורגרים', [
+    ['קלאסי 220 גר׳', 'תערובת בקר במתכון ביתי', '60'],
+    ['אנטריקוט 220 גר׳', 'במתכון ביתי', '68'],
+    ['טלה 220 גר׳', 'תערובת בקר ושומן טלה', '68'],
+    ['מרגזבורגר 220 גר׳', 'בקר ושומן טלה, פיקנטי', '63'],
+    ['שניצבורגר', 'שניצל פריך וקריספי', '52'],
+    ['ביונד מיט', 'המבורגר טבעוני מחלבון אפונה', '52']]],
+  ['כריכים', [
+    ['כריך הבית', 'נתח אסאדו מפורק בג׳בטה', '63'],
+    ['כריך אנטריקוט', 'פרוס דק, מלח ופלפל', '60'],
+    ['כריך פרגית', 'פרגית ברוטב', '58'],
+    ['סלופי ג׳ו', 'בשר בקר טחון, מוקפץ', '57']]],
+  ['לפתוח ולנשנש', [
+    ['נשנושי אסאדו', 'לצד קונפי שום וצ׳ימיצ׳ורי', '63'],
+    ['כנפיים בצ׳ילי', 'צ׳ילי, סויה ושומשום', '39/75'],
+    ['שניצל של אמא לביאה', 'טרי ופריך, על מצע חסה', '50'],
+    ['טבעות בצל הפסאז׳', 'הקלאסיקה של הבית', '22/42'],
+    ['צ׳יפס בטטה', 'M / L', '24/46']]],
+  ['קינוחים', [
+    ['סופלה', 'עם גלידת שוקו-וניל וקצפת', '35'],
+    ['צ׳ורוס', 'שש יחידות, קצפת, מייפל ושוקולד', '35'],
+    ['רוטומדו', 'קראנץ׳ לואקר ונוגט, קרם פטיסייר ונוטלה', '35'],
+    ['נוצ׳ולטו', 'שוקולד קריספי ומוס שוקולד בלגי', '35']]]
+];
 
 /* ============================================================
    Date / time helpers
@@ -936,19 +1103,20 @@ function renderDays() {
   box.innerHTML = '';
   for (let i = 0; i < 21; i++) {
     const x = new Date(t.getFullYear(), t.getMonth(), t.getDate() + i);
-    const k = iso(x), ok = openDay(k);
+    const k = iso(x), opn = openDay(k), ok = opn && dayHas(k, '');
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'day';
     b.disabled = !ok;
     b.dataset.k = k;
     b.setAttribute('aria-pressed', String(k === cd));
-    b.setAttribute('aria-label', (ok ? '' : 'סגור, ') + nice(k));
+    b.setAttribute('aria-label', (ok ? '' : opn ? 'מלא, ' : 'סגור, ') + nice(k));
     const top = i === 0 ? 'היום' : i === 1 ? 'מחר' : WD[x.getDay()];
-    b.innerHTML = `<small>${top}</small><b>${x.getDate()}</b>${ok ? '' : '<span class="tg">סגור</span>'}`;
+    b.innerHTML = `<small>${top}</small><b>${x.getDate()}</b>${ok ? '' : `<span class="tg">${opn ? 'מלא' : 'סגור'}</span>`}`;
     box.appendChild(b);
   }
   if (cd && !openDay(cd)) cd = '';
+  $$('[data-quick]').forEach(q => { const x = new Date(); x.setDate(x.getDate() + +q.dataset.quick); const k = iso(x); q.disabled = !(openDay(k) && dayHas(k, '')); });
   $('#mon').textContent = D(cd || iso(t)).toLocaleDateString('he-IL', { month: 'long', year: 'numeric' });
 }
 
@@ -997,7 +1165,7 @@ function renderSlots() {
   }
   box.innerHTML = groups.filter(g => g[1].length).map(([h, list]) =>
     `<div class="sg"><p class="sg-h">${h}</p><div class="slots-row">${list.map(t =>
-      `<button class="chip" type="button" data-t="${t}" aria-pressed="${t === slot}">${t}</button>`).join('')}</div></div>`).join('');
+      `<button class="chip" type="button" data-t="${t}" aria-pressed="${t === slot}">${t}${freeFor(cd, t, party, area).length === 1 ? '<em>שולחן אחרון</em>' : ''}</button>`).join('')}</div></div>`).join('');
   if (keep && !slot && reach >= 5) {
     reach = 4; sync(); open(4); snd('no');
     msg.textContent = 'מישהו הקדים אתכם לשעה הזו. בחרו שעה אחרת.';
@@ -1022,7 +1190,8 @@ function updateSummary() {
   $('#minus').disabled = party <= 1;
   $('#plus').disabled = party >= Math.min(S.maxParty, maxSeats());
   $$('#gq button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.g === party)));
-  $('#sum').innerHTML = cd
+  if ($('#qN')) { $('#qN').textContent = party; $('#qMinus').disabled = party <= 1; $('#qPlus').disabled = $('#plus').disabled; }
+  if ($('#sum')) $('#sum').innerHTML = cd
     ? `<b>${party === 1 ? 'שולחן לאחד' : 'שולחן ל-' + party}</b> · ${short(cd)}${area ? ' · ' + AL[area] : ''}${slot ? ' · <b>' + slot + '</b>' : ''}`
     : 'בחרו יום כדי להתחיל';
   const set = (id, v, ph) => { const el = $(id); el.textContent = v || ph; el.classList.toggle('unset', !v); };
@@ -1030,8 +1199,9 @@ function updateSummary() {
   set('#kParty', ppl(party), '');
   set('#kArea', area ? AL[area] : '', 'טרם נבחר');
   set('#kTime', slot || '', 'טרם נבחרה');
-  const ready = reach >= 5;
-  $$('.js-go').forEach(b => { $('.lbl', b).textContent = ready ? 'שלחו בקשת הזמנה' : 'המשך'; });
+  const ready = WIZ ? curStep === 5 : reach >= 5;
+  $$('.js-go').forEach(b => { $('.lbl', b).textContent = ready ? 'שליחת בקשת הזמנה' : 'המשך'; });
+  if (WIZ) paintWizard();
 }
 
 function sync() {
@@ -1048,6 +1218,23 @@ function sync() {
   $('#v5').textContent = '';
   updateSummary();
   showBar(true);
+}
+
+/* premium wizard chrome: progress line, step dots, back button */
+const STEP_NAMES = ['יום', 'סועדים', 'אזור', 'שעה', 'פרטים'];
+function paintWizard() {
+  const can = curStep === 2 || curStep === 5 || curStep < reach;
+  $$('.js-go').forEach(b => b.classList.toggle('soft', !can));
+  $('#wBar').style.transform = `scaleX(${curStep / 5})`;
+  $('#wLbl').textContent = `שלב ${curStep}/5 · ${STEP_NAMES[curStep - 1]}`;
+  $('#wBack').classList.toggle('gone', curStep === 1);
+  $$('#wDots [data-go]').forEach(d => {
+    const n = +d.dataset.go;
+    d.classList.toggle('cur', n === curStep);
+    d.classList.toggle('was', n < reach && n !== curStep);
+    d.disabled = n > reach;
+    d.setAttribute('aria-current', n === curStep ? 'step' : 'false');
+  });
 }
 
 /* measure where a step header ends up after the open animation (no paint) */
@@ -1078,7 +1265,7 @@ function calmScroll(y) {
 
 /* open(step) — one open section, focus continuity, gentle scroll */
 function open(n, opts = {}) {
-  const fin = opts.scroll !== false && !$('#form').classList.contains('hide') ? finalTop(n) : null;
+  const fin = !WIZ && opts.scroll !== false && !$('#form').classList.contains('hide') ? finalTop(n) : null;
   curStep = n;
   $$('#form .acc').forEach(a => {
     const on = +a.dataset.n === n;
@@ -1086,12 +1273,20 @@ function open(n, opts = {}) {
     $('.ah', a).setAttribute('aria-expanded', String(on));
     $('.ab', a).inert = !on;
   });
-  if (opts.focus && inputMode === 'keyboard') { $('#a' + n + ' .ah').focus({ preventScroll: true }); }
+  if (!WIZ && opts.focus && inputMode === 'keyboard') { $('#a' + n + ' .ah').focus({ preventScroll: true }); }
   if (fin) {
     const maxS = Math.max(0, fin.doc - innerHeight);
     const rel = fin.top - Math.min(scrollY, maxS);
     if (rel < 70 || rel > innerHeight * .45) calmScroll(Math.min(maxS, Math.max(0, fin.top - 84)));
   }
+  if (WIZ) {
+    if (opts.scroll !== false) {
+      const top = $('#wiz').getBoundingClientRect().top;
+      if (top < 60 || top > innerHeight * .5) calmScroll(Math.max(0, top + scrollY - 88));
+    }
+    if (opts.focus && inputMode === 'keyboard') $('#a' + n + ' .ah').focus({ preventScroll: true });
+  }
+  updateSummary();
   if (n === 5 && inputMode !== 'keyboard' && desk.matches && !$('#name').value) setTimeout(() => $('#name').focus({ preventScroll: true }), 400);
 }
 
@@ -1109,6 +1304,15 @@ function pick(k) {
 
 /* the single "next" action, shared by the mobile bar and the desktop ticket */
 function goNext() {
+  if (WIZ) {
+    if (curStep === 5) return send();
+    if (curStep === 2) return $('#gNext').click();
+    if (curStep < reach) return open(curStep + 1, { focus: true });
+    toast(['בחרו יום כדי להמשיך', '', 'בחרו איפה תרצו לשבת', 'בחרו שעה כדי להמשיך'][curStep - 1]);
+    const g = $('#a' + curStep + ' .ab-in');
+    if (!reduce()) { g.classList.remove('shake'); void g.offsetWidth; g.classList.add('shake'); }
+    return;
+  }
   if (reach >= 5) return send();
   const n = !cd ? 1 : reach <= 2 ? 2 : !area ? 3 : 4;
   if (n === 2 && curStep === 2) { $('#gNext').click(); return; }
@@ -1157,7 +1361,7 @@ async function send() {
     lset('guest', { name: n, phone: ph });
     snd('sent');
     $('#bookGrid').classList.add('hide');
-    $('.booking .sec-head').classList.add('hide');
+    $('.booking .sec-head')?.classList.add('hide');
     showBar(false);
     $('#tick').innerHTML = `<span class="done-ref">בקשה מס׳ ${esc(b.id.slice(-6).toUpperCase())}</span><br>${esc(n)}, <b>${nice(b.date)}</b><br>בשעה <b>${b.time}</b> · ${AL[area]} · ${ppl(party)}`;
     $('#done').classList.remove('hide');
@@ -1203,6 +1407,7 @@ function icsFor(b) {
 let bookingVisible = false;
 function showBar(on) {
   const bar = $('#bar');
+  if (!bar) return;
   const v = on && bookingVisible && !!cd && $('#done').classList.contains('hide') && $('#back').classList.contains('hide');
   bar.classList.toggle('nb', !v);
   bar.inert = !v;
@@ -1481,7 +1686,7 @@ $('#days').addEventListener('click', e => { const b = e.target.closest('.day'); 
 function setParty(n) {
   party = Math.max(1, Math.min(n, S.maxParty, maxSeats()));
   if (area && !S.tables.some(t => tOK(t) && t.seats >= party && (t.area || 'in') === area)) { area = ''; if (reach > 3) reach = 3; }
-  renderAreas();
+  renderDays(); renderAreas();
   if (cd && area) renderSlots();
   sync();
   if (!reduce()) $('#gn').animate([{ transform: 'scale(1.14)' }, { transform: 'scale(1)' }], { duration: 300, easing: 'cubic-bezier(.34,1.4,.64,1)' });
@@ -1528,6 +1733,7 @@ $('#slotMsg').addEventListener('click', e => {
 
 $$('#form .ah').forEach(h => h.addEventListener('click', () => {
   const n = +h.dataset.n;
+  if (WIZ) return;
   if (n > reach) {
     const need = !cd ? 'קודם בחרו יום' : 'קודם סיימו את השלב הקודם';
     toast(need); return;
@@ -1550,6 +1756,59 @@ $('#notes').addEventListener('input', () => {
 
 $$('#name,#phone').forEach(el => el.addEventListener('input', () => { el.removeAttribute('aria-invalid'); $('#err').textContent = ''; }));
 $('#phone').addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+$('#phone').addEventListener('input', e => {
+  if (e.inputType && e.inputType.startsWith('delete')) return;
+  const d = e.target.value.replace(/\D/g, '').slice(0, 10);
+  if (d.startsWith('05')) e.target.value = d.length > 3 ? d.slice(0, 3) + '-' + d.slice(3) : d;
+});
+$('#name').addEventListener('keydown', e => { if (e.key === 'Enter') $('#phone').focus(); });
+
+/* wizard chrome + hero quick picks (only where the page has them) */
+$('#wBack')?.addEventListener('click', () => { if (curStep > 1) open(curStep - 1, { focus: true }); });
+$('#wDots')?.addEventListener('click', e => { const d = e.target.closest('[data-go]'); if (d && !d.disabled) open(+d.dataset.go, { focus: true }); });
+$('#qMinus')?.addEventListener('click', () => { setParty(party - 1); snd('next'); });
+$('#qPlus')?.addEventListener('click', () => { setParty(party + 1); snd('next'); });
+$$('[data-quick]').forEach(q => q.addEventListener('click', () => {
+  const x = new Date(); x.setDate(x.getDate() + +q.dataset.quick);
+  reach = Math.max(reach, 3);
+  pick(iso(x));
+  calmScroll($('#booking').getBoundingClientRect().top + scrollY - 76);
+}));
+
+/* menu board */
+(() => {
+  const box = $('#menuBoard');
+  if (!box) return;
+  let cur = 0;
+  const paint = () => {
+    box.innerHTML = `<div class="mb-tabs" role="tablist" aria-label="קטגוריות בתפריט">${MENU.map((m, i) =>
+      `<button type="button" role="tab" data-m="${i}" aria-selected="${i === cur}">${m[0]}</button>`).join('')}</div>
+      <ul class="mb-list">${MENU[cur][1].map(([n, d, pr], i) =>
+      `<li class="mb-item" style="--i:${i}"><div><b>${n}</b><small>${d}</small></div><i aria-hidden="true"></i><span>${pr}<sup>₪</sup></span></li>`).join('')}</ul>`;
+  };
+  box.addEventListener('click', e => { const t = e.target.closest('[data-m]'); if (t) { cur = +t.dataset.m; paint(); snd('next'); $(`[data-m="${cur}"]`, box).focus(); } });
+  paint();
+})();
+
+/* little signs of life: greeting by hour, a note that changes, header state */
+(() => {
+  const h = new Date().getHours(), g = $('#greet');
+  if (g) g.textContent = h < 5 ? 'לילה טוב' : h < 11 ? 'בוקר טוב' : h < 16 ? 'צהריים טובים' : h < 18 ? 'אחר צהריים טובים' : 'ערב טוב';
+  const nt = $('#noteTxt');
+  if (nt && !reduce()) {
+    const lines = ['השולחן הזה שמור לכם', 'תשאלו את הוותיקים', 'חיילים? 10% הנחה, בכיף', 'אוכל. בירה. אווירה. אנשים.'];
+    let i = 0;
+    setInterval(() => {
+      nt.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, fill: 'forwards' }).onfinish = () => {
+        nt.textContent = lines[i = (i + 1) % lines.length];
+        nt.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, fill: 'forwards' });
+      };
+    }, 5200);
+  }
+  const onS = () => document.documentElement.classList.toggle('scrolled', scrollY > 30);
+  addEventListener('scroll', onS, { passive: true }); onS();
+  $$('img[data-soft]').forEach(im => { const off = () => im.closest('[data-imgwrap]')?.classList.add('noimg'); im.addEventListener('error', off); if (im.complete && !im.naturalWidth) off(); });
+})();
 $$('.js-go').forEach(b => b.addEventListener('click', goNext));
 
 $('#startBooking').addEventListener('click', e => {
@@ -1579,11 +1838,11 @@ $('#share').addEventListener('click', async () => {
 $('#again').addEventListener('click', () => {
   $('#done').classList.add('hide');
   $('#bookGrid').classList.remove('hide');
-  $('.booking .sec-head').classList.remove('hide');
   $('#notes').value = '';
   $$('#qn [data-note]').forEach(b => b.setAttribute('aria-pressed', 'false'));
   cd = ''; area = ''; slot = null; reach = 1;
   renderDays(); renderAreas(); renderSlots(); sync(); open(1, { scroll: false });
+  $('.booking .sec-head')?.classList.remove('hide');
   calmScroll($('#booking').getBoundingClientRect().top + scrollY - 76);
   $('#a1 .ah').focus({ preventScroll: true });
 });
