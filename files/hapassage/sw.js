@@ -1,5 +1,5 @@
 /* Hapassage service worker: the app shell works offline, content refreshes in the background. */
-const VERSION = 'hp-v1';
+const VERSION = 'hp-v2';
 const SHELL = CACHE_SHELL();
 const RUNTIME = VERSION + '-rt';
 const MAX_RUNTIME = 80;
@@ -7,7 +7,8 @@ const MAX_RUNTIME = 80;
 function CACHE_SHELL() {
   return ['./', 'home.html', 'premium.html', 'manifest-home.webmanifest', 'manifest-premium.webmanifest',
     'icons/home-any-192.png', 'icons/home-any-512.png', 'icons/home-apple-180.png',
-    'icons/premium-any-192.png', 'icons/premium-any-512.png', 'icons/premium-apple-180.png'];
+    'icons/premium-any-192.png', 'icons/premium-any-512.png', 'icons/premium-apple-180.png',
+    'img/logo.webp', 'img/burger-900.jpg', 'img/burger-1600.jpg', 'img/diner-800.jpg', 'img/diner-1152.jpg'];
 }
 
 self.addEventListener('install', e => {
