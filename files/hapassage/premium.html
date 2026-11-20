@@ -2,8 +2,18 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#0b0a09">
+<meta name="color-scheme" content="dark">
+<meta name="application-name" content="הפסאז׳">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="הפסאז׳">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest-premium.webmanifest">
+<link rel="apple-touch-icon" href="icons/premium-apple-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/premium-any-192.png">
 <title>הפסאז׳ · הזמנת שולחן</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230b0a09'/%3E%3Cpath d='M8 15a8 6 0 0 1 16 0z' fill='%23ffc73e'/%3E%3Crect x='8' y='17' width='16' height='3' rx='1.5' fill='%23e3342b'/%3E%3Cpath d='M8 22h16a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3z' fill='%23ffc73e'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,7 +59,7 @@ img{max-width:100%}
 /* ---------- top ---------- */
 .top{position:fixed;inset:0 0 auto;z-index:40;transition:background .35s,border-color .35s,backdrop-filter .35s;border-bottom:1px solid transparent}
 .scrolled .top{background:rgba(11,10,9,.78);-webkit-backdrop-filter:saturate(160%) blur(18px);backdrop-filter:saturate(160%) blur(18px);border-color:var(--line)}
-.top .wrap{display:flex;align-items:center;gap:20px;min-height:var(--top-h)}
+.top .wrap{display:flex;align-items:center;gap:20px;min-height:68px}
 .brand{display:flex;flex-direction:column;text-decoration:none;line-height:1}
 .brand b{font:900 25px/1 var(--f);letter-spacing:-.03em}
 .brand small{margin-top:4px;font:600 9.5px/1 var(--f);letter-spacing:.3em;color:var(--gold);direction:ltr;text-align:right}
@@ -453,6 +463,82 @@ input[type=date],input[type=time]{color-scheme:dark}
   .mq-in{animation:none}
   .done-mark circle,.done-mark path{stroke-dashoffset:0}
 }
+
+:root{--top-h:calc(68px + var(--safe-t));
+  --n-bg:rgba(15,14,12,.86);--n-line:var(--line);--n-ink:var(--ink);--n-ink2:var(--ink3);--n-accent:var(--gold);--n-pill:var(--gold-soft);--n-pill-ink:var(--gold);
+  --n-card:var(--s2);--n-sh:0 40px 100px -30px #000;--n-inv:var(--ink);--n-inv-ink:#111;--n-grab:var(--line2);--n-soft:rgba(255,255,255,.06)}
+.nav a{position:relative;padding:6px 0}
+.nav a::after{content:"";position:absolute;inset-inline:0;bottom:-8px;height:2px;border-radius:2px;background:var(--gold);transform:scaleX(0);transition:transform .35s var(--ease)}
+.nav a.on{color:var(--ink)}
+.nav a.on::after{transform:scaleX(1)}
+@media (max-width:520px){.brand small{display:none}}
+@media (max-width:899px){.contact{padding-bottom:48px}.wiz-foot{bottom:calc(var(--tab-h) + var(--safe-b));padding-bottom:16px}}
+
+/* ============================================================
+   NATIVE LAYER: installable app feel on phones, desktop polish
+   ============================================================ */
+:root{--safe-t:env(safe-area-inset-top,0px);--safe-l:env(safe-area-inset-left,0px);--safe-r:env(safe-area-inset-right,0px);--tab-h:58px}
+html{-webkit-tap-highlight-color:transparent}
+@media (display-mode:standalone),(display-mode:minimal-ui){html,body{overscroll-behavior:none}}
+button,.day,.chip,.area,.tab,.tabbar,.nav,.brand,.tape,.mq{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+img{-webkit-user-drag:none}
+input,textarea{-webkit-user-select:text;user-select:text}
+.standalone [data-install]{display:none!important}
+.top{padding-top:var(--safe-t)}
+.top .wrap{min-height:calc(var(--top-h) - var(--safe-t))}
+.fab{display:none!important}
+
+/* bottom tab bar (phones only) */
+.tabbar{position:fixed;z-index:45;inset-inline:0;bottom:0;display:none;padding:6px calc(8px + var(--safe-r)) calc(4px + var(--safe-b)) calc(8px + var(--safe-l));
+  background:var(--n-bg);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);border-top:1px solid var(--n-line);
+  transition:transform .4s var(--ease),opacity .25s}
+@media (max-width:899px){
+  .tabbar{display:grid;grid-template-columns:repeat(4,1fr)}
+  body{padding-bottom:calc(var(--tab-h) + var(--safe-b))}
+  .bar{bottom:calc(var(--tab-h) + var(--safe-b));padding-bottom:10px}
+}
+.tabbar.off{transform:translateY(115%);visibility:hidden;transition:transform .4s var(--ease),visibility 0s .4s}
+.kb .tabbar{transform:translateY(115%);pointer-events:none}
+.kb .bar{bottom:0!important}
+.kb .wiz-foot{bottom:0!important}
+.tabbar a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 2px 2px;color:var(--n-ink2);text-decoration:none;font-size:11px;font-weight:600;line-height:1.2;transition:color .2s}
+.tabbar .ti{display:grid;place-items:center;width:58px;height:30px;border-radius:99px;transition:background-color .3s var(--ease),transform .3s var(--spring)}
+.tabbar svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tabbar a:active .ti{transform:scale(.88)}
+.tabbar a.on{color:var(--n-ink)}
+.tabbar a.on .ti{background:var(--n-pill);color:var(--n-pill-ink)}
+
+/* install + offline */
+.ic svg{display:block}
+.offbar{position:fixed;z-index:50;top:calc(var(--top-h) + 8px);left:50%;translate:-50% 0;max-width:92vw;padding:8px 16px;border-radius:99px;background:var(--n-inv);color:var(--n-inv-ink);font-size:13px;font-weight:700;display:none;white-space:nowrap;box-shadow:var(--n-sh)}
+.offline .offbar{display:block}
+
+/* bottom sheet on phones, dialog on desktop */
+.sheet{position:fixed;inset:0;z-index:80}
+.sheet[hidden]{display:none!important}
+.sheet-bg{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .3s}
+.sheet.open .sheet-bg{opacity:1}
+.sheet-panel{position:absolute;inset-inline:0;bottom:0;max-height:88dvh;overflow:auto;padding:4px 22px calc(22px + var(--safe-b));border-radius:26px 26px 0 0;background:var(--n-card);color:var(--n-ink);box-shadow:var(--n-sh);
+  transform:translateY(calc(100% + var(--dy,0px)));transition:transform .42s var(--ease);outline:none;overscroll-behavior:contain}
+.sheet.open .sheet-panel{transform:translateY(var(--dy,0px))}
+.sheet.drag .sheet-panel{transition:none}
+.sheet-grab{padding:10px 0 16px;touch-action:none;cursor:grab}
+.sheet-grab::before{content:"";display:block;width:40px;height:5px;border-radius:9px;background:var(--n-grab);margin:0 auto}
+.sheet h3{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:0 0 6px}
+.sheet p{color:var(--n-ink2);margin:0 0 16px;font-size:15px}
+.steps{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:10px}
+.steps li{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--n-soft);font-size:15px;line-height:1.5}
+.steps .n{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--n-accent);color:#111;font-weight:800;font-size:13px}
+.steps svg{vertical-align:-5px;margin-inline:3px;width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;color:var(--n-accent)}
+@media (min-width:700px){
+  .sheet-panel{inset-inline:auto;left:50%;top:50%;bottom:auto;width:min(460px,92vw);padding-top:26px;border-radius:26px;transform:translate(-50%,-46%) scale(.96);opacity:0;transition:transform .35s var(--ease),opacity .25s}
+  .sheet.open .sheet-panel{transform:translate(-50%,-50%);opacity:1}
+  .sheet-grab{display:none}
+}
+
+/* smooth hand-offs between the site and the back office */
+::view-transition-group(root){animation-duration:.3s;animation-timing-function:var(--ease)}
+@media (prefers-reduced-motion:reduce){.tabbar,.sheet-panel,.sheet-bg{transition:none!important}}
 </style>
 </head>
 <body data-flow="wizard">
@@ -462,10 +548,11 @@ input[type=date],input[type=time]{color-scheme:dark}
   <div class="wrap">
     <a class="brand" href="#" aria-label="הפסאז׳, לראש הדף"><b id="rname">הפסאז׳</b><small>LOCAL DINER · EST. 2017</small></a>
     <nav class="nav" aria-label="ניווט ראשי">
-      <a href="#booking">הזמנת שולחן</a><a href="#menu">תפריט</a><a href="#story">הסיפור</a><a href="#contact">איך מגיעים</a>
+      <a href="#booking" data-sec="booking">הזמנת שולחן</a><a href="#menu" data-sec="menu">תפריט</a><a href="#story" data-sec="story">הסיפור</a><a href="#contact" data-sec="contact">איך מגיעים</a>
     </nav>
     <div class="top-act">
       <span class="status" id="status" role="status"><i aria-hidden="true"></i><span id="statusTxt"></span></span>
+      <button class="ic hide" data-install type="button" aria-label="התקנת האפליקציה" title="התקנת האפליקציה"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 11 12 15.5 16.5 11"/><path d="M5 19h14"/></svg></button>
       <button class="ic" id="snd" type="button" aria-label="השתקת צלילים" aria-pressed="true"></button>
       <button class="btn ghost sm hide" id="staffBtn" type="button">ניהול</button>
     </div>
@@ -474,7 +561,7 @@ input[type=date],input[type=time]{color-scheme:dark}
 
 <main id="cust">
   <!-- ================= HERO ================= -->
-  <section class="hero" aria-labelledby="heroTitle">
+  <section class="hero" id="top" aria-labelledby="heroTitle">
     <div class="hero-bg" data-imgwrap><img data-soft fetchpriority="high" alt="" src="https://hapassage.com/wp-content/uploads/2024/07/grilled-beef-burger-homemade-bun-outdoors-generated-by-ai-1536x878.jpg" srcset="https://hapassage.com/wp-content/uploads/2024/07/grilled-beef-burger-homemade-bun-outdoors-generated-by-ai-1536x878.jpg 1536w, https://hapassage.com/wp-content/uploads/2024/07/grilled-beef-burger-homemade-bun-outdoors-generated-by-ai-2048x1170.jpg 2048w" sizes="100vw"></div>
     <div class="wrap hero-in">
       <p class="eyebrow">ההמבורגר של העוטף</p>
@@ -615,6 +702,7 @@ input[type=date],input[type=time]{color-scheme:dark}
           </div>
         </div>
         <button class="link" id="again" type="button" style="margin-top:20px">הזמנה נוספת</button>
+        <button class="link hide" data-install type="button" style="margin-top:6px">הוסיפו את הפסאז׳ למסך הבית</button>
       </div>
     </div>
   </section>
@@ -703,6 +791,20 @@ input[type=date],input[type=time]{color-scheme:dark}
   </div>
 </section>
 
+<nav class="tabbar" id="tabbar" aria-label="ניווט ראשי">
+  <a href="#top" data-sec="top"><span class="ti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/></svg></span><span>ראשי</span></a>
+  <a href="#booking" data-sec="booking"><span class="ti"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/><path d="m9 15 2 2 4-4"/></svg></span><span>הזמנה</span></a>
+  <a href="#menu" data-sec="menu"><span class="ti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11a8 6 0 0 1 16 0z"/><path d="M3 14.5h18"/><path d="M4 18h16a3 3 0 0 1-3 2.5H7A3 3 0 0 1 4 18z"/></svg></span><span>תפריט</span></a>
+  <a href="#story" data-sec="story contact"><span class="ti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.2a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.4"/></svg></span><span>המקום</span></a>
+</nav>
+<div class="offbar" id="offBar" role="status">אין חיבור לאינטרנט</div>
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-bg" data-close></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheetT" tabindex="-1">
+    <div class="sheet-grab" aria-hidden="true"></div>
+    <div id="sheetBody"></div>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <noscript><p style="padding:20px;text-align:center">כדי להזמין שולחן צריך להפעיל JavaScript, או להתקשר 08-6819191.</p></noscript>
 
@@ -718,6 +820,8 @@ const lset = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } cat
 const mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
 const reduce = () => mqReduce.matches;
 const desk = matchMedia('(min-width: 980px)');
+/* native-feeling hand-off: cross-fade between screens where the browser supports it */
+const vt = fn => (document.startViewTransition && !mqReduce.matches) ? document.startViewTransition(fn) : fn();
 let inputMode = 'pointer';
 addEventListener('pointerdown', () => { inputMode = 'pointer'; }, { capture: true, passive: true });
 addEventListener('keydown', () => { inputMode = 'keyboard'; }, { capture: true });
@@ -1023,7 +1127,9 @@ function calmScroll(y) {
 /* open(step) — one open section, focus continuity, gentle scroll */
 function open(n, opts = {}) {
   const fin = !WIZ && opts.scroll !== false && !$('#form').classList.contains('hide') ? finalTop(n) : null;
+  const prevStep = curStep;
   curStep = n;
+  if (WIZ && n > prevStep && !opts.pop) { try { history.pushState({ hpStep: n }, ''); } catch (e) {} }   /* the phone's back button steps back through the wizard */
   $$('#form .acc').forEach(a => {
     const on = +a.dataset.n === n;
     a.classList.toggle('open', on);
@@ -1099,6 +1205,7 @@ async function send() {
   if (n.length < 2) return failField('#name', 'איך קוראים לכם? רק כדי שנדע את מי לחפש.');
   if (ph.replace(/\D/g, '').length < 9) return failField('#phone', 'צריך מספר טלפון תקין, כדי שנוכל לאשר.');
 
+  if (!navigator.onLine && dbOn) { errBox.textContent = 'אין חיבור לאינטרנט כרגע. אפשר להתקשר ולהזמין: 08-6819191.'; return; }
   const b = {
     id: 'b' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5),
     date: cd, time: slot, party, area, name: n, phone: ph,
@@ -1117,12 +1224,14 @@ async function send() {
     lastBooking = b;
     lset('guest', { name: n, phone: ph });
     snd('sent');
+    vt(() => {
     $('#bookGrid').classList.add('hide');
     $('.booking .sec-head')?.classList.add('hide');
     showBar(false);
     $('#tick').innerHTML = `<span class="done-ref">בקשה מס׳ ${esc(b.id.slice(-6).toUpperCase())}</span><br>${esc(n)}, <b>${nice(b.date)}</b><br>בשעה <b>${b.time}</b> · ${AL[area]} · ${ppl(party)}`;
     $('#done').classList.remove('hide');
     $('#done').focus({ preventScroll: true });
+    });
     calmScroll(Math.max(0, $('#booking').getBoundingClientRect().top + scrollY - 70));
     burst();
   } catch (x) {
@@ -1221,6 +1330,7 @@ function renderBack() {
   const today = iso(new Date());
   const pend = B.filter(b => b.status === 'pending').sort(sortB);
   $('#nReq').textContent = pend.length;
+  setBadge(pend.length);
   $$('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.t === tab)));
   if (tab === 'set') return renderSet();
   if (tab === 'tb') return renderTb();
@@ -1401,7 +1511,7 @@ function armDanger(btn, run) {
    Sound + haptics — quiet, off by default
    ============================================================ */
 function snd(k) {
-  if ((k === 'ok' || k === 'sent' || k === 'no') && navigator.vibrate) { try { navigator.vibrate(k === 'no' ? [50, 40, 50] : [24, 40, 34]); } catch (e) {} }
+  if (k === 'ok' || k === 'sent' || k === 'no') haptic(k);
   if (mute) return;
   try {
     if (!AC) {
@@ -1707,12 +1817,15 @@ $('#bview').addEventListener('submit', e => {
 
 $('#staffBtn').addEventListener('click', () => {
   const toCustomer = !$('#back').classList.contains('hide');
-  $('#back').classList.toggle('hide', toCustomer);
-  $('#cust').classList.toggle('hide', !toCustomer);
-  $('#staffBtn').textContent = toCustomer ? 'ניהול' : '→ לאתר';
-  if (!toCustomer) renderBack();
-  showBar(toCustomer);
-  scrollTo(0, 0);
+  vt(() => {
+    $('#back').classList.toggle('hide', toCustomer);
+    $('#cust').classList.toggle('hide', !toCustomer);
+    $('#staffBtn').textContent = toCustomer ? 'ניהול' : '→ לאתר';
+    $('#tabbar')?.classList.toggle('off', !toCustomer);
+    if (!toCustomer) renderBack();
+    showBar(toCustomer);
+    scrollTo(0, 0);
+  });
 });
 
 /* ============================================================
@@ -1767,6 +1880,217 @@ document.addEventListener('wheel', e => {
   strip.scrollLeft += (rtl ? -1 : 1) * e.deltaY * (e.deltaMode === 1 ? 16 : 1);
   e.preventDefault();
 }, { passive: false });
+
+/* ============================================================
+   Native layer: haptics, install, tab bar, offline, keyboard
+   ============================================================ */
+const HAP = { tap: 8, ok: [20, 40, 30], sent: [30, 60, 30, 60, 60], no: [50, 40, 50] };
+const HAS_VIB = typeof navigator.vibrate === 'function';
+let hapSw = null;
+function hapIOS(n) {                                   /* iPhone (Safari 17.4+): a native switch gives a real tick */
+  if (!hapSw) {
+    const l = document.createElement('label');
+    l.setAttribute('aria-hidden', 'true');
+    l.style.cssText = 'position:fixed;left:-99px;top:0;width:44px;height:24px;opacity:.01;pointer-events:none';
+    const i = document.createElement('input');
+    i.type = 'checkbox'; i.setAttribute('switch', ''); i.tabIndex = -1;
+    l.appendChild(i); document.body.appendChild(l); hapSw = l;
+  }
+  hapSw.click();
+  for (let k = 1; k < n; k++) setTimeout(() => hapSw.click(), k * 90);
+}
+function haptic(k = 'tap') {
+  const pat = HAP[k] || HAP.tap;
+  try { if (HAS_VIB) navigator.vibrate(pat); else hapIOS(Array.isArray(pat) ? Math.ceil(pat.length / 2) : 1); } catch (e) {}
+}
+document.addEventListener(HAS_VIB ? 'pointerdown' : 'click', e => {
+  if (e.pointerType === 'mouse') return;
+  const t = e.target.closest && e.target.closest('button,.day,.area,.chip,.tabbar a,[role=tab],a.btn');
+  if (t && !t.disabled && t.getAttribute('aria-disabled') !== 'true' && !t.closest('[inert]')) haptic('tap');
+}, { passive: true });
+
+function setBadge(n) {                                 /* the number of waiting requests on the app icon */
+  try {
+    const p = n ? navigator.setAppBadge && navigator.setAppBadge(n) : navigator.clearAppBadge && navigator.clearAppBadge();
+    if (p && p.catch) p.catch(() => {});
+  } catch (e) {}
+}
+
+(() => {
+  const root = document.documentElement;
+  const standalone = () => matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: minimal-ui)').matches || navigator.standalone === true;
+  const syncMode = () => root.classList.toggle('standalone', standalone());
+  syncMode();
+  try { matchMedia('(display-mode: standalone)').addEventListener('change', syncMode); } catch (e) {}
+
+  /* offline-capable shell */
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+    addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  }
+
+  /* ---- bottom sheet ---- */
+  const sheet = $('#sheet'), panel = sheet && $('.sheet-panel', sheet), sbody = $('#sheetBody');
+  let lastFocus = null, drag = null;
+  const openSheet = html => {
+    if (!sheet) return;
+    sbody.innerHTML = html;
+    lastFocus = document.activeElement;
+    sheet.style.setProperty('--dy', '0px');
+    sheet.hidden = false;
+    requestAnimationFrame(() => { sheet.classList.add('open'); panel.focus({ preventScroll: true }); });
+  };
+  const closeSheet = () => {
+    if (!sheet || sheet.hidden) return;
+    sheet.classList.remove('open');
+    sheet.style.setProperty('--dy', '0px');
+    setTimeout(() => { sheet.hidden = true; if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); }, reduce() ? 0 : 340);
+  };
+  const sheetOpen = () => sheet && !sheet.hidden && sheet.classList.contains('open');
+  if (sheet) {
+    sheet.addEventListener('click', e => { if (e.target.closest('[data-close]')) closeSheet(); });
+    panel.addEventListener('pointerdown', e => {
+      if (!e.target.closest('.sheet-grab')) return;
+      drag = { y: e.clientY, dy: 0 };
+      sheet.classList.add('drag');
+      try { e.target.setPointerCapture(e.pointerId); } catch (x) {}
+    });
+    panel.addEventListener('pointermove', e => {
+      if (!drag) return;
+      drag.dy = Math.max(0, e.clientY - drag.y);
+      sheet.style.setProperty('--dy', drag.dy + 'px');
+    });
+    const end = () => {
+      if (!drag) return;
+      const d = drag; drag = null;
+      sheet.classList.remove('drag');
+      if (d.dy > 90) closeSheet(); else sheet.style.setProperty('--dy', '0px');
+    };
+    panel.addEventListener('pointerup', end);
+    panel.addEventListener('pointercancel', end);
+    sheet.addEventListener('keydown', e => {            /* keep Tab inside the dialog */
+      if (e.key !== 'Tab') return;
+      const f = [...panel.querySelectorAll('button,a[href],input')].filter(x => !x.disabled);
+      if (!f.length) { e.preventDefault(); return; }
+      const first = f[0], last = f[f.length - 1], cur = document.activeElement;
+      if (e.shiftKey && (cur === first || cur === panel)) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && cur === last) { e.preventDefault(); first.focus(); }
+    });
+  }
+
+  /* ---- install ---- */
+  const SHARE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M6 11H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-1"/></svg>';
+  const PLUS = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg>';
+  const IOS_HTML = '<h3 id="sheetT">מוסיפים למסך הבית</h3><p>האתר יעבוד כמו אפליקציה: סמל משלו, מסך מלא וטעינה מהירה.</p>' +
+    '<ol class="steps"><li><span class="n">1</span><div>לחצו על <b>שיתוף</b> ' + SHARE + ' בסרגל של הדפדפן</div></li>' +
+    '<li><span class="n">2</span><div>גללו ובחרו <b>הוספה למסך הבית</b> ' + PLUS + '</div></li>' +
+    '<li><span class="n">3</span><div>לחצו <b>הוספה</b>. זהו!</div></li></ol>' +
+    '<button class="btn wide" type="button" data-close><span class="lbl">הבנתי</span></button>';
+  let dip = null;
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const paintInstall = () => { const can = !standalone() && (dip || isIOS); $$('[data-install]').forEach(b => b.classList.toggle('hide', !can)); };
+  addEventListener('beforeinstallprompt', e => { e.preventDefault(); dip = e; paintInstall(); });
+  addEventListener('appinstalled', () => { dip = null; syncMode(); paintInstall(); toast('הפסאז׳ הותקנה על המכשיר'); });
+  document.addEventListener('click', async e => {
+    if (!e.target.closest('[data-install]')) return;
+    if (dip) { const p = dip; dip = null; paintInstall(); try { p.prompt(); await p.userChoice; } catch (x) {} }
+    else if (isIOS) openSheet(IOS_HTML);
+  });
+  paintInstall();
+
+  /* ---- tab bar + header nav follow the scroll ---- */
+  const links = $$('[data-sec]');
+  if (links.length) {
+    const ids = [...new Set(links.flatMap(l => l.dataset.sec.split(' ')))];
+    const secs = ids.map(id => document.getElementById(id)).filter(Boolean).sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+    let cur = '', q = false;
+    const set = id => {
+      if (id === cur) return; cur = id;
+      links.forEach(l => {
+        const on = l.dataset.sec.split(' ').includes(id);
+        l.classList.toggle('on', on);
+        if (on) l.setAttribute('aria-current', 'true'); else l.removeAttribute('aria-current');
+      });
+    };
+    const upd = () => {
+      q = false;
+      if ($('#cust').classList.contains('hide')) return;
+      const y = innerHeight * .38; let id = secs[0] ? secs[0].id : 'top';
+      secs.forEach(s => { if (s.getBoundingClientRect().top <= y) id = s.id; });
+      if (innerHeight + scrollY >= root.scrollHeight - 4) id = secs[secs.length - 1].id;
+      set(id);
+    };
+    addEventListener('scroll', () => { if (!q) { q = true; requestAnimationFrame(upd); } }, { passive: true });
+    addEventListener('resize', upd);
+    upd();
+    links.forEach(l => l.addEventListener('click', e => {
+      const id = (l.getAttribute('href') || '').slice(1), t = document.getElementById(id);
+      if (!t) return;
+      e.preventDefault();
+      const head = ($('.top') || {}).offsetHeight || 64;
+      calmScroll(id === 'top' ? 0 : Math.max(0, t.getBoundingClientRect().top + scrollY - head - 8));
+      try { history.replaceState(history.state, '', '#' + id); } catch (x) {}
+    }));
+  }
+
+  /* ---- connection + keyboard ---- */
+  const net = () => root.classList.toggle('offline', !navigator.onLine);
+  addEventListener('online', () => { net(); toast('חזרנו לרשת'); });
+  addEventListener('offline', () => { net(); toast('אין חיבור. אפשר להמשיך לעיין, ולהזמין בטלפון'); });
+  net();
+
+  const coarse = matchMedia('(pointer: coarse)');
+  const isField = el => el && el.matches && el.matches('input,textarea,select');
+  addEventListener('focusin', e => {
+    if (!coarse.matches || !isField(e.target)) return;
+    root.classList.add('kb');
+    if (e.target.closest('#form')) setTimeout(() => { try { e.target.scrollIntoView({ block: 'center', behavior: reduce() ? 'auto' : 'smooth' }); } catch (x) {} }, 320);
+  });
+  addEventListener('focusout', () => setTimeout(() => { if (!isField(document.activeElement)) root.classList.remove('kb'); }, 80));
+
+  /* the phone's back button steps back through the wizard */
+  let pushed = false;
+  const _push = history.pushState.bind(history);
+  history.pushState = function (st, t, u) { if (st && st.hpStep) pushed = true; return _push(st, t, u); };
+  addEventListener('popstate', e => {
+    if (!WIZ || $('#bookGrid').classList.contains('hide')) return;
+    let s = e.state && e.state.hpStep;
+    if (!s) { if (pushed && curStep > 1) s = 1; else return; }
+    s = Math.min(s, reach);
+    if (s !== curStep) open(s, { pop: true, focus: true });
+  });
+
+  /* ---- desktop keyboard ---- */
+  document.addEventListener('keydown', e => {
+    if (e.defaultPrevented || e.isComposing) return;
+    if (e.key === 'Escape') {
+      if (sheetOpen()) { closeSheet(); return; }
+      if (WIZ && curStep > 1 && !$('#bookGrid').classList.contains('hide') && e.target.closest && e.target.closest('#wiz')) { e.preventDefault(); open(curStep - 1, { focus: true }); }
+      return;
+    }
+    if (e.key === 'Enter' && WIZ && curStep < 5 && bookingVisible && !e.altKey && !e.ctrlKey && !e.metaKey) {
+      const t = e.target;
+      if (t === document.body || (t.closest && t.closest('#wiz') && !/^(BUTTON|A|TEXTAREA|SELECT|INPUT)$/.test(t.tagName))) { e.preventDefault(); goNext(); }
+      return;
+    }
+    if (!/^Arrow(Left|Right|Up|Down)$/.test(e.key) || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    const el = document.activeElement;
+    if (!el || el.tagName !== 'BUTTON') return;
+    const grp = el.closest('.days,.slots-row,.areas,.qchips,.gq,.mb-tabs,.dots,.seg,.wd,.qn');
+    if (!grp) return;
+    const items = [...grp.querySelectorAll('button:not([disabled])')].filter(b => b.offsetParent !== null);
+    const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2, horiz = e.key === 'ArrowLeft' || e.key === 'ArrowRight';
+    let best = null, score = 1e9;
+    for (const b of items) {
+      if (b === el) continue;
+      const qr = b.getBoundingClientRect(), x = qr.left + qr.width / 2 - cx, y = qr.top + qr.height / 2 - cy;
+      const ok = e.key === 'ArrowLeft' ? x < -4 : e.key === 'ArrowRight' ? x > 4 : e.key === 'ArrowUp' ? y < -4 : y > 4;
+      if (!ok) continue;
+      const sc = (horiz ? Math.abs(x) : Math.abs(y)) + (horiz ? Math.abs(y) : Math.abs(x)) * 3;
+      if (sc < score) { score = sc; best = b; }
+    }
+    if (best) { e.preventDefault(); best.focus(); }
+  });
+})();
 </script>
 <script>
 /* premium-only touches: spotlight on menu cards, hero drift, floating CTA */
@@ -1790,10 +2114,6 @@ document.addEventListener('wheel', e => {
   addEventListener('scroll', () => { past = scrollY > innerHeight * .6; paint(); }, { passive: true });
   fab.addEventListener('click', e => { e.preventDefault(); document.getElementById('startBooking').click(); });
   document.getElementById('staffBtn').addEventListener('click', () => setTimeout(paint, 0));
-  document.querySelectorAll('.nav a').forEach(a => a.addEventListener('click', e => {
-    const t = document.querySelector(a.getAttribute('href')); if (!t) return;
-    e.preventDefault(); calmScroll(t.getBoundingClientRect().top + scrollY - 60);
-  }));
 })();
 </script>
 </body>
