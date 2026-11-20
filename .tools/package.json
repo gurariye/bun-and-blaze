@@ -6,6 +6,7 @@
   },
   "scripts": {
     "build": "wranglerDeploy",
-    "dev": "wrangler dev --port 8787 --ip 127.0.0.1"
+    "sync": "bash ../deploy/sync-site.sh",
+    "dev": "bash ../deploy/sync-site.sh && cd ../deploy && ../.tools/node_modules/.bin/wrangler dev --port 8787 --ip 127.0.0.1"
   }
 }

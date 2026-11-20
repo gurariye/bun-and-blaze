@@ -69,3 +69,22 @@ Local dev (wrangler, 0.0.0.0 bind so the user's browser can reach it):
 - Repo: https://github.com/gurariye/bun-and-blaze (public, branch `main`).
 - Local git: `cd /workspace/chats/954fb65e752180411fb1fec5`, branch `main`,
   remote `origin = https://github.com/gurariye/bun-and-blaze.git`.
+## Hapassage booking site (Hebrew, installable)
+
+Two versions of the same booking site live in `files/hapassage/`:
+
+- `home.html`: warm, homey version
+- `premium.html`: dark, modern version with a one-step-at-a-time wizard
+- `index.html`: a small page that lets you pick between them (replace it once one is chosen)
+
+Both are installable web apps (manifests, icons, `sw.js`) and work offline.
+
+`files/hapassage/` is the source of truth. `deploy/public/` is generated from it:
+
+```bash
+deploy/sync-site.sh          # copies files/hapassage -> deploy/public
+cd .tools && npm run dev      # sync + local Worker at http://127.0.0.1:8787
+```
+
+`deploy/wrangler.jsonc` sets `html_handling: none` on purpose: the service worker
+needs `/home.html` and `/premium.html` to be served as-is, without a redirect.

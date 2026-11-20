@@ -1,0 +1,66 @@
+{
+  "id": "/hapassage/home",
+  "name": "הפסאז׳ · הזמנת שולחן",
+  "short_name": "הפסאז׳",
+  "description": "הזמנת שולחן בהפסאז׳, ההמבורגר של העוטף. כיכר הנשיא 11, שדרות.",
+  "lang": "he",
+  "dir": "rtl",
+  "start_url": "home.html?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "theme_color": "#fbf6ec",
+  "background_color": "#fbf6ec",
+  "categories": [
+    "food",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "icons/home-any-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/home-any-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/home-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "הזמנת שולחן",
+      "short_name": "הזמנה",
+      "url": "home.html?source=shortcut#booking",
+      "icons": [
+        {
+          "src": "icons/home-any-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "התפריט",
+      "short_name": "תפריט",
+      "url": "home.html?source=shortcut#menu",
+      "icons": [
+        {
+          "src": "icons/home-any-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

@@ -1,17 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bun & Blaze — smash burgers & table bookings</title>
-  <link rel="stylesheet" href="styles.css?v=11">
-  <script src="app.js?v=11" defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0a09">
+<meta name="robots" content="noindex">
+<title>הפסאז׳ · בחירת גרסה</title>
+<link rel="icon" type="image/png" sizes="192x192" href="icons/premium-any-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800;900&display=swap">
+<style>
+/* A review page: pick which version of the booking site to look at.
+   When one version is chosen, copy it over as index.html and delete this page. */
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;display:grid;place-items:center;padding:24px;background:#0b0a09;color:#f7f4ec;font:400 16px/1.6 Heebo,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+main{width:min(100%,760px)}
+h1{margin:0 0 6px;font:900 clamp(34px,8vw,56px)/1.05 Heebo,sans-serif;letter-spacing:-.04em}
+h1 em{font-style:normal;color:#ffc73e}
+p.sub{margin:0 0 28px;color:#bdb7ab}
+.grid{display:grid;gap:14px}
+@media (min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+a.card{display:flex;flex-direction:column;gap:6px;min-height:180px;padding:24px;border-radius:22px;text-decoration:none;color:inherit;border:1px solid rgba(255,255,255,.12);transition:transform .25s cubic-bezier(.22,.8,.26,1),border-color .2s}
+a.card:hover{transform:translateY(-4px);border-color:#ffc73e}
+a.card:focus-visible{outline:3px solid #ffc73e;outline-offset:3px}
+a.home{background:#fbf6ec;color:#2b2118;border-color:#e8dcc7}
+a.home:hover{border-color:#a57300}
+a.card small{font-weight:700;font-size:12px;letter-spacing:.2em;opacity:.65}
+a.card b{font:900 28px/1.1 Heebo,sans-serif;letter-spacing:-.03em}
+a.card span{opacity:.75;font-size:15px}
+a.card i{margin-top:auto;font-style:normal;font-weight:800;color:#ffc73e}
+a.home i{color:#a57300}
+</style>
 </head>
 <body>
-  <main id="app">
-    <h1>Bun &amp; Blaze</h1>
-    <p>For the full reservation flow and manager back office, see the live preview:</p>
-    <a href="https://site-c84ac5b5926746c38781dd2c36d6dec3.freebuff.page">https://site-c84ac5b5926746c38781dd2c36d6dec3.freebuff.page</a>
-  </main>
+<main>
+  <h1>הפסאז׳, <em>הזמנת שולחן</em></h1>
+  <p class="sub">שתי גרסאות של אותו אתר. אותן הזמנות, אותו ניהול, ושתיהן מתקינות כאפליקציה.</p>
+  <div class="grid">
+    <a class="card home" href="home.html"><small>HOME</small><b>הגרסה הביתית</b><span>חמה ושכונתית, עם מפה משובצת ולוח גיר.</span><i>לפתיחה ←</i></a>
+    <a class="card" href="premium.html"><small>PREMIUM</small><b>גרסת הפרימיום</b><span>כהה ומודרנית, עם אשף הזמנה בצעד אחד.</span><i>לפתיחה ←</i></a>
+  </div>
+</main>
 </body>
 </html>
